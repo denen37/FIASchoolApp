@@ -21,6 +21,7 @@ namespace ServerApp.Models
         public DbSet<Rating> Rating { get; set; }
         public DbSet<PsychomotorSkill> PsychomotorSkill { get; set; }
         public DbSet<AcademicReport> AcademicReport { get; set; }
+        public DbSet<SubjectPerformance> SubjectPerformance { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {

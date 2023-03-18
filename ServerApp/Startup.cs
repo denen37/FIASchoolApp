@@ -50,6 +50,7 @@ namespace ServerApp
             services.AddTransient<ISimpleRepository<PsychomotorSkill>, Repository<PsychomotorSkill>>();
             services.AddTransient<ISimpleRepository<Rating>, Repository<Rating>>();
             services.AddTransient<IAcademicReportRepository, AcademicReportRepository>();
+            services.AddTransient<ISubjectPerformanceRepository, SubjectPerformanceRepository>();
             //services.AddTransient<RelatedRepository>();
 
             services.AddControllersWithViews().AddNewtonsoftJson();

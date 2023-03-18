@@ -16,16 +16,17 @@ namespace ServerApp.Models.Repository
 
         public IQueryable<AcademicReport> GetAll (int classArmId, int sessionTermId, bool related = false)
         {
-            //context.AcademicReport.Where(a => a.ClassArmId == classArmId && a.SessionTermId == sessionTermId).ToList();
             if (related)
             {
-                var report = context.AcademicReport.Where(a => a.ClassArmId == classArmId && a.SessionTermId == sessionTermId)
-                                                    .Select(a => new{
-                                                        a.Id,
-                                                        a.ClassArmId,
-                                                        a.SessionTermId,
-                                                        a.Student
-                                                    });
+                var report = context.AcademicReport.Select(a => new AcademicReport {
+                                                        Id = a. Id,
+                                                        StudentId = a.StudentId,
+                                                        ClassArmId = a.ClassArmId,
+                                                        SessionTermId = a.SessionTermId,
+                                                        Student = a.Student
+                                                    })
+                                                    .Where(a => a.ClassArmId == classArmId && a.SessionTermId == sessionTermId);
+                return report;
                                                     
             }
             return context.AcademicReport.Where(a => a.ClassArmId == classArmId && a.SessionTermId == sessionTermId);
@@ -33,22 +34,42 @@ namespace ServerApp.Models.Repository
 
         public AcademicReport Get (long studentId, int classArmId, int sessionTermId, bool related = false)
         {
-            throw new NotImplementedException();
+            if (related)
+            {
+                var report =context.AcademicReport.Select(a => new AcademicReport {
+                                                        Id = a. Id,
+                                                        StudentId = a.StudentId,
+                                                        ClassArmId = a.ClassArmId,
+                                                        SessionTermId = a.SessionTermId,
+                                                        Student = a.Student
+                                                    })
+                                                    .Where(a => a.ClassArmId == classArmId 
+                                                    && a.SessionTermId == sessionTermId)
+                                                    .First(a => a.StudentId == studentId);
+                return report;
+            }
+
+             return context.AcademicReport.Where(a => a.ClassArmId == classArmId 
+                                                && a.SessionTermId == sessionTermId)
+                                                .First(a => a.StudentId == studentId);
         }
 
         public void Add (AcademicReport newData)
         {
-            throw new NotImplementedException();
+            context.Add(newData);
+            context.SaveChanges();
         }
 
         public void Update (AcademicReport modifiedData)
         {
-            throw new NotImplementedException();
+            context.Update(modifiedData);
+            context.SaveChanges();
         }
 
         public void Delete (AcademicReport deletedData)
         {
-            throw new NotImplementedException();
+            context.Remove(deletedData);
+            context.SaveChanges();
         }
 
         public void BulkAdd(List<AcademicReport> newData)
