@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { StudentRouting } from "./student-routing.module";
-import { StudentPageComponent } from "./student.component";
+import { StudentPageComponent } from "./studentList.component";
 
 @NgModule({
     declarations: [StudentPageComponent],
