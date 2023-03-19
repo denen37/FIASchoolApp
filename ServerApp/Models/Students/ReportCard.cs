@@ -32,6 +32,8 @@ namespace ServerApp.Models.Students
         public float Test3 { get; set; }
         public int TestScoreLimit { get; set; }
         public float Exam { get; set; }
+        //Computed Column
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public float Total { get; set; }
     }
 

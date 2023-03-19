@@ -6,6 +6,7 @@ namespace ServerApp.Models.Students
         public string Name { get; set; }
         public string Description { get; set; }
         public short CourseCategoryId { get; set; }
+        public CourseCategory CourseCategory {get; set;}
     }
 
     public class CourseCategory
