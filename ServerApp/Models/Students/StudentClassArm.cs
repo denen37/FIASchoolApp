@@ -30,6 +30,8 @@ namespace ServerApp.Models.Students
 
         public short CourseCategoryId { get; set; }
         public CourseCategory CourseCategory { get; set; }
+
+        public IEnumerable<StudentClassArmJunction> StudentClassArm { get; set; }
     }
 
     public class StudentClassArmJunction
@@ -37,7 +39,12 @@ namespace ServerApp.Models.Students
         public long Id { get; set; }
         
         public long StudentId { get; set; }
+        public Student Student { get; set; }
+
         public int ClassArmId { get; set; }
+        public ClassArmJunction ClassArm { get; set; }
+
         public int SessionId { get; set; }
+        public Session Session { get; set; }
     }
 }

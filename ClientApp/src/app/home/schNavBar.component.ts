@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 
 
 @Component({
@@ -6,4 +7,13 @@ import { Component } from "@angular/core";
     templateUrl: "schNavBar.component.html"
 })
 
-export class SchNavBarComponent{}
+export class SchNavBarComponent{
+
+    constructor(){
+
+    }
+    
+    loadStudents(classroom: string) {
+
+    }
+}

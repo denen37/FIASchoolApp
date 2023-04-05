@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using ServerApp.Models.Students;
 using System.Collections.Generic;
+using Z.EntityFramework.Plus;
 
 namespace ServerApp.Models.Repository
 {
-    public class StudentRepository : IComplexRepository<Student>
+    public class StudentRepository
     {
         private DataContext context;
 
@@ -14,7 +15,7 @@ namespace ServerApp.Models.Repository
         {
             context = ctx;
         }
-        public IQueryable<Student> GetAll (bool related = false)
+        /*public IQueryable<Student> GetAll (bool related = false)
         {
             //Include leadership position;
             if (related)
@@ -27,7 +28,34 @@ namespace ServerApp.Models.Repository
                 return students;
             }
             return context.Student;
+        }*/
+
+        public IEnumerable<StudentsInClass> GetStudentsInClass(string name, string classroom, string arm, string session)
+        {
+            IQueryable<StudentsInClass> students = context.StudentsInClass;
+
+            if (name != null)
+            {
+                name = "%" + name +  "%";
+                students = students.Where(s => EF.Functions.Like(s.FirstName + s.MiddleName + s.LastName, name));
+            }
+
+            if (classroom != null)
+            {
+                students = students.Where(s => s.Class == classroom);
+            }
+            if (arm != null)
+            {
+                students = students.Where(s => s.Arm == arm);
+            }
+            if (session != null)
+            {
+                students = students.Where(s => s.Session == session);
+            }
+
+            return students;
         }
+
 
         public void Add(Student newStudent)
         {

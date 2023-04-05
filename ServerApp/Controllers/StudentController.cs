@@ -14,16 +14,17 @@ namespace ServerApp.Controllers
     [ApiController]
     public class StudentController: Controller
     {
-        private IComplexRepository<Student> repos;
-        public StudentController(IComplexRepository<Student> _repos)
+        private StudentRepository repos;
+        public StudentController(StudentRepository _repos)
         {
             repos = _repos;
         }
 
         [HttpGet]
-        public IEnumerable<Student> GetAllStudents(bool related = false)
+        public IActionResult GetAllStudents(string name, string classroom, string arm, string session)
         {
-            return repos.GetAll(related);
+            //return repos.GetAll(related);
+            return Ok(repos.GetStudentsInClass(name, classroom, arm, session));
         }
 
         [HttpGet("{id}")]

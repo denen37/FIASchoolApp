@@ -34,7 +34,7 @@ namespace ServerApp
             services.AddDbContext<DataContext> (options =>
                     options.UseSqlServer(connectionString));
 
-            services.AddTransient<IComplexRepository<Student>, StudentRepository>();
+            services.AddTransient<StudentRepository>();
             services.AddTransient<IComplexRepository<Parent>, ParentRepository>();
             services.AddTransient<ISimpleRepository<LeadershipPosition>, Repository<LeadershipPosition>>();
             services.AddTransient<ISimpleRepository<Arm>, Repository<Arm>>();
@@ -53,7 +53,9 @@ namespace ServerApp
             services.AddTransient<ISubjectPerformanceRepository, SubjectPerformanceRepository>();
             //services.AddTransient<RelatedRepository>();
 
-            services.AddControllersWithViews().AddNewtonsoftJson();
+            services.AddControllersWithViews().AddNewtonsoftJson()
+                    .AddJsonOptions(opts => {
+                                    opts.JsonSerializerOptions.IgnoreNullValues = true;});
 
             services.AddSwaggerGen(options => {
                 options.SwaggerDoc("v1", 

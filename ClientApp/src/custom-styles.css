@@ -1,0 +1,10 @@
+.c-item{
+    height: 400px;
+}
+.img-item{
+    height: 100%;
+    object-fit: cover;
+}
+.border-r-grey{
+    border-right: 5px solid rgb(202, 202, 202);
+}

@@ -50,7 +50,10 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/lib/jquery/dist/jquery.js",
+              "src/lib/bootstrap/dist/js/bootstrap.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -117,7 +120,10 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/lib/jquery/dist/jquery.js",
+              "src/lib/bootstrap/dist/js/bootstrap.js"
+            ]
           }
         }
       }

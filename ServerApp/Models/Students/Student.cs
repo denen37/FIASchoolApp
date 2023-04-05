@@ -1,5 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -31,6 +32,8 @@ namespace ServerApp.Models.Students
         //Computed Column
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public decimal Age { get; set; }     
+
+        public IEnumerable<StudentClassArmJunction> StudentClassArm { get; set; }
     }
 
     public class Disability

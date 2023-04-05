@@ -93,3 +93,6 @@ C:\Users\AWAR ABRAHAM\source\repos\FIASchoolApp\ServerApp\bin\Debug\netcoreapp3.
 C:\Users\AWAR ABRAHAM\source\repos\FIASchoolApp\ServerApp\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
 C:\Users\AWAR ABRAHAM\source\repos\FIASchoolApp\ServerApp\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\AWAR ABRAHAM\source\repos\FIASchoolApp\ServerApp\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Users\AWAR ABRAHAM\source\repos\FIASchoolApp\ServerApp\bin\Debug\netcoreapp3.1\Z.EntityFramework.Extensions.EFCore.dll
+C:\Users\AWAR ABRAHAM\source\repos\FIASchoolApp\ServerApp\bin\Debug\netcoreapp3.1\Z.EntityFramework.Plus.EFCore.dll
+C:\Users\AWAR ABRAHAM\source\repos\FIASchoolApp\ServerApp\bin\Debug\netcoreapp3.1\Z.Expressions.Eval.dll

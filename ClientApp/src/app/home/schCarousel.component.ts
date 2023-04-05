@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 
 @Component({
     selector: "sch-carousel",
-    templateUrl: "schCarousel.compnent.html"
+    templateUrl: "schCarousel.component.html"
 })
 
 export class SchCarouselComponent {}

@@ -22,6 +22,8 @@ namespace ServerApp.Models
         public DbSet<PsychomotorSkill> PsychomotorSkill { get; set; }
         public DbSet<AcademicReport> AcademicReport { get; set; }
         public DbSet<SubjectPerformance> SubjectPerformance { get; set; }
+        public DbSet<StudentClassArmJunction> StudentClassArm { get; set; }
+        public DbSet<StudentsInClass> StudentsInClass { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
