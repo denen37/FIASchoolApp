@@ -8,3 +8,25 @@
 .border-r-grey{
     border-right: 5px solid rgb(202, 202, 202);
 }
+
+body, html {
+    height: 100%;
+  }
+  .bg {
+    /* The image used */
+    background-image: url("assets\image\istockphoto-1320882544-612x612.jpg");
+  
+    /* Full height */
+    height: 100%;
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .offset{
+    position: relative;
+    top: 150px;
+    left: 50px;
+  }

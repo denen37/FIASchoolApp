@@ -12,9 +12,6 @@
     </div>
 </div>-->
 
-<style>
-  nav a.nav-link:hover, a.dropdown-item:hover {background-color: rgb(0, 204, 255); color: white;}
-</style>
   <nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgb(142, 222, 247)">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -29,19 +26,9 @@
           <a class="nav-link mx-1" href="#">Administration</a>
         </li>
         <li class="nav-item nav-pills dropdown">
-          <a class="nav-link mx-1 dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link mx-1" routerLink="/students">
             Students
           </a>
-          <div class="dropdown-menu navbar-light" style="background-color: rgb(142, 222, 247)" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" routerLink="/students/all">All Students</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" routerLink="/students/jss1" (click)="loadStudents('JSS 1')">JSS 1</a>
-            <a class="dropdown-item" routerLink="/students/jss2" (click)="loadStudents('JSS 2')">JSS 2</a>
-            <a class="dropdown-item" routerLink="/students/jss3" (click)="loadStudents('JSS 3')">JSS 3</a>
-            <a class="dropdown-item" routerLink="/students/sss1" (click)="loadStudents('SSS 1')">SSS 1</a>
-            <a class="dropdown-item" routerLink="/students/sss2" (click)="loadStudents('SSS 2')">SSS 2</a>
-            <a class="dropdown-item" routerLink="/students/sss3" (click)="loadStudents('SSS 3')">SSS 3</a>
-          </div>
         </li>
         <li class="nav-item nav-pills">
           <a class="nav-link mx-1" href="#">Teachers</a>

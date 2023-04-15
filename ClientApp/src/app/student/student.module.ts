@@ -1,12 +1,14 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { StudentRouting } from "./student-routing.module";
-import { StudentPageComponent } from "./studentList.component";
+import { StudentListComponent } from "./studentList.component";
+import { FormsModule } from "@angular/forms";
+import { StudentDetailsComponent } from "./studentDetails.component"; 
 
 @NgModule({
-    declarations: [StudentPageComponent],
-    imports: [BrowserModule ],
-    exports: [StudentRouting, StudentPageComponent]
+    declarations: [StudentListComponent, StudentDetailsComponent],
+    imports: [BrowserModule, FormsModule],
+    exports: [StudentRouting]
 })
 
 export class StudentModule{}

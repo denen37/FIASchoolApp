@@ -3,7 +3,7 @@ import { CourseCategory } from "./classSubject.model";
 export class Class {
     constructor(
         public id: number,
-        public name: number,
+        public name: string,
         public classArm: ClassArmJunction[]
     ) {}
 }

@@ -96,3 +96,5 @@ C:\Users\AWAR ABRAHAM\source\repos\FIASchoolApp\ServerApp\bin\Debug\netcoreapp3.
 C:\Users\AWAR ABRAHAM\source\repos\FIASchoolApp\ServerApp\bin\Debug\netcoreapp3.1\Z.EntityFramework.Extensions.EFCore.dll
 C:\Users\AWAR ABRAHAM\source\repos\FIASchoolApp\ServerApp\bin\Debug\netcoreapp3.1\Z.EntityFramework.Plus.EFCore.dll
 C:\Users\AWAR ABRAHAM\source\repos\FIASchoolApp\ServerApp\bin\Debug\netcoreapp3.1\Z.Expressions.Eval.dll
+C:\Users\AWAR ABRAHAM\source\repos\FIASchoolApp\ServerApp\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\AWAR ABRAHAM\source\repos\FIASchoolApp\ServerApp\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll

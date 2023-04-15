@@ -52,7 +52,7 @@
             ],
             "scripts": [
               "src/lib/jquery/dist/jquery.js",
-              "src/lib/bootstrap/dist/js/bootstrap.js"
+              "src/lib/bootstrap/dist/js/bootstrap.bundle.js"
             ]
           },
           "configurations": {

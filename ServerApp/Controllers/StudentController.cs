@@ -1,17 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
-using ServerApp.Models.Repository;
-using ServerApp.Models.Students;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.JsonPatch;
 using System.Text.Json;
 using System.Reflection;
 using System.ComponentModel;
+using ServerApp.Models.Repository;
+using ServerApp.Models.Students;
+using Microsoft.AspNetCore.Cors;
+//using ServerApp.Controllers.Filters;
 
 namespace ServerApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+   // [AllowCrossSiteJson]
     public class StudentController: Controller
     {
         private StudentRepository repos;
@@ -19,7 +22,8 @@ namespace ServerApp.Controllers
         {
             repos = _repos;
         }
-
+       
+       // [EnableCors("AllowAngularOrigins")]
         [HttpGet]
         public IActionResult GetAllStudents(string name, string classroom, string arm, string session)
         {
@@ -39,7 +43,7 @@ namespace ServerApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddStudent([FromBody] Student newStudent)
+        public IActionResult AddStudent([FromBody] Student  newStudent)
         {
             if (ModelState.IsValid)
             {

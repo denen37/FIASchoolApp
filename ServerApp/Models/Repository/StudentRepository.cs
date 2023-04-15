@@ -42,7 +42,7 @@ namespace ServerApp.Models.Repository
 
             if (classroom != null)
             {
-                students = students.Where(s => s.Class == classroom);
+                students = students.Where(s => s._class == classroom);
             }
             if (arm != null)
             {

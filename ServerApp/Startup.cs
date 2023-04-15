@@ -19,6 +19,7 @@ namespace ServerApp
 {
     public class Startup
     {
+        //string AllowAngularOrigins = "AllowAngularOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -57,6 +58,19 @@ namespace ServerApp
                     .AddJsonOptions(opts => {
                                     opts.JsonSerializerOptions.IgnoreNullValues = true;});
 
+           /* services.AddCors(options => 
+            {
+                options.AddPolicy(name: AllowAngularOrigins,
+                                policy =>
+                                {
+                                    //policy.WithOrigins("http://localhost:4200")
+                                    //.AllowAnyHeader().AllowAnyMethod();
+                                    policy.AllowAnyOrigin()
+                                          .AllowAnyHeader()
+                                          .AllowAnyMethod();
+                                });
+            });*/
+
             services.AddSwaggerGen(options => {
                 options.SwaggerDoc("v1", 
                     new OpenApiInfo {Title = "FIA School", Version = "v1"});
@@ -81,13 +95,19 @@ namespace ServerApp
 
             app.UseRouting();
 
+            /*app.UseCors();
+            app.UseCors(AllowAngularOrigins);*/
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action}/{id?}");
+
+                /*endpoints.MapControllers()
+                .RequireCors(AllowAngularOrigins); */
             });
 
             app.UseSwagger();
@@ -95,6 +115,7 @@ namespace ServerApp
                 options.SwaggerEndpoint("/swagger/v1/swagger.json",
                     "FIASchool API");
             });
+
 
             app.UseSpa(spa => {
                 string strategy = Configuration

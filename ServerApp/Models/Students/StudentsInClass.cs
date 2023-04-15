@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServerApp.Models.Students
 {
@@ -11,7 +13,9 @@ namespace ServerApp.Models.Students
         public DateTime DateOfBirth { get; set; }
         public string AdmissionNumber { get; set; }
         public string Sex { get; set; }
-        public string Class { get; set; }
+
+        [Column("Class")]
+        public string _class { get; set; }
         public string Arm { get; set; }
         public string Session { get; set; }
     }
