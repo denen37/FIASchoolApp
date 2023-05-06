@@ -77,7 +77,8 @@ namespace ServerApp.Models.Repository
             originalParent.MiddleName = modifiedParent.MiddleName;
             originalParent.LastName = modifiedParent.LastName;
             originalParent.Address = modifiedParent.Address;
-            originalParent.PhoneNumber = modifiedParent.PhoneNumber;
+            originalParent.Phone1 = modifiedParent.Phone1;
+            originalParent.Phone2 = modifiedParent.Phone2;
             originalParent.Email = modifiedParent.Email;
             originalParent.Occupation = modifiedParent.Occupation;
             originalParent.MaritalStatus = modifiedParent.MaritalStatus;

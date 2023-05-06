@@ -1,23 +1,267 @@
-<!--<div style="background-color: rgb(142, 222, 247)">
-    <a class="navbar-brand m-1" href="#">
-      <img src="assets/image/fia-badge.jpg" width="30" height="30" 
-      class="rounded-circle d-inline-block align-top" alt="">
-      <h5 class="ml-2 text-dark d-inline">FIA</h5>
-    </a>
-</div>
-<div class="container-fluid mt-2">
-    <div class="row">
-        
-        <div class="col-auto">
-            <h2>{{student?.lastName + " " + student?.middleName + " " + student?.firstName || "Loading..."}}</h2>
+<div class="shadow col-md-8 mx-auto">
+    <div class="container d-flex justify-content-center py-3">
+        <div class="d-block w-25 h-25">
+            <img class="border border-2 border-primary rounded-circle img-fluid img-thumbnail" 
+            src="assets\image\user1.png" alt="student">
+        </div>
+        <div class="my-auto mx-3">
+            <h2>{{student ? student.lastName + " " + student.middleName + " " + student.firstName : "Loading..."}}</h2>
+            <p><b>Admin No: </b>
+                {{student?.admissionNumber ? student?.admissionNumber : "Loading..."}}
+            </p>
+            <p><b>Class: </b> 
+                {{student?.currentClass ? student?.currentClass : "Loading..."}}
+            </p>
+            <p><b>Age: </b>
+                {{student?.age ? student?.age + " years old" : "Loading..."}}
+            </p>
         </div>
     </div>
-</div>-->
 
-<div class="container">
-    <div class="card bg rounded-lg" style="height: 250px">
-        <div class="offset" style="width: 30%">
-            <img src="assets\image\mimidoo-pic.jpg" class="img-fluid img-thumbnail rounded-circle">
-        </div>
+    <!--Collapse button-->
+    <div class="text-end">
+        <button class="btn bg-light mb-2 me-5 text-primary" 
+            style="font-size: 16px" id="btn-more"
+            type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetails" 
+            aria-expanded="false" aria-controls="collapseDetails" #btn btnMoreOrLess>
+            More...</button>
+    </div>
+
+    <div class="collapse" id="collapseDetails">
+        <!--Tabs-->
+        <ul class="nav nav-pills nav-justified mx-3 my-2 bg-light rounded-2" id="myTabs">
+            <li role="presentation" class="nav-item"><button data-bs-target="#biodata-tab" class="nav-link active" data-bs-toggle="pill">Bio Data</button></li>
+            <li role="presentation" class="nav-item"><button data-bs-target="#parent-tab" class="nav-link" data-bs-toggle="pill">Parents</button></li>
+            <li role="presentation" class="nav-item"><button data-bs-target="#academic-tab" class="nav-link" data-bs-toggle="pill">Academics</button></li>
+            <li role="presentation" class="nav-item"><button data-bs-target="#moral-tab" class="nav-link" data-bs-toggle="pill">Morals</button></li>
+            <li role="presentation" class="nav-item"><button data-bs-target="#payment-tab" class="nav-link" data-bs-toggle="pill">Payments</button></li>
+        </ul>
+
+        <!--All Tabs Content-->
+        <div class="tab-content">
+            <!--Bio Data Tab Begins-->
+            <div class="tab-pane show fade active px-5" id="biodata-tab">
+                <table class="table table-sm table-borderless table-striped mt-5">
+                    <tbody>
+                        <tr>
+                            <th>Date of birth:</th>
+                            <td>{{student?.dateOfBirth | date}}</td>
+                        </tr>
+                        <tr>
+                            <th>Sex: </th>
+                            <td>{{student?.sex}}</td>
+                        </tr>
+                        <tr>
+                            <th>Religion</th>
+                            <td>{{student?.religion}}</td>
+                        </tr>
+                        <tr>
+                            <th>Nationality</th>
+                            <td>{{student?.nationality}}</td>
+                        </tr>
+                        
+                        <tr>
+                            <th>State of origin:</th>
+                            <td>{{student?.stateOfOrigin}}</td>
+                        </tr>
+                        <tr>
+                            <th>Local Government Area:</th>
+                            <td>{{student?.lga}}</td>
+                        </tr>
+                        <tr>
+                            <th>Ethnic Group:</th>
+                            <td>{{student?.ethnicGroup}}</td>
+                        </tr>
+                        <tr>
+                            <th>Skill: </th>
+                            <td>{{student?.skill}}</td>
+                        </tr>
+                        <tr>
+                            <th>Admission Date:</th>
+                            <td>{{student?.admissionDate | date}}</td>
+                        </tr>
+                        <tr>
+                            <th>Leadership post:</th>
+                            <td>{{student?.post?.name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--Bio Data Tab Ends-->
+
+            <!--Parents Tab Begins-->
+            <div class="tab-pane fade px-5" id="parent-tab">
+                    <div *ngFor="let item of student?.parentStudentJunction; let i = index">
+                     <h5>{{"Parent " + (i + 1)}}</h5>
+                     
+                     <table class="table table-borderless table-sm table-striped mb-2">
+                         <tbody>
+                             <tr>
+                                 <th><span class="fa fa-user"></span> Full Name: </th>
+                                 <td>{{item.parent.firstName +" "+ item.parent.middleName +" "+ item.parent.lastName}}</td>
+                             </tr>
+                             <tr>
+                                 <th><span class="fa fa-briefcase"></span> Occupation: </th>
+                                 <td>{{item.parent.occupation}}</td>
+                             </tr>
+                             <tr>
+                                 <th><span class="fa fa-home"></span> Address: </th>
+                                 <td>{{item.parent.address}}</td>
+                             </tr>
+                             <tr>
+                                 <th><span class="fa fa-phone"></span> Phone 1: </th>
+                                 <td>{{item.parent.phone1}}</td>
+                             </tr>
+                             <tr>
+                                 <th><span class="fa fa-phone"></span> Phone 2: </th>
+                                 <td>{{item.parent.phone2}}</td>
+                             </tr>
+                             <tr>
+                                 <th><span class="fa fa-envelope-o"></span> Email: </th>
+                                 <td>{{item.parent.email}}</td>
+                             </tr>
+                             <tr>
+                                 <th><span class="fa fa-heart"></span> Marital status:</th>
+                                 <td>{{item.parent.maritalStatus}}</td>
+                             </tr>
+                             <tr>
+                                 <th><span class="fa fa-heart-o"></span> Relationship: </th>
+                                 <td>{{item.relationship}}</td>
+                             </tr>
+                             <tr>
+                                 <th><span class="fa fa-heart-o"></span> Lives Together?  </th>
+                                 <td>{{item.isLivingTogether ? "Yes" : "No"}}</td>
+                             </tr>
+                         </tbody>
+                     </table>
+                     <hr>
+                    </div>
+            </div>
+                
+            <!--Parents Tab Ends-->
+
+            <!--Academics Tab Begins-->
+            <div class="tab-pane fade px-5" id="academic-tab" >
+                <h5>Result Summary</h5>
+                <table class="table table-bordered  mb-3">
+                    <thead>
+                    <tr>
+                        <th>Session</th>
+                        <th>Term</th>
+                        <th>Class</th>
+                        <th>No. of Subjects</th>
+                        <th><div class="overflow-x-auto">Total Marks</div></th>
+                        <th>Marks Obtained</th>
+                        <th>Average</th>
+                        <th>Position</th>
+                        <th>Comment</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of student?.overallPerformance; let i = index">
+                        <td [attr.rowspan] = "getRowspan(item.term)" class="align-middle" 
+                        *ngIf="academicsHasRowspan(i)">
+                            {{item.session}}
+                        </td>
+                        <td class="text-nowrap">{{item.term}}</td>
+                        <td class="text-nowrap">{{item._class + item.arm}}</td>
+                        <td>{{item.numOfSubjects}}</td>
+                        <td>{{item.totalObtainable}}</td>
+                        <td>{{item.total}}</td>
+                        <td>{{item.average}}</td>
+                        <td>{{item.position}}<sup>{{getOrdinal(item.position)}}</sup></td>
+                        <td>{{item.remark}}</td>
+                        <td><button  class="btn btn-light btn-sm text-primary text-nowrap">
+                            <i class="fa fa-eye"></i> View</button></td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            <!--Academic Tab Ends-->
+
+            <!--Morals Tab Begins-->
+            <div class="tab-pane fade px-5" id="moral-tab">
+                <div *ngFor="let item of student?.moralBehaviour; let i = index ">
+                    <h5>{{"Moral Record " + (i + 1)}}</h5>
+                    <table class="table table-borderless table-reponsive table-sm">
+                        <tbody>
+                            <tr>
+                                <th>Date: </th>
+                                <td>{{item.date | date}}</td>
+                            </tr>
+                            <tr>
+                                <th>Action: </th>
+                                <td>{{item.category}}</td>
+                            </tr>
+                            <tr>
+                                <th>Rating</th>
+                                <td>{{item.rating.moralRemark}}</td>
+                            </tr>
+                            <tr>
+                                <th>Reward/Punishment</th>
+                                <td>{{item.rewardOrPunishment}}</td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>{{item.description}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                </div>
+            </div>
+            <!--Moral Tab Ends-->
+
+            <!--Payment Tab Begins-->
+            <div class="tab-pane fade px-5" id="payment-tab">
+                <div>
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Session</th>
+                                <th>Term</th>
+                                <th>Arrears</th>
+                                <th>Amount Payable</th>
+                                <th>Total</th>
+                                <th class="mw-240px">
+                                    <div>
+                                        <tr class="d-flex justify-content-center border-bottom"><td>Paid</td></tr>
+                                        <tr class="d-flex justify-content-between">
+                                            <td class="amt-width">Amount</td>
+                                            <td class="bal-width">Balance</td>
+                                            <td class="date-width">Date</td>
+                                        </tr>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr *ngFor="let item of student?.paymentRecords; let i = index">
+                                    <td [attr.rowspan] = "getRowspan(item.term)" class = "align-middle"
+                                     *ngIf="paymentHasRowspan(i)">
+                                        {{item.session}}
+                                    </td>
+                                    <td>{{item.term}}</td>
+                                    <td>{{item.arrears | currency:"USD"}}</td>
+                                    <td>{{item.amountPayable | currency:"USD"}}</td>
+                                    <td>{{item.total | currency:"USD"}}</td>
+                                    <td class="mw-240px">
+                                        <div>
+                                            <tr *ngFor="let item of item.payments" class="d-flex justify-content-between">
+                                                <td class="amt-width">{{item.amount | currency:"NGN":"code" }}</td>
+                                                <td class="bal-width">{{item.balance | currency:"NGN":"code" }}</td>
+                                                <td class="date-width">{{item.date | date}}</td> 
+                                            </tr>
+                                        </div>
+                                    </td>                                                         
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--Payment Tab Ends-->
     </div>
 </div>
+
+

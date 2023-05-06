@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-//using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServerApp.Models.Students
@@ -16,6 +16,8 @@ namespace ServerApp.Models.Students
 
         public int SessionTermId { get; set; }
         public SessionTermJunction SessionTerm { get; set; } 
+
+        public OverallPerformance OverallPerformance { get; set; }
 
         public IEnumerable<SubjectPerformance> SubjectPerformances { get; set; }
     }
@@ -41,15 +43,20 @@ namespace ServerApp.Models.Students
 
     public class OverallPerformance
     {
-        public long Id { get; set; }
-
+        [Key]
         public long AcademicReportId { get; set; }
-        public AcademicReport AcademicReport { get; set; }
-
-        public float Total { get; set; }
+        public long StudentId { get; set; }
+        [Column("Class")]
+        public string _class { get; set; }
+        public string Arm { get; set; }
+        public string Session { get; set; }
+        public string Term { get; set; }
+        public double Total { get; set; }
         public short NumOfSubjects { get; set; }
-        public float Average { get; set; }
-        public int Position { get; set; }
+        public int TotalObtainable  => NumOfSubjects * 100;
+        
+        public double Average { get; set; }
+        public short Position { get; set; }
         public char Grade { get; set; }
         public string Remark { get; set; }
     }

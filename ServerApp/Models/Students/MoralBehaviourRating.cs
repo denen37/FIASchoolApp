@@ -11,6 +11,7 @@ namespace ServerApp.Models.Students
         public string Description { get; set; }
         public string RewardOrPunishment { get; set; }
         public DateTime Date { get; set; }
+        public Rating Rating { get; set; }
     }
 
     public class Rating

@@ -106,6 +106,11 @@ namespace ServerApp
                     name: "default",
                     pattern: "{controller}/{action}/{id?}");
 
+                endpoints.MapControllerRoute(
+                    name: "angular_fallback",
+                    pattern: "{target:regex(students)}/{*catchall}");
+                    //defaults: new { controller = "Home", action = "Index" });
+
                 /*endpoints.MapControllers()
                 .RequireCors(AllowAngularOrigins); */
             });

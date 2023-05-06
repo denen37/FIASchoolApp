@@ -10,7 +10,7 @@ namespace ServerApp.Models.Students
         public DateTime StartMonth { get; set; }
         public DateTime EndMonth { get; set; }
         //Navigation Propertys
-        public IEnumerable<SessionTermJunction> SessionTerm { get; set; }
+        public IEnumerable<SessionTermJunction> SessionTerms { get; set; }
         
     }
 
@@ -19,7 +19,7 @@ namespace ServerApp.Models.Students
         public short Id { get; set; }
         public string Name { get; set; }
 
-        public IEnumerable<SessionTermJunction> SessionTerm { get; set; }
+        public IEnumerable<SessionTermJunction> SessionTerms { get; set; }
     }
 
     public class SessionTermJunction

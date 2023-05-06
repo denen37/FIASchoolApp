@@ -32,9 +32,11 @@ namespace ServerApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetStudent(long id, bool related = false)
+        public IActionResult GetStudent(long id, bool post = false, bool parents = false,
+                                        bool overallPerformance = false, bool morals = false,
+                                        bool payments = false)
         {
-            Student student = repos.Get(id, related);
+            Student student = repos.Get(id, post, parents, overallPerformance, morals, payments);
             if (student == null)
             {
                 return NotFound();

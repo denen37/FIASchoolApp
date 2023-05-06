@@ -1,4 +1,8 @@
 import { LeadershipPosition } from "./leadershipPosition.model";
+import { MoralBehaviour } from "./moralBehaviour.model";
+import { ParentStudentJunction } from "./parent.model";
+import { OverallPerformance } from "./reportCard.model";
+import { PaymentRecord } from "./studentPayment.model";
 
 export class Student {
     constructor(
@@ -8,6 +12,7 @@ export class Student {
         public lastName: string,
         public dateOfBirth: Date,
         public admissionNumber: string,
+        public currentClass: string,
         public address: string,
         public leadershipPositionId: number,
         public post: LeadershipPosition,
@@ -21,7 +26,11 @@ export class Student {
         public admissionDate: Date,
         public hasGraduated: boolean,
         public pictureFilePath: string,
-        public age: number
+        public age: number,
+        public parentStudentJunction: ParentStudentJunction[],
+        public overallPerformance: OverallPerformance[],
+        public moralBehaviour: MoralBehaviour[],
+        public paymentRecords: PaymentRecord[]
     ){}
 }
 

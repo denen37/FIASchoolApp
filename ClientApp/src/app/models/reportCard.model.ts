@@ -34,9 +34,13 @@ export class SubjectPerformance {
 
 export class OverallPerformance {
     constructor(
-        public id: number,
         public academicReportId: number,
-        public academicReport: AcademicReport,
+        public studentId: number,
+        public _class: string,
+        public arm: string,
+        public session: string,
+        public term: string,
+        public totalObtainable: number,
         public total: number,
         public numOfSubjects: number,
         public average: number,

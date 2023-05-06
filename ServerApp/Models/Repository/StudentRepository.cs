@@ -75,27 +75,72 @@ namespace ServerApp.Models.Repository
             context.SaveChanges();
         }
 
-        public Student Get(object id, bool related = false)
+        public Student Get(long id, bool post = false, bool parents = false,
+                            bool overallPerformance = false, bool morals = false,
+                            bool payments = false)
         {
-            if (id.GetType() == typeof(long))
-            {
-                if (related)
+              var student = context.Student.Find(id);
+                if (post)
                 {
-                    /*Student student = context.Student.Find(id);
-                    context.Entry(student).Reference(s => s.Post)
-                    .Query()
-                    .Load();
-
-                    student.Post.Students = null;*/
-                    Student student = context.Student.Include(s => s.Post).First(s => s.Id == (long)id);
-                    student.Post.Students = null;
-                    return student;
+                    student.Post = context.Student.Where(s => s.Id == id).Select(p => new LeadershipPosition
+                    {
+                        Id = p.Post.Id,
+                        Name = p.Post.Name,
+                        Description = p.Post.Description
+                    }).FirstOrDefault();
                 }
-                return context.Student.Find(id);
-            }
 
+                if (parents)
+                {
+                    student.ParentStudentJunction = context.ParentStudentJunction.Include(p => p.Parent)
+                    .Where(p => p.StudentId == id).ToArray();
+                }
+                
+                if(overallPerformance)
+                {
+                    student.OverallPerformance = context.OverallPerformance
+                                                .Select(ovp => ovp).Where(ovp => ovp.StudentId == id)
+                                                .OrderBy(x => x._class).ThenBy(x => x.Term)
+                                                .ToArray();
+                }
 
-            return null;
+                if (morals)
+                {
+                    student.MoralBehaviour = context.MoralBehaviour.Include(m => m.Rating)
+                    .Where(x => x.StudentId == id).ToArray();
+                }
+
+                if (payments)
+                {
+                    student.PaymentRecords = context.PaymentRecord
+                    .Include(p => p.Payments)
+                    .Include(p => p.SessionTerm)
+                    .ThenInclude(p => p.Term)
+                    .Include(p => p.SessionTerm)
+                    .ThenInclude(p => p.Session)
+                    .Where(p => p.StudentId == id)
+                    .Select(p =>new PaymentRecord
+                    {  
+                        Id = p.Id,
+                        StudentId = p.StudentId,
+                        Arrears = p.Arrears,
+                        AmountPayable = p.AmountPayable,
+                        Total = p.Total,
+                        Session  = p.SessionTerm.Session.Name,
+                        Term  = p.SessionTerm.Term.Name,
+                        SessionTerm = new SessionTermJunction
+                        {
+                            Session = new Session{Name = p.SessionTerm.Session.Name},
+                            Term = new Term {Name = p.SessionTerm.Term.Name}
+                        },
+                        NumOfPayments = p.Payments.Count(),
+                       Payments = p.Payments
+                    })
+                    .OrderBy(x => x.SessionTerm.Session.Name)
+                    .ThenBy(x => x.SessionTerm.Term.Name)
+                    .ToList();
+                }
+                return student;
         }
 
         public void Update(Student modifiedStudent)

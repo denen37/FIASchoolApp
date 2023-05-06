@@ -31,9 +31,16 @@ namespace ServerApp.Models.Students
 
         //Computed Column
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public decimal Age { get; set; }     
+        public int Age { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public string CurrentClass { get; set; }     
 
         public IEnumerable<StudentClassArmJunction> StudentClassArm { get; set; }
+        public IEnumerable<ParentStudentJunction> ParentStudentJunction { get; set; }
+        public IEnumerable<AcademicReport> AcademicReport { get; set; }
+        public IEnumerable<OverallPerformance> OverallPerformance { get; set; }
+        public IEnumerable<MoralBehaviour> MoralBehaviour { get; set; }
+        public IEnumerable<PaymentRecord> PaymentRecords { get; set; }
     }
 
     public class Disability

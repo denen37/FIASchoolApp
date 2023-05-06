@@ -3,16 +3,14 @@ export class Session {
         public Id: number,
         public name: string,
         public startMonth: Date,
-        public endMonth: Date,
-        public SessionTerm: SessionTermJunction[]
+        public endMonth: Date
     ) {}
 }
 
 export class Term {
     constructor(
         public Id: number,
-        public name: string,
-        public SessionTerm: SessionTermJunction[]
+        public name: string
     ) {}
 }
 

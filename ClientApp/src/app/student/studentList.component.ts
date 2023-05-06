@@ -9,6 +9,8 @@ import { SessionRepository } from "../models/sessionRepository.model";
 import { Session } from "../models/sessionTerm.model";
 import { StudentFilter } from "../filters/studentFilter.model";
 import { Router } from "@angular/router";
+import { StudentParameters } from "../filters/studentParameters.model";
+
 
 @Component({
     selector: "student",
@@ -23,6 +25,7 @@ export class StudentListComponent {
     //selectedStudent?: StudentsInClass;
     searchStudent?: string;
     filter: StudentFilter;
+    params: StudentParameters;
 
     constructor(private studentRepo: StudentRepository,
                 private classRepo: ClassRepository,
@@ -31,6 +34,7 @@ export class StudentListComponent {
                 private router: Router) 
     {
                 this.filter = new StudentFilter ();
+                this.params = new StudentParameters (true, true, true, true, true);
     }
 
     ngOnInit() {
@@ -84,7 +88,8 @@ export class StudentListComponent {
     }
 
     public viewDetails(id: number){
-        this.studentRepo.getStudent(id);
+        this.studentRepo.getStudent(id, this.params);
         this.router.navigateByUrl(`students/details/${id}`);
     }
+
 }

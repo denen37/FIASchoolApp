@@ -4,11 +4,13 @@ import {HttpClientModule} from "@angular/common/http";
 import { ClassRepository } from "./classRepository.model";
 import { ArmRepository } from "./armRepository.model";
 import { SessionRepository } from "./sessionRepository.model";
+import { ParentRepository } from "./parentRepository.model";
 
 
 @NgModule({
     imports:[HttpClientModule],
-    providers : [StudentRepository, ClassRepository, ArmRepository, SessionRepository]
+    providers : [StudentRepository, ClassRepository, ArmRepository, SessionRepository,
+    ParentRepository]
 })
 
 export class ModelModule {
