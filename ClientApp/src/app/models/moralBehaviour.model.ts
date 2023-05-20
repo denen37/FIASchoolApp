@@ -17,7 +17,6 @@
     {
         constructor(
             public id: number,
-            public scale: number,
-            public moralRemark: string
+            public remark: string
         ){}
     }

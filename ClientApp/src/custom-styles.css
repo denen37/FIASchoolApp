@@ -51,3 +51,11 @@ body, html {
   .mw-240px{
     min-width: 240px;
   }
+
+.ff-times-new-roman{
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.y-center{
+    vertical-align: middle;
+}

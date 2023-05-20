@@ -6,7 +6,7 @@ namespace ServerApp.Models.Students
     {
         public long Id { get; set; }
         public long StudentId { get; set; }
-        public short RatingId { get; set; }
+        public byte RatingId { get; set; }
         public string Category { get; set; }
         public string Description { get; set; }
         public string RewardOrPunishment { get; set; }
@@ -16,8 +16,7 @@ namespace ServerApp.Models.Students
 
     public class Rating
     {
-        public short Id { get; set; } 
-        public byte Scale { get; set; }
-        public string MoralRemark { get; set; }
+        public byte Id { get; set; } 
+        public string Remark { get; set; }
     }
 }

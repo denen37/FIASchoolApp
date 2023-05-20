@@ -6,10 +6,12 @@ import { HomeModule } from './home/home.module';
 import { ModelModule } from './models/model.module';
 import { ScriptService } from './services/script.service';
 import { StudentModule } from './student/student.module';
+import { FilterModule } from './filters/filters.module';
+import { TeacherModule } from './teacher/teacher.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, ModelModule, HomeModule, StudentModule],
+  imports: [BrowserModule, AppRoutingModule, ModelModule, HomeModule, StudentModule, FilterModule, TeacherModule],
   providers: [ScriptService],
   bootstrap: [AppComponent]
 })

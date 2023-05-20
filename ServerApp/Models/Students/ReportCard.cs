@@ -9,12 +9,14 @@ namespace ServerApp.Models.Students
         public long Id { get; set; }
 
         public long StudentId { get; set; }
+
         public Student Student { get; set; }    
 
         public int ClassArmId { get; set; }
         public ClassArmJunction ClassArm { get; set; }
 
         public int SessionTermId { get; set; }
+        
         public SessionTermJunction SessionTerm { get; set; } 
 
         public OverallPerformance OverallPerformance { get; set; }
@@ -31,14 +33,14 @@ namespace ServerApp.Models.Students
         public long AcademicReportId { get; set; }
         public AcademicReport AcademicReport { get; set; }
 
-        public float Test1 { get; set; }
-        public float Test2 { get; set; }
-        public float Test3 { get; set; }
+        public double Test1 { get; set; }
+        public double Test2 { get; set; }
+        public double Test3 { get; set; }
         public int TestScoreLimit { get; set; }
-        public float Exam { get; set; }
+        public double Exam { get; set; }
         //Computed Column
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public float Total { get; set; }
+        public double Total { get; set; }
     }
 
     public class OverallPerformance
@@ -59,5 +61,46 @@ namespace ServerApp.Models.Students
         public short Position { get; set; }
         public char Grade { get; set; }
         public string Remark { get; set; }
+    }
+
+    public class ComputedResult
+    {
+        public long StudentId { get; set; }
+        [Column("Class")]
+        public string _class { get; set; }
+        public string Arm { get; set; }
+        public string Session { get; set; }
+        public string Term { get; set; }
+        public string Subject { get; set; }
+        public string SubjectCategory { get; set; }
+        public double Test1 { get; set; } 
+        public double Test2 { get; set; }
+        public double Test3 { get; set; }
+        public int TestScoreLimit { get; set; }
+        public double Exam { get; set; }
+        public double Total { get; set; }
+        public double ClassAverage { get; set; }
+        public double HighestScore { get; set; }
+        public double LowestScore { get; set; }
+        public long Position { get; set; }
+        public char Grade { get; set; }
+        public string Remark { get; set; }
+    }
+
+    public class BasicStudentInfo
+    {
+        public string FullName { get; set; }
+        public string Sex { get; set; }
+        public int Age { get; set; }
+        public string AdmissionNumber { get; set; }
+    }
+
+    public class ReportCard
+    {
+        public BasicStudentInfo Student { get; set; }
+        public IEnumerable<ComputedResult> Results { get; set; }
+        public OverallPerformance Performance { get; set; } 
+
+        public IEnumerable<StudentSkillJunction> Skills {get; set; }
     }
 }

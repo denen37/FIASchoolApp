@@ -1,0 +1,316 @@
+<div class="container shadow col-md-9 mx-auto p-2">
+        <!--Student Details Begins-->
+        <div class="mb-2" style="font-size:0.8rem">
+            <div class="d-sm-flex justify-content-between">
+                <P><span class="fw-bold">NAME OF STUDENT: </span>{{reportCard.student?.fullName}}</P>
+                <P><span class="fw-bold">YEAR: </span>{{reportCard.performance?.session}}</P>
+            </div>
+            <div class="d-sm-flex justify-content-between">
+                <p><span class="fw-bold">SCHOOL: </span>FAITH INTERNATIONAL ACADEMY</p>
+                <p><span class="fw-bold">SEX: </span>{{reportCard.student?.sex}}</p>
+            </div>
+            <div class="d-sm-flex justify-content-between">
+                <p><span class="fw-bold">L.G.A OF SCHOOL: </span>Makurdi</p>
+                <p><span class="fw-bold">AGE: </span>{{reportCard.student?.age}}</p>
+            </div>
+            <div class="d-sm-flex justify-content-between">
+                <p><span class="fw-bold">CLASS: </span>{{reportCard.performance?._class}}</p>
+                <p><span class="fw-bold">ADMISSION NO: </span>{{reportCard.student?.admissionNumber}}</p>
+                <p><span class="fw-bold">NO IN CLASS: </span>11</p>
+            </div>
+            <div class="d-sm-flex justify-content-between">
+                <p><span class="fw-bold">ATTENDANCE: </span>199</p>
+                <p><span class="fw-bold">DAYS OUT OF: </span>200</p>
+            </div>
+        </div>
+        <!--Student Details End-->
+
+        <div class="row">
+            <!--Subject Performances Table-->
+        <div class="col-md-8">
+            <table class="table table-bordered table-sm border border-primary">
+                <thead style="font-size: 0.7rem;">
+                    <tr>
+                        <th rowspan="4" class="text-center">
+                            <div class="d-flex flex-column align-content-between h-75">
+                                <p class="fs-5">TERM</p><p class="ff-times-new-roman fs-3">II</p>
+                            </div>
+                            <div class="border-top border-primary fs-6">'A'<br>SUBJECTS</div>
+                        </th>
+                        <th colspan="3" class="text-center">SUMMARY OF <br>C. ASSESSMENT SCORES</th>
+                        <th rowspan="2" class="y-center text-center"><div>TERM <br>EXAM</div></th>
+                        <th rowspan="2" class="y-center text-center"><div>COMBINED <br>SCORES</div></th>
+                        <th rowspan="2" class="y-center text-center"><div>CLASS <br>AVERAGE</div></th>
+                        <th rowspan="2" class="y-center text-center"><div>HIGHEST <br>IN CLASS</div></th>
+                        <th rowspan="2" class="y-center text-center"><div>LOWEST <br>IN CLASS</div></th>
+                        <th rowspan="2" class="y-center text-center"><div>POSITION <br>IN CLASS</div></th>
+                        <th rowspan="2" class="y-center text-center"><div>GRADE</div></th>
+                        <th rowspan="2" class="y-center text-center"><div>SUBJECT <br>TEACHER'S <br>SIGNATURE</div></th>
+                    </tr>
+                    <tr>
+                        <th class="y-center text-center"><div>Wks<br>1-4</div></th>
+                        <th class="y-center text-center"><div>Wks<br>5-8</div></th>
+                        <th class="y-center text-center"><div>Wks<br>9-12</div></th>
+                    </tr>
+                    <tr>
+                        <th class="y-center text-center"><div>CONT. <br>ASS. <br>SCORES <span>{{testScore | percent}}</span></div></th>
+                        <th class="y-center text-center"><div>CONT. <br>ASS. <br>SCORES <span>{{testScore | percent}}</span></div></th>
+                        <th class="y-center text-center"><div>CONT. <br>ASS. <br>SCORES <span>{{testScore | percent}}</span></div></th>
+                        <th class="y-center text-center"><div><span>{{examScore | percent}}</span></div></th>
+                        <th class="y-center text-center"><div>100%</div></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr style="font-size: 0.8rem;">
+                        <th class="text-center">a</th>
+                        <th class="text-center">b</th>
+                        <th class="text-center">c</th>
+                        <th class="text-center">d</th>
+                        <th class="text-center">e</th>
+                        <th class="text-center">f</th>
+                        <th class="text-center">g</th>
+                        <th class="text-center">h</th>
+                        <th class="text-center">i</th>
+                        <th class="text-center">j</th>
+                        <th class="text-center">k</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: 0.8rem;">
+                    <tr  class="fw-semibold" style="font-size: 0.85rem;" *ngIf="reportCard.results['general'].length > 0">
+                        <td class="text-center">CORE SUBJECTS</td>
+                        <td colspan="11">
+                            <div class="d-flex">
+                                <span>COMPULSORY: </span><span>Basic subjects which will enable students offer Arts or Science
+                                    in Higher Education</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let item of reportCard.results['general']">
+                        <td>{{item.subject}}</td>
+                        <td>{{item.test1}}</td>
+                        <td>{{item.test2}}</td>
+                        <td>{{item.test3}}</td>
+                        <td>{{item.exam}}</td>
+                        <td>{{item.total}}</td>
+                        <td>{{item.classAverage}}</td>
+                        <td>{{item.highestScore}}</td>
+                        <td>{{item.lowestScore}}</td>
+                        <td>{{item.position}}<sup>{{item.position | ordinal}}</sup></td>
+                        <td>{{item.grade}}</td>
+                        <td>{{item.remark}}</td>
+                    </tr>
+
+                    <tr class="fw-semibold" style="font-size: 0.85rem;" *ngIf="reportCard.results['special'].length > 0">
+                        <td class="text-center">FIELD OF STUDY</td>
+                        <td colspan="11" class="text-center">3 - 4 Subjects in the Field of Specialization of Study</td>  
+                    </tr>
+                    <tr *ngFor="let item of reportCard.results['special']">
+                        <td>{{item.subject}}</td>
+                        <td>{{item.test1}}</td>
+                        <td>{{item.test2}}</td>
+                        <td>{{item.test3}}</td>
+                        <td>{{item.exam}}</td>
+                        <td>{{item.total}}</td>
+                        <td>{{item.classAverage}}</td>
+                        <td>{{item.highestScore}}</td>
+                        <td>{{item.lowestScore}}</td>
+                        <td>{{item.position}}<sup>{{item.position | ordinal}}</sup></td>
+                        <td>{{item.grade}}</td>
+                        <td>{{item.remark}}</td>
+                    </tr>
+                    
+                    <tr class="fw-semibold" style="font-size: 0.85rem;" *ngIf="reportCard.results['elective'].length > 0">
+                        <td class="text-center">ELECTIVE</td>
+                        <td colspan="11" class="text-center">Elective Subjects are to be taken from any other Field of Interest</td>
+                    </tr>
+                    <tr *ngFor="let item of reportCard.results['elective']">
+                        <td>{{item.subject}}</td>
+                        <td>{{item.test1}}</td>
+                        <td>{{item.test2}}</td>
+                        <td>{{item.test3}}</td>
+                        <td>{{item.exam}}</td>
+                        <td>{{item.total}}</td>
+                        <td>{{item.classAverage}}</td>
+                        <td>{{item.highestScore}}</td>
+                        <td>{{item.lowestScore}}</td>
+                        <td>{{item.position}}<sup>{{item.position | ordinal}}</sup></td>
+                        <td>{{item.grade}}</td>
+                        <td>{{item.remark}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="mb-2" style="font-size:0.7rem">
+                <div class="d-sm-flex justify-content-between">
+                    <P><span class="fw-bold">NO OF SUBJECTS: </span>{{reportCard.performance?.numOfSubjects}}</P>
+                    <P><span class="fw-bold">TOTAL OBTAINABLE MARKS: </span>{{reportCard.performance?.totalObtainable}}</P>
+                    <P><span class="fw-bold">MARKS OBTAINED: </span>{{reportCard.performance?.total}}</P>
+                </div>
+                <div class="d-sm-flex justify-content-between">
+                    <p><span class="fw-bold">AVERAGE: </span>{{reportCard.performance?.average}}</p>
+                    <p><span class="fw-bold">POSITION IN CLASS: </span>{{position}}<sup>{{position | ordinal}}</sup></p>
+                    <p><span class="fw-bold">{{status}}</span></p>
+                </div>
+                
+                <p><span class="fw-bold">FORM MASTERS REMARKS: </span></p>
+                
+                <div class="d-sm-flex justify-content-between">
+                    <p><span class="fw-bold">NAME: </span></p>
+                    <p><span class="fw-bold">SIGNATURE: </span></p>
+                    <p><span class="fw-bold">DATE: </span></p>
+                </div>
+
+                <p><span class="fw-bold">GUIDANCE COUNSELOR'S REMARKS: </span></p>
+                
+                <div class="d-sm-flex justify-content-between">
+                    <p><span class="fw-bold">NAME: </span></p>
+                    <p><span class="fw-bold">SIGNATURE: </span></p>
+                    <p><span class="fw-bold">DATE: </span></p>
+                </div>
+
+                <p><span class="fw-bold">PRINCIPALS REMARKS: </span></p>
+                
+                <div class="d-sm-flex justify-content-between">
+                    <p><span class="fw-bold">NAME: </span></p>
+                    <p><span class="fw-bold">SIGNATURE: </span></p>
+                    <p><span class="fw-bold">DATE: </span></p>
+                </div>
+            </div>
+        </div>
+
+
+        <!--Affective Development and Psychomotor Skills-->
+        <div class="col-md-4">
+            <!--<button class="btn btn-dark rounded-pill" type="button" data-bs-toggle="collapse" data-bs-target="#table-collapse" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="visually-hidden">Toggle Dropdown</span>
+            </button>-->
+
+            <div class="px-3" id="table-collapse">
+                <table class="table table-bordered border border-primary table-sm  table-responsive mx-2">
+                <thead>
+                    <tr style="font-size: 0.8rem;" >
+                        <th colspan="2" class="text-center">
+                            'B'<br>AFFECTIVE DEVELOPMENT
+                        </th>
+                    </tr>
+                    <tr style="font-size: 0.7rem;" >
+                        <th class="text-center">GENERAL <br>CHARACTER <br>TRAITS</th>
+                        <th class="text-center">RATING <br>SCALE <br>5-1</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: 0.7rem;">
+                    <tr *ngFor="let item of reportCard.skills['affective']">
+                        <td data-bs-toggle="tooltip" data-bs-placement="top" 
+                            data-bs-animation="true" [title]="item.skill.description">
+                            {{item.skill.name}}
+                        </td>
+                        <td data-bs-toggle="tooltip" data-bs-placement="top" 
+                        data-bs-animation="true" [title]="item.rating.remark">{{item.ratingId}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-center fw-bold">'C'<br>PSYCHOMOTOR SKILLS</td>
+                    </tr>
+                    <tr *ngFor="let item of reportCard.skills['psychomotor']">
+                        <td data-bs-toggle="tooltip" data-bs-placement="top" 
+                            data-bs-animation="true" [title]="item.skill.description">
+                            {{item.skill.name}}
+                        </td>
+                        <td data-bs-toggle="tooltip" data-bs-placement="top" 
+                        data-bs-animation="true" [title]="item.rating.remark">{{item.ratingId}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+        <hr>
+        <div class="row" style="font-size: 0.7rem;">
+            <div class="col-md-3">
+                <table class="table table-sm table-responsive table-borderless">
+                    <thead>
+                        <tr>
+                            <th colspan="5" class="text-center">KEY TO GRADING: Final Assessment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>75 and Above</td>
+                            <td>-</td>
+                            <td>A</td>
+                            <td>-</td>
+                            <td>Distinction</td>
+                        </tr>
+                        <tr>
+                            <td>65 - 74</td>
+                            <td>-</td>
+                            <td>B</td>
+                            <td>-</td>
+                            <td>Very Good</td>
+                        </tr>
+                        <tr>
+                            <td>55 - 64</td>
+                            <td>-</td>
+                            <td>C</td>
+                            <td>-</td>
+                            <td>Good</td>
+                        </tr>
+                        <tr>
+                            <td>40 - 54</td>
+                            <td>-</td>
+                            <td>D</td>
+                            <td>-</td>
+                            <td>Fair</td>
+                        </tr>
+                        <tr>
+                            <td>39 and below</td>
+                            <td>-</td>
+                            <td>E</td>
+                            <td>-</td>
+                            <td>Poor</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2">
+                <table class="table table-sm table-responsive table-borderless">
+                    <thead>
+                        <tr>
+                            <th colspan="3" class="text-center">KEY TO RATING</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>5</td>
+                            <td>-</td>
+                            <td>Excellent</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>-</td>
+                            <td>Very Good</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>-</td>
+                            <td>Good</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>-</td>
+                            <td>Fair</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>-</td>
+                            <td>Poor</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

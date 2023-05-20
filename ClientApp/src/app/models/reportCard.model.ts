@@ -2,6 +2,7 @@ import { Student } from "./student.model";
 import { SessionTermJunction } from "./sessionTerm.model";
 import { Subject } from "./classSubject.model";
 import { ClassArmJunction } from "./studentClassArm.model";
+import { StudentSkillJunction } from "./skill.model";
 
 export class AcademicReport {
     constructor(
@@ -32,6 +33,29 @@ export class SubjectPerformance {
     ) {}
 }
 
+export class ComputedResults {
+    constructor(public studentId: number,
+                public _class: string,
+                public arm: string,
+                public session: string,
+                public subject: string,
+                public subjectCategory: string,
+                public test1: number,
+                public test2: number,
+                public test3: number,
+                public testScoreLimit: number,
+                public exam: number,
+                public total: number,
+                public classAverage: number,
+                public highestScore: number,
+                public lowestScore: number,
+                public position: number,
+                public grade: string,
+                public remark: string) {
+        
+    }
+}
+
 export class OverallPerformance {
     constructor(
         public academicReportId: number,
@@ -48,4 +72,39 @@ export class OverallPerformance {
         public grade: string,
         public remark: string
     ) {}
+}
+
+export class BasicStudentInfo {
+    constructor(public fullName: string,
+                public sex: string,
+                public age:  number,
+                public admissionNumber: string) {}
+}
+
+export class ReportCard {
+    constructor(public student?: BasicStudentInfo,
+                public results?: ComputedResults[],
+                public performance?: OverallPerformance,
+                public skills?: StudentSkillJunction[]) {
+        
+    }
+}
+
+export class ModifiedReportCard {
+    constructor(public student?: BasicStudentInfo,
+                public results: SubjectReport = {},
+                public performance?: OverallPerformance,
+                public skills: SkillReport = {}) {
+        
+    }
+}
+
+interface SubjectReport
+{
+    [index: string]: ComputedResults[]
+}
+
+interface SkillReport
+{
+    [index: string]: StudentSkillJunction[]
 }

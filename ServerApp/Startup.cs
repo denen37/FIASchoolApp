@@ -48,10 +48,10 @@ namespace ServerApp
             services.AddTransient<ISimpleRepository<Term>, Repository<Term>>();
             services.AddTransient<ISimpleRepository<Sport>, Repository<Sport>>();
             services.AddTransient<ISimpleRepository<Disability>, Repository<Disability>>();
-            services.AddTransient<ISimpleRepository<PsychomotorSkill>, Repository<PsychomotorSkill>>();
+            services.AddTransient<ISimpleRepository<Skill>, Repository<Skill>>();
             services.AddTransient<ISimpleRepository<Rating>, Repository<Rating>>();
             services.AddTransient<IAcademicReportRepository, AcademicReportRepository>();
-            services.AddTransient<ISubjectPerformanceRepository, SubjectPerformanceRepository>();
+            services.AddTransient<SubjectPerformanceRepository>();
             //services.AddTransient<RelatedRepository>();
 
             services.AddControllersWithViews().AddNewtonsoftJson()

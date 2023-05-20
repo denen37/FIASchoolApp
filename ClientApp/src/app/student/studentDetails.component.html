@@ -170,10 +170,11 @@
                         <td>{{item.totalObtainable}}</td>
                         <td>{{item.total}}</td>
                         <td>{{item.average}}</td>
-                        <td>{{item.position}}<sup>{{getOrdinal(item.position)}}</sup></td>
+                        <td>{{item.position}}<sup>{{item.position | ordinal}}</sup></td>
                         <td>{{item.remark}}</td>
-                        <td><button  class="btn btn-light btn-sm text-primary text-nowrap">
-                            <i class="fa fa-eye"></i> View</button></td>
+                        <td><a [routerLink]="['../dossier', item.academicReportId]" (click) = "viewDossier(item)" 
+                            class="btn btn-light btn-sm text-primary text-nowrap">
+                            <i class="fa fa-eye"></i> View</a></td>
                     </tr>
                 </tbody>
                 </table>
@@ -196,7 +197,7 @@
                             </tr>
                             <tr>
                                 <th>Rating</th>
-                                <td>{{item.rating.moralRemark}}</td>
+                                <td>{{item.rating.remark}}</td>
                             </tr>
                             <tr>
                                 <th>Reward/Punishment</th>
@@ -243,14 +244,14 @@
                                         {{item.session}}
                                     </td>
                                     <td>{{item.term}}</td>
-                                    <td>{{item.arrears | currency:"USD"}}</td>
-                                    <td>{{item.amountPayable | currency:"USD"}}</td>
-                                    <td>{{item.total | currency:"USD"}}</td>
+                                    <td>{{item.arrears | naira}}</td>
+                                    <td>{{item.amountPayable | naira}}</td>
+                                    <td>{{item.total | naira}}</td>
                                     <td class="mw-240px">
                                         <div>
                                             <tr *ngFor="let item of item.payments" class="d-flex justify-content-between">
-                                                <td class="amt-width">{{item.amount | currency:"NGN":"code" }}</td>
-                                                <td class="bal-width">{{item.balance | currency:"NGN":"code" }}</td>
+                                                <td class="amt-width">{{item.amount | naira }}</td>
+                                                <td class="bal-width">{{item.balance | naira}}</td>
                                                 <td class="date-width">{{item.date | date}}</td> 
                                             </tr>
                                         </div>

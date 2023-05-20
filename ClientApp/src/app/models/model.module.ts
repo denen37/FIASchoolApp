@@ -5,12 +5,13 @@ import { ClassRepository } from "./classRepository.model";
 import { ArmRepository } from "./armRepository.model";
 import { SessionRepository } from "./sessionRepository.model";
 import { ParentRepository } from "./parentRepository.model";
+import { ReportCardRepository } from "./reportCardRepository.model";
 
 
 @NgModule({
     imports:[HttpClientModule],
     providers : [StudentRepository, ClassRepository, ArmRepository, SessionRepository,
-    ParentRepository]
+    ParentRepository, ReportCardRepository]
 })
 
 export class ModelModule {

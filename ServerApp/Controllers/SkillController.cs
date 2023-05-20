@@ -8,60 +8,60 @@ namespace ServerApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RatingController: ControllerBase
+    public class SkillController: ControllerBase
     {
-        private ISimpleRepository<Rating> repos;
+        private ISimpleRepository<Skill> repos;
 
-        public RatingController(ISimpleRepository<Rating> _repos)
+        public SkillController(ISimpleRepository<Skill> _repos)
         {
             repos = _repos;
         }
 
         [HttpGet]
-        public IEnumerable<Rating> GetAllRatings()
+        public IEnumerable<Skill> GetAllSkills()
         {
             return repos.GetAll();
-
         }
+
         [HttpGet("{id}")]
-        public IActionResult GetRating(short id)
+        public IActionResult GetSkill(short id)
         {
-            Rating rating = repos.Get(id);
-            if (rating == null)
+            Skill skill = repos.Get(id);
+            if (skill == null)
             {
                 return NotFound();
             }
-            return Ok(rating);
+            return Ok(skill);
         }
 
         [HttpPost]
-        public IActionResult AddRating([FromBody] Rating newRating)
+        public IActionResult AddSkill([FromBody] Skill newSkill)
         {
             if (ModelState.IsValid)
             {
-                repos.Add(newRating);
-                return Ok(newRating.Id);
+                repos.Add(newSkill);
+                return Ok(newSkill.Id);
             }
 
             return BadRequest();
         }
 
         [HttpPut]
-        public IActionResult UpdateRating ([FromBody] Rating modifiedRating)
+        public IActionResult UpdateSkill ([FromBody] Skill modifiedSkill)
         {
             if (ModelState.IsValid)
             {
-                repos.Update(modifiedRating);
-                return Ok(modifiedRating.Id);
+                repos.Update(modifiedSkill);
+                return Ok(modifiedSkill.Id);
             }
 
             return BadRequest();
         }
 
         [HttpDelete]
-        public void DeleteRating(byte id)
+        public void DeleteSkill(short id)
         {
-            repos.Delete(new Rating {Id = id});
+            repos.Delete(new Skill {Id = id});
         }
 
     }

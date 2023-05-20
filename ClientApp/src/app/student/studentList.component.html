@@ -1,123 +1,10 @@
 <style>
-  nav a.dropdown-item:hover {background-color: rgb(0, 204, 255); color: white;}
   table>tbody>tr:hover {background-color: rgb(0, 204, 255); color: white;}
   table>tbody>tr:active {font-size: 0.9rem; background-color:  rgba(9, 121, 150, 0.897);}
-  input.ng-dirty.ng-invalid{ border: 2px solid #ff0000}
-  input.ng-dirty.ng-valid {border: 2px solid #6bc502}
 </style>
 
-<!--Nav Bar Begins-->
-<nav class=" navbar navbar-expand-lg navbar-light" style="background-color: rgb(142, 222, 247)">
-    <div>
-      <!--FIA Bagde-click to take you to home page-->
-      <a class="navbar-brand" href="#">
-        <img src="assets/image/fia-badge.jpg" width="30" height="30" 
-        class="rounded-circle d-inline-block align-top" alt="">
-        <h5 class="ml-2 text-dark d-inline">FIA</h5>
-      </a>
-    </div>
-
-<!--Nav bar toggle button: only appears when the screen size is less than lg-->
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbarSupportedContent"
-          aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <!--Nav Bar items-->
-      <div class="navbar-collapse collapse justify-content-between" id="navbar-collapse">
-        <ul class="navbar-nav me-auto ms-2">
-
-          <!--Class dropdown-->
-        <li class="nav-item nav-pills ">
-          <div class="btn-group mx-1 my-1" data-bs-toggle="tooltip" 
-            data-bs-placement="top" data-bs-animation="true" title="Class">
-            <button type="button" class="btn btn-light disabled">
-              <div *ngIf="completedClass; else loadingbutton">
-                {{selectedClass || "All"}}
-              </div>
-            </button>
-            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" 
-            data-bs-toggle="dropdown" aria-expanded="false" [disabled]="!completedClass">
-              <span class="visually-hidden">Toggle Dropdown</span>
-            </button>
-          <ul class="dropdown-menu">
-              <li class="dropdown-item" (click)="selectedClass = ''">All</li>
-              <li><hr class="dropdown-divider"></li>
-              <li *ngFor="let item of classes" class="dropdown-item" (click)="selectedClass = item.name">{{item.name}}</li>
-          </ul>
-          </div>
-        </li>
-
-        <!--Arm dropdown-->
-        <li class="nav-item nav-pills">
-          <div class="btn-group mx-1 my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Arm">
-            <button type="button" class="btn btn-light disabled">
-              <div *ngIf="completedArm; else loadingbutton">
-                {{selectedArm || "All"}}
-              </div>
-            </button>
-            <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="!completedArm">
-              <span class="visually-hidden">Toggle Dropdown</span>
-            </button>
-          <ul class="dropdown-menu">
-              <li class="dropdown-item" (click)="selectedArm = ''">All</li>
-              <li><hr class="dropdown-divider"></li>
-              <li class="dropdown-item" *ngFor="let item of arms" (click)="selectedArm = item.name">{{item.name}}</li>
-          </ul>
-          </div>
-        </li>
-
-        <!--Session dropdown-->
-        <li class="nav-item nav-pills">
-          <div class="btn-group mx-1 my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Session">
-            <button type="button" class="btn btn-light disabled">
-              <div *ngIf="completedSession; else loadingbutton">
-                {{selectedSession || "All"}}
-              </div>
-            </button>
-            <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="!completedSession">
-              <span class="visually-hidden">Toggle Dropdown</span>
-            </button>
-          <ul class="dropdown-menu">
-              <li class="dropdown-item" (click)="selectedSession = ''">All</li>
-              <li><hr class="dropdown-divider"></li>
-              <li class="dropdown-item" *ngFor="let item of sessions" (click)="selectedSession = item.name">{{item.name}}</li>
-          </ul>
-          </div>
-        </li>
-
-        <!--Load button-->
-        <li>
-          <button class="btn btn-outline-success m-1" (click)="loadStudents()">Load</button>
-        </li>
-      </ul>
-
-      <!--Form Begins-->
-      <form novalidate #form="ngForm" class="mx-2 my-2 my-lg-0">
-        <div class="d-sm-flex">
-          <!--Text box-->
-          <input class="form-control me-2" type="search" placeholder="Name of Student" aria-label="Search"
-          [(ngModel)]="searchStudent" #name="ngModel" name="search" required minlength="3" pattern="^[A-Za-z ]+$">
-          <!--Search button-->
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" [disabled]="form.invalid" (click)="loadStudents()">Search</button>
-        </div>
-          <!--Angular Validation-->
-          <ul class="text-danger list-unstyled" *ngIf="name.dirty && name.invalid" style="font-size: 0.8rem">
-            <li *ngIf="name.errors?.['required']">
-              You must enter a student name
-            </li>
-            <li *ngIf="name.errors?.['pattern']">
-              Student names can only contain letters and spaces
-            </li>
-            <li *ngIf="name.errors?.['minlength']">
-              Student names must be at least
-            {{name.errors?.['minlength'].requiredLength}} characters
-            </li>
-          </ul>
-        
-      </form>
-      </div>
-</nav>
+<sch-header></sch-header>
+<select-nav></select-nav>
 
 <!--Show this table if loading is complete and model has data-->
 <div class="container-fluid pt-2" *ngIf="completed; else loading">
@@ -167,14 +54,6 @@
 <ng-template #notloaded>
   <div p-1>
     <h5>No students loaded...</h5>
-  </div>
-</ng-template>
-
-<!--Show this if loading is currently ongoing in the buttons-->
-<ng-template #loadingbutton>
-  <div>
-    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-    Loading...
   </div>
 </ng-template>
 

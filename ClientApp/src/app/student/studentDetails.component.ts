@@ -1,6 +1,10 @@
 import { Component } from "@angular/core";
 import { StudentRepository } from "../models/studentRepository.model";
 import { Student } from "../models/student.model";
+import { ResultFilter } from "../filters/reportFilter.model";
+import { ReportCardRepository } from "../models/reportCardRepository.model";
+import { BasicStudentInfo, OverallPerformance, ReportCard } from "../models/reportCard.model";
+import { Router } from "@angular/router";
 
 @Component({
         selector: "student-details",
@@ -8,12 +12,12 @@ import { Student } from "../models/student.model";
     })
 
 export class StudentDetailsComponent{
-  private session: string = "";
-  //private paymentSession: string = "";
-  private paymentIndex: number = 0;
-  private getIndex: number = 0;
-    constructor(private studentRepo: StudentRepository
-                /*private parentRepo: ParentRepository*/)
+  
+  private filter = new ResultFilter();
+
+    constructor(private studentRepo: StudentRepository,
+                private reportRepo: ReportCardRepository,
+                private router: Router)
     {}
     
     get student(): Student | undefined{
@@ -36,24 +40,6 @@ export class StudentDetailsComponent{
 
        return rowspan;
     }
-    public getOrdinal(n: number): string {
-        let ord = 'th';
-      
-        if (n % 10 == 1 && n % 100 != 11)
-        {
-          ord = 'st';
-        }
-        else if (n % 10 == 2 && n % 100 != 12)
-        {
-          ord = 'nd';
-        }
-        else if (n % 10 == 3 && n % 100 != 13)
-        {
-          ord = 'rd';
-        }
-      
-        return ord;
-    }
 
     public paymentHasRowspan(index: number): boolean{
       if(this.studentRepo.paymentHasRowspan.length > 0)
@@ -67,5 +53,23 @@ export class StudentDetailsComponent{
       return false;
     }
 
-    
+    viewDossier(performance: OverallPerformance){
+      
+      if (!this.reportRepo.reportCard.student) {
+        this.reportRepo.reportCard.student = new BasicStudentInfo(
+          this.student?.lastName + " " + this.student?.middleName + " " + this.student?.firstName,
+          this.student?.sex || "unspecified",
+          this.student?.age || 0,
+          this.student?.admissionNumber || "unspecified"
+        )
+
+        this.filter.student = false;
+      }
+
+      this.reportRepo.reportCard.performance = performance;
+      this.filter.performance  = false;
+      
+      this.reportRepo.reportId = performance.academicReportId;
+      this.reportRepo.getResult(this.filter);
+    }
 }

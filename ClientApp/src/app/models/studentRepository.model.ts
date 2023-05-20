@@ -6,7 +6,6 @@ import { Student } from './student.model';
 import { StudentParameters } from '../filters/studentParameters.model';
 import { StudentRecordService } from '../services/student.service';
 
-//export const BACKEND_URL = new InjectionToken("back_url");
 const studentUrl = "api/student";
 @Injectable()
 export class StudentRepository
