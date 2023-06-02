@@ -50,7 +50,7 @@ namespace ServerApp
             services.AddTransient<ISimpleRepository<Disability>, Repository<Disability>>();
             services.AddTransient<ISimpleRepository<Skill>, Repository<Skill>>();
             services.AddTransient<ISimpleRepository<Rating>, Repository<Rating>>();
-            services.AddTransient<IAcademicReportRepository, AcademicReportRepository>();
+            services.AddTransient<AcademicReportRepository>();
             services.AddTransient<SubjectPerformanceRepository>();
             //services.AddTransient<RelatedRepository>();
 
@@ -108,7 +108,7 @@ namespace ServerApp
 
                 endpoints.MapControllerRoute(
                     name: "angular_fallback",
-                    pattern: "{target:regex(students)}/{*catchall}");
+                    pattern: "{target:regex(students|teachers)}/{*catchall}");
                     //defaults: new { controller = "Home", action = "Index" });
 
                 /*endpoints.MapControllers()

@@ -6,7 +6,7 @@ import { Session } from '../models/sessionTerm.model';
 import { Class, Arm } from '../models/studentClassArm.model';
 import { StudentFilter } from '../filters/studentFilter.model';
 import { StudentParameters } from '../filters/studentParameters.model';
-import { StudentRepository } from '../models/studentRepository.model';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'select-nav',
@@ -14,20 +14,13 @@ import { StudentRepository } from '../models/studentRepository.model';
 })
 
 export class SelectionNavbarComponent {
-    selectedClass?: string;
-    selectedArm?: string;
-    selectedSession?: string;
-    searchStudent?: string;
-    filter: StudentFilter;
-
-
+    termList = ["First", "Second", "Third"];
     constructor(private classRepo: ClassRepository,
                 private armRepo: ArmRepository,
                 private sessionRepo: SessionRepository,
-                private studentRepo: StudentRepository,
-                private params: StudentParameters) 
+                private params: StudentParameters,
+                private filter: StudentFilter) 
     {
-        this.filter = new StudentFilter ();
         this.params.post = true;
         this.params.morals = true;
         this.params.overallPerformance = true;
@@ -39,17 +32,91 @@ export class SelectionNavbarComponent {
         this.loadStudentParameters();
     }
 
-    loadStudents(){
-        this.filter.classroom = this.selectedClass;
-        this.filter.arm = this.selectedArm;
-        this.filter.session = this.selectedSession;
-        this.filter.name = this.searchStudent;
-        this.studentRepo.getStudents(this.filter);
+    @Output()
+    selectionChanged = new EventEmitter();
+
+    load()
+    {
+        this.selectionChanged.emit();
+    }
+
+    get selectedClass(): string | undefined
+    {
+        return this.filter.classroom;
+    }
+
+    set selectedClass(value)
+    {
+        this.filter.classroom = value;
+        this.selectionChanged.emit();
+    }
+
+    get selectedArm(): string | undefined
+    {
+        return this.filter.arm;
+    }
+
+    set selectedArm(value)
+    {
+        this.filter.arm = value;
+        this.selectionChanged.emit();
+    }
+
+    get selectedSession(): string | undefined
+    {
+        return this.filter.session;
+    }
+
+    set selectedSession(value)
+    {
+        this.filter.session = value;
+        this.selectionChanged.emit();
+    }
+    get selectedTerm(): string
+    {
+        if (!this.filter.term) {
+            this.filter.term = 'First';
+        }
+        return this.filter.term ;
+    }
+
+    set selectedTerm(value)
+    {
+        this.filter.term = value;
+        this.selectionChanged.emit();
+    }
+
+    get searchStudent(): string | undefined
+    {
+        return this.filter.name;
+    }
+
+    set searchStudent(value)
+    {
+        this.filter.name = value;
     }
 
     loadStudentParameters() {
         this.classRepo.loadClasses();
         this.armRepo.loadArms();
+        this.sessionRepo.loadSessions();
+    }
+
+    getClasses(){
+        this.classRepo.error = undefined;
+        this.classRepo.completed = undefined;
+        this.classRepo.loadClasses();
+    }
+
+    getArms(){
+        this.armRepo.error = undefined;
+        this.armRepo.completed = undefined;
+        this.armRepo.loadArms();
+    }
+
+    getSessions(){
+        this.sessionRepo.error = undefined
+        this.sessionRepo.completed = undefined;
         this.sessionRepo.loadSessions();
     }
 
@@ -75,5 +142,27 @@ export class SelectionNavbarComponent {
 
     public get sessions(): Session[]{
         return this.sessionRepo.sessions || [];
+    }
+
+    public get armError(): boolean
+    {
+        return this.armRepo.error;
+    }
+    public get classError(): boolean
+    {
+        return this.classRepo.error;
+    }
+
+    public get sessionError(): boolean
+    {
+        return this.sessionRepo.error;
+    }
+
+    public btnClass(loadError: boolean): Object
+    {
+        return {
+            "btn-light": !loadError,
+            "btn-outline-danger": loadError
+        }
     }
 }

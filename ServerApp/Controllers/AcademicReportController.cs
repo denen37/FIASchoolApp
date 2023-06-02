@@ -3,6 +3,7 @@ using ServerApp.Models.Repository;
 using ServerApp.Models.Students;
 using System.Linq;
 using System.Collections.Generic;
+using ServerApp.Controllers.Filters;
 
 namespace ServerApp.Controllers
 {
@@ -10,18 +11,13 @@ namespace ServerApp.Controllers
     [ApiController]
     public class AcademicReportController: ControllerBase
     {
-        private IAcademicReportRepository repos;
+        private AcademicReportRepository repos;
 
-        public AcademicReportController(IAcademicReportRepository _repos)
+        public AcademicReportController(AcademicReportRepository _repos)
         {
             repos = _repos;
         }
 
-        [HttpGet]
-        public IEnumerable<AcademicReport> GetAllAcademicReports(int classArmId, int sessionTermId, bool related = false)
-        {
-            return repos.GetAll(classArmId, sessionTermId, related);
-        }
 
         [HttpGet("{id}")]
         public IActionResult GetAcademicReport(long studentId, int classArmId, int sessionTermId, bool related = false)

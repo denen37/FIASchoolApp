@@ -1,12 +1,14 @@
 using System;
 using System.Linq;
 using ServerApp.Models.Students;
+using ServerApp.Controllers.Filters;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+//using Z.EntityFramework.Extensions;
 
 namespace ServerApp.Models.Repository
 {
-    public class SubjectPerformanceRepository/*: ISubjectPerformanceRepository*/
+    public class SubjectPerformanceRepository
     {
         private DataContext context;
         public SubjectPerformanceRepository(DataContext contxt)
@@ -66,9 +68,74 @@ namespace ServerApp.Models.Repository
             return report;
         }
 
-        public SubjectPerformance Get (object id, bool related = false)
+        public IEnumerable<SubjectScore> GetSubjectScores(Dictionary<string, string> query)
         {
-            throw new NotImplementedException();
+            var subjectScores = context.SubjectScores
+                                .FromSqlRaw("SELECT * FROM Student.udf_GetClassScoresForSubject" +
+                                $"('{query["classroom"]}', '{query["arm"]}', '{query["session"]}'," +
+                                $" '{query["term"]}', '{query["subject"]}')");
+            
+            if (query["name"] != null)
+            {
+                string name = query["name"];
+                name = "%" + name +  "%";
+                subjectScores = subjectScores.Where(s => EF.Functions.Like(s.FullName, name));
+            }
+
+            return subjectScores.ToList();
+        }
+
+        public Object GetAcademicRecordsForClass (QueryParams queryParams)
+        {
+                       var academicRecords = context.AcademicReport
+                                  .Include(x => x.Student)
+                                  .Include(x => x.SubjectPerformance)
+                                  .Where(x => x.ClassArm.Class.Name == queryParams.Classroom
+                                  && x.ClassArm.Arm.Name == queryParams.Arm
+                                  && x.SessionTerm.Session.Name == queryParams.Session
+                                  && x.SessionTerm.Term.Name == queryParams.Term
+                                  && x.SubjectPerformance.Subject.Name == queryParams.Subject)
+                                  .Select(x => new {
+                                    StudentId = x.StudentId,
+                                    FullName = x.Student.LastName + " " +  x.Student.MiddleName + " " + x.Student.FirstName,
+                                    AcademicReportId = x.Id,
+                                    SubjectPerformance = x.SubjectPerformance
+                                  }).ToList();
+
+           
+            return academicRecords;
+        }
+
+        public Object CreateScoreSheet (QueryParams queryParams)
+        {
+            var academicRecords = context.AcademicReport
+                                  .Include(x => x.Student)
+                                  .Include(x => x.SubjectPerformance).ThenInclude(x => x.Subject)
+                                  .Where(x => x.ClassArm.Class.Name == queryParams.Classroom
+                                  && x.ClassArm.Arm.Name == queryParams.Arm
+                                  && x.SessionTerm.Session.Name == queryParams.Session
+                                  && x.SessionTerm.Term.Name == queryParams.Term)
+                                  .Select(x => new {
+                                    StudentId = x.StudentId,
+                                    FullName = x.Student.LastName + " " +  x.Student.MiddleName + " " + x.Student.FirstName,
+                                    AcademicReportId = x.Id,
+                                    SubjectPerformance = new SubjectPerformance {SubjectId = Int16.Parse(queryParams.Subject)}
+                                  }).ToList();
+            return academicRecords;
+        }
+
+        public IEnumerable<SubjectScore> GetSubjectScoresForStudent(QueryParams query)
+        {
+             var subjectScores = context.SubjectScores
+                                .FromSqlRaw("SELECT * FROM Student.udf_GetStudentScores" +
+                                $"('{query.Classroom}', '{query.Arm}', '{query.Session}'," +
+                                $" '{query.Term}', '{query.Name}')");
+            if (query.Subject != null)
+            {
+                subjectScores = subjectScores.Where(x => x.Subject == query.Subject);
+            }
+
+            return subjectScores.ToList();
         }
 
         public void Add (SubjectPerformance newData)
@@ -88,12 +155,14 @@ namespace ServerApp.Models.Repository
 
         public void BulkAdd(List<SubjectPerformance> newData)
         {
-            throw new NotImplementedException();
+            context.AddRange(newData);
+            context.SaveChanges();
         }
 
         public void BulkUpdate (List<SubjectPerformance> modifiedData)
         {
-            throw new NotImplementedException();
+            context.UpdateRange(modifiedData);
+            context.SaveChanges();
         }
 
         public void SaveChanges()

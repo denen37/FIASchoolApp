@@ -21,9 +21,7 @@ export class SubjectPerformance {
     constructor(
        public id: number,
        public subjectId: number,
-       public  subject: Subject,
        public academicReportId: number,
-       public academicReport: AcademicReport,
        public test1: number,
        public test2: number,
        public test3: number,
@@ -56,6 +54,24 @@ export class ComputedResults {
     }
 }
 
+export class SubjectScore{
+    constructor(
+        public fullName: string,
+        public studentId: number,
+        public subject: string,
+        public test1: number,
+        public test2: number,
+        public test3: number,
+        public exam: number,
+        public total: number,
+        public classAverage: number,
+        public highestScore: number,
+        public lowestScore: number,
+        public position: number,
+        public grade: string,
+        public remark: string
+    ){}
+}
 export class OverallPerformance {
     constructor(
         public academicReportId: number,

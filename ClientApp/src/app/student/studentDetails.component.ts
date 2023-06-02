@@ -4,7 +4,8 @@ import { Student } from "../models/student.model";
 import { ResultFilter } from "../filters/reportFilter.model";
 import { ReportCardRepository } from "../models/reportCardRepository.model";
 import { BasicStudentInfo, OverallPerformance, ReportCard } from "../models/reportCard.model";
-import { Router } from "@angular/router";
+import {ActivatedRoute, Router } from "@angular/router";
+import { StudentParameters } from "../filters/studentParameters.model";
 
 @Component({
         selector: "student-details",
@@ -14,11 +15,26 @@ import { Router } from "@angular/router";
 export class StudentDetailsComponent{
   
   private filter = new ResultFilter();
+  private studentId: number;
 
     constructor(private studentRepo: StudentRepository,
+                private params: StudentParameters,
                 private reportRepo: ReportCardRepository,
-                private router: Router)
-    {}
+                private router: Router,
+                private activeRoute: ActivatedRoute)
+    {
+       this.studentId = activeRoute.snapshot.params["id"];
+    }
+
+    ngOnInit()
+    {
+      this.loadStudent();
+    }
+
+    private loadStudent()
+    {
+      this.studentRepo.getStudent(this.studentId, this.params);
+    }
     
     get student(): Student | undefined{
         return this.studentRepo.student;

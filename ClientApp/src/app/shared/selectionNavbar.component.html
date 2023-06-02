@@ -29,9 +29,16 @@
         <li class="nav-item nav-pills ">
           <div class="btn-group mx-1 my-1" data-bs-toggle="tooltip" 
             data-bs-placement="top" data-bs-animation="true" title="Class">
-            <button type="button" class="btn btn-light disabled">
-              <div *ngIf="completedClass; else loadingbutton">
+            <button type="button" class="btn" [ngClass]="btnClass(classError)" [disabled]="!classError"
+                    (click)="getClasses()">
+              <div *ngIf="completedClass && !classError">
                 {{selectedClass || "All"}}
+              </div>
+              <div *ngIf="!completedClass && !classError">
+                <ng-template [ngTemplateOutlet]="loadingbutton"></ng-template>
+              </div>
+              <div *ngIf="!completedClass && classError">
+                <ng-template [ngTemplateOutlet]="loaderror"></ng-template>
               </div>
             </button>
             <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" 
@@ -49,9 +56,16 @@
         <!--Arm dropdown-->
         <li class="nav-item nav-pills">
           <div class="btn-group mx-1 my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Arm">
-            <button type="button" class="btn btn-light disabled">
-              <div *ngIf="completedArm; else loadingbutton">
+            <button type="button" class="btn" [ngClass]="btnClass(armError)" [disabled]="!armError"
+                    (click)="getArms()">
+              <div *ngIf="completedArm && !armError">
                 {{selectedArm || "All"}}
+              </div>
+              <div *ngIf="!completedArm && !armError">
+                <ng-template [ngTemplateOutlet]="loadingbutton"></ng-template>
+              </div>
+              <div *ngIf="!completedArm && armError">
+                <ng-template [ngTemplateOutlet]="loaderror"></ng-template>
               </div>
             </button>
             <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="!completedArm">
@@ -68,9 +82,16 @@
         <!--Session dropdown-->
         <li class="nav-item nav-pills">
           <div class="btn-group mx-1 my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Session">
-            <button type="button" class="btn btn-light disabled">
-              <div *ngIf="completedSession; else loadingbutton">
+            <button type="button" class="btn" [ngClass]="btnClass(sessionError)" [disabled]="!sessionError"
+                    (click)="getSessions()">
+              <div *ngIf="completedSession && !sessionError">
                 {{selectedSession || "All"}}
+              </div>
+              <div *ngIf="!completedSession && !sessionError">
+                <ng-template [ngTemplateOutlet]="loadingbutton"></ng-template>
+              </div>
+              <div *ngIf="!completedSession && sessionError">
+                <ng-template [ngTemplateOutlet]="loaderror"></ng-template>
               </div>
             </button>
             <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" [disabled]="!completedSession">
@@ -84,10 +105,21 @@
           </div>
         </li>
 
-        <!--Load button-->
-        <li>
-          <button class="btn btn-outline-success m-1" (click)="loadStudents()">Load</button>
-        </li>
+        <!--Term dropdown-->
+        <div>
+          <b class="my-auto">Term: </b>
+            <div class="btn-group mx-2">
+            <button class="btn btn-light disabled">
+              {{selectedTerm}}
+            </button>
+            <button class="btn btn-light dropdown-toggle dropdown-toggle-split" 
+            data-bs-toggle="dropdown" aria-expanded="false"></button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-item" (click)="selectedTerm = item" 
+                *ngFor="let item of termList" >{{item}}</li>
+            </ul>
+        </div>
+        </div>
       </ul>
 
       <!--Form Begins-->
@@ -97,7 +129,7 @@
           <input class="form-control me-2" type="search" placeholder="Name of Student" aria-label="Search"
           [(ngModel)]="searchStudent" #name="ngModel" name="search" required minlength="3" pattern="^[A-Za-z ]+$">
           <!--Search button-->
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" [disabled]="form.invalid" (click)="loadStudents()">Search</button>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" [disabled]="form.invalid" (click)="load()">Search</button>
         </div>
           <!--Angular Validation-->
           <ul class="text-danger list-unstyled" *ngIf="name.dirty && name.invalid" style="font-size: 0.8rem">
@@ -121,6 +153,9 @@
 <ng-template #loadingbutton>
   <div>
     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-    Loading...
   </div>
+</ng-template>
+
+<ng-template #loaderror>
+  <span class="fa fa-exclamation-circle text-danger"></span>
 </ng-template>

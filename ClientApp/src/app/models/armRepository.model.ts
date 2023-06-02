@@ -8,6 +8,7 @@ const armUrl = "api/arm";
 export class ArmRepository {
     private _arms?: Arm[];
     completed?: boolean;
+    error?: any;
 
     constructor(private http: HttpClient) {
         
@@ -17,7 +18,10 @@ export class ArmRepository {
         this.http.get<Arm[]>(armUrl)
         .subscribe(
             a => this._arms = a,
-            err => console.log(err),
+            err => {
+                this.error = err;
+                console.log(err)
+            },
             () => this.completed = true);
     }
 

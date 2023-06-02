@@ -20,6 +20,7 @@ namespace ServerApp.Models
         public DbSet<Sport> Sport { get; set; }
         public DbSet<Rating> Rating { get; set; }
         public DbSet<Skill> Skill { get; set; }
+        public DbSet<Subject> Subject { get; set; }
         public DbSet<AcademicReport> AcademicReport { get; set; }
         public DbSet<SubjectPerformance> SubjectPerformance { get; set; }
         public DbSet<StudentClassArmJunction> StudentClassArm { get; set; }
@@ -30,11 +31,16 @@ namespace ServerApp.Models
         public DbSet<PaymentRecord> PaymentRecord { get; set; }
         public DbSet<ComputedResult> ComputedResults { get; set; }
         public DbSet<StudentSkillJunction> StudentSkillJunction { get; set; }
+        public DbSet<SubjectScore> SubjectScores { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
             modelBuilder.HasDefaultSchema("Student");
 
             modelBuilder.Entity<ComputedResult>().HasNoKey();
+
+            modelBuilder.Entity<SubjectScore>().HasNoKey();
+
+            //modelBuilder.Entity<AcademicRecord>().HasNoKey();
 
             base.OnModelCreating(modelBuilder);
         }

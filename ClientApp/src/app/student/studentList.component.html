@@ -4,7 +4,7 @@
 </style>
 
 <sch-header></sch-header>
-<select-nav></select-nav>
+<select-nav (selectionChanged)="reload()"></select-nav>
 
 <!--Show this table if loading is complete and model has data-->
 <div class="container-fluid pt-2" *ngIf="completed; else loading">
@@ -20,7 +20,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of students; let i = index" 
-      (click)="viewDetails(item.id)" data-bs-toggle="tooltip" data-bs-placement="top" 
+      [routerLink]="['details', item.id]" data-bs-toggle="tooltip" data-bs-placement="top" 
       title="Click to view details">
         <td>{{ i + 1 }}</td>
         <td>{{item.lastName + " " + item.middleName +" " + item.firstName}}</td>
@@ -36,7 +36,7 @@
 
 <!--Show if loading is ongoing-->
 <ng-template #loading>
-  <div class="d-flex justify-content-center align-items-center pt-2" *ngIf="completed === false; else notloaded">
+  <div class="d-flex justify-content-center align-items-center pt-2" *ngIf="completed === false; else load">
     <div class="spinner-border" role="status">
       <span class="sr-only">Loading...</span>
     </div>
@@ -51,9 +51,11 @@
 </ng-template>
 
 <!--Show this if loading is not ongoing-->
-<ng-template #notloaded>
-  <div p-1>
-    <h5>No students loaded...</h5>
+<ng-template #load>
+  <div class="text-center">
+      <h5 class="text-muted my-2">Click the load button...</h5>
+      <!--Load button-->
+      <button class="btn btn-outline-success m-1" (click)="loadBtn()" >Load</button>
   </div>
 </ng-template>
 

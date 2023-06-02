@@ -1,12 +1,13 @@
 <div class="border border-primary border-2 container col-md-8 mx-auto">
     <div class="d-flex justify-content-around">
-        <div class="card my-2 w-25">
+        <div class="card text-center my-2 w-25">
             <a href="#" class="page-link">
                 <div class="card-header bg-primary">
                     View Classes
                 </div>
-                <div class="card-body" style="background-color: rgb(142, 222, 247);">
-                    <p>
+                <div class="card-body text-center" style="background-color: rgb(142, 222, 247);">
+                    <img class="card-image w-75" alt="class" src="../../assets/image/classroom2.png"/>
+                    <p class="card-text" style="font-size: 0.7rem;">
                         You can view the basic infomation such as name, 
                         admission number, age, class, etc 
                         about all students in the class here.
@@ -15,16 +16,29 @@
             </a>    
         </div>
         
-        <div class="card text-white my-2 w-25" style="background-color: rgb(0, 174, 255);">
-            <a href="classList.html" class="page-link">
+        <div class="card text-center my-2 w-25" style="background-color:  rgb(142, 222, 247);">
+            <!--routerLink="subject-scores" -->
+            <a routerLink="student-scores" class="page-link">
                 <div class="card-header bg-primary">
                     View Subjects
                 </div>
                 <div class="card-body">
-                    You can view and Edit the scores of students in a particular subject.
+                    <img src="../../assets/image/books1.jpg" alt="books" class="card-image w-75">
+                    <p class="card-text" style="font-size: 0.7rem;"> You can view the scores of students in a particular subject.</p>
                 </div>
             </a>
         </div>
         
+        <div class="card text-center my-2 w-25" style="background-color:  rgb(142, 222, 247);">
+            <a routerLink="edit-scores" class="page-link">
+                <div class="card-header bg-primary">
+                    Create/Edit Scores
+                </div>
+                <div class="card-body">
+                    <img src="../../assets/image/book_edit.png" alt="edit book" class="card-image w-75">
+                    <p class="card-text" style="font-size: 0.7rem;"> You can create or edit the scores of students in a particular subject.</p>
+                </div>
+            </a>
+        </div>
     </div>
 </div>

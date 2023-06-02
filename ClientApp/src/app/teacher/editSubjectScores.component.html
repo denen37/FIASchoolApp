@@ -1,0 +1,105 @@
+<sch-header></sch-header>
+<select-nav (selectionChanged)="reload()"></select-nav>
+<select-subject (selectionChanged)="reload()"></select-subject>
+
+<!--Score Sheet Begins Here-->
+<div *ngIf="records && records.length > 0">
+    <!--Subject Score Table begins-->
+  <form novalidate #form="ngForm" class="form px-5 text-center" (ngSubmit)="commit()">
+    <table class="table table-bordered table-sm my-2">
+        <thead>
+            <tr>
+                <th>S/N</th>
+                <th>NAME</th>
+                <th>1<sup>st</sup> CA</th>
+                <th>2<sup>nd</sup> CA</th>
+                <th>3<sup>rd</sup> CA</th>
+                <th>EXAMS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of records; let i = index">
+                <td class="text-start">{{i + 1}}</td>
+                <td class="text-start">{{item.fullName}}</td>
+                <td>
+                  <input [(ngModel)]="item.subjectPerformance.test1" [name]="getName('test', 1, i)" pattern="[0-9]*$"
+                  class="form-control border-0" type="text">
+                </td>
+                <td>
+                  <input [(ngModel)]="item.subjectPerformance.test2" [name]="getName('test', 2, i)" pattern="[0-9]*$"
+                  class="form-control border-0" type="text">
+                </td>
+                <td>
+                  <input [(ngModel)]="item.subjectPerformance.test3" [name]="getName('test', 3, i)" pattern="[0-9]*$"
+                  class="form-control border-0" type="text">
+                </td>
+                <td>
+                  <input [(ngModel)]="item.subjectPerformance.exam" [name]="getName('exam', 1, i)" pattern="[0-9]*$"
+                  class="form-control border-0" type="text">
+                </td>
+                
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="mt-2">
+      <button class="btn btn-outline-success me-5" type="submit" [disabled]="form.invalid || form.pristine"
+      data-bs-toggle="modal" data-bs-target="#saveModal">
+        Commit
+    </button>
+      <button class="btn btn-outline-danger" routerLink="/teacher">Discard</button>
+    </div>
+</form>
+  </div>
+  <!--Show this if there are is no score sheet available-->
+  <div *ngIf="records && records.length == 0" class="text-center">
+    <h5 class="text-muted my-2">There is no scoresheet for {{selectedSubject}}</h5>
+    <button class="btn btn-outline-primary m-1" (click)="createScoresheet()">
+      Create Scoresheet
+    </button>
+  </div>
+
+  <!--Show this if the scoresheet has not been loaded-->
+  <div class="text-center" *ngIf="!records &&  completed === undefined">
+    <h5 class="text-muted my-2">Click the load button...</h5>
+    <!--Load button-->
+    <button class="btn btn-outline-success m-1" (click)="loadBtn()">Load</button>
+  </div>
+  <!--show this if loading is currently ongoing-->
+  <div class="d-flex justify-content-center align-items-center pt-2" *ngIf="!records && completed === false;">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+  </div>  
+
+<!-- Modal -->
+<div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="saveModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="saveModalLabel">{{selectedSubject}} Scoresheet</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+          <div *ngIf="!saveCompleted">
+            <i class="fa fa-spinner fa-pulse text-secondary" aria-hidden="true" style="font-size:100px"></i>
+            <p>Saving your changes...</p>
+          </div>
+          <div *ngIf="saveCompleted">
+            <i class="fa fa-check-circle-o text-success" aria-hidden="true" style="font-size:100px"></i>
+              <p>Your changes has been saved!</p> 
+          </div>
+          <div *ngIf="saveError">
+            <i class="fa fa-times-circle-o text-danger" aria-hidden="true" style="font-size:100px"></i>
+             <p>There was a problem while saving your changes</p>
+          </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" routerLink="../subject-scores" (click)="viewScores()">View</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+   

@@ -8,6 +8,7 @@ const classUrl = "api/class";
 export class ClassRepository {
     private _classes?: Class[];
     completed?: boolean;
+    error?: any;
 
     constructor(private http: HttpClient) {
         
@@ -17,7 +18,10 @@ export class ClassRepository {
         this.http.get<Class[]>(classUrl)
         .subscribe(
             c => this._classes = c,
-            err => console.log(err),
+            err => {
+                this.error = err;
+                console.log(err)
+            },
             () => this.completed = true);
     }
 

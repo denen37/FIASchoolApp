@@ -1,8 +1,7 @@
 import { Component } from "@angular/core";
 import { StudentRepository } from "../models/studentRepository.model";
 import { StudentsInClass } from "../models/studentInClass.model";
-import { Router } from "@angular/router";
-import { StudentParameters } from "../filters/studentParameters.model";
+import { StudentFilter } from "../filters/studentFilter.model";
 
 
 @Component({
@@ -13,11 +12,8 @@ import { StudentParameters } from "../filters/studentParameters.model";
 export class StudentListComponent {
 
     constructor(private studentRepo: StudentRepository,
-                private router: Router,
-                private params: StudentParameters) 
-    {
-               
-    }
+                private filter: StudentFilter) 
+    { }
 
     
     public get students() : StudentsInClass[]{
@@ -28,9 +24,21 @@ export class StudentListComponent {
         return this.studentRepo.completedAll;
     }
 
-    public viewDetails(id: number){
+    loadBtn()
+    {
+        this.studentRepo.getStudents(this.filter)
+    }
+
+    reload(){
+        if (this.studentRepo.students) {
+            this.studentRepo.getStudents(this.filter);
+        }
+    }
+
+    //Marked for Deletion
+   /* public viewDetails(id: number){
         this.studentRepo.getStudent(id, this.params);
         this.router.navigateByUrl(`students/details/${id}`);
-    }
+    }*/
     
 }

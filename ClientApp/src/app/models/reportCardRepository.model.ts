@@ -1,15 +1,20 @@
-import { BasicStudentInfo, ComputedResults, ModifiedReportCard, OverallPerformance, ReportCard } from "./reportCard.model";
+import { BasicStudentInfo, ComputedResults, ModifiedReportCard, OverallPerformance, ReportCard, SubjectScore } from "./reportCard.model";
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
 import { ResultFilter } from "../filters/reportFilter.model";
 import { StudentSkillJunction } from "./skill.model";
+import { StudentFilter } from "../filters/studentFilter.model";
 
 const resultUrl = 'api/subjectperformance'
 
 @Injectable()
 export class ReportCardRepository {
-    reportCard: ModifiedReportCard
-    
+    reportCard: ModifiedReportCard;
+    subjectScores?: SubjectScore[];
+    subjectScoresLoaded?: boolean;
+    studentScores?: SubjectScore[];
+    studentScoresLoaded?: boolean;
+    studentScoresLoadedError?: any
     reportId: number = 0
 
     constructor(private http: HttpClient ) {
@@ -95,4 +100,61 @@ export class ReportCardRepository {
             }
         )
     }
+
+    getSubjectScores(filter: StudentFilter)
+    {
+       this.subjectScoresLoaded = false;
+       var url = this.modifyUrl(resultUrl, filter);
+        this.http.get<SubjectScore[]>(url)
+        .subscribe(
+            sub => this.subjectScores = sub,
+            (err) => {},
+            () => {this.subjectScoresLoaded = true;}
+        )
+    }
+
+    //Another method here
+    getStudentScores(filter: StudentFilter)
+    {
+        this.studentScoresLoaded = false;
+        var url = this.modifyUrl(`${resultUrl}/subject-score`, filter);
+        
+        this.http.get<SubjectScore[]>(url)
+        .subscribe(
+            std => this.studentScores = std,
+            err => {console.log(err);
+                    this.studentScoresLoadedError = err;},
+            () => this.studentScoresLoaded = true
+        )
+    }
+
+    private modifyUrl(originalUrl: string, filter: StudentFilter): string
+    {
+        var url = originalUrl;
+        var pos = originalUrl.length;
+
+        if(filter?.name)
+        {
+            url = `${url}?name=${filter.name}`;
+        }
+        if (filter?.subject) {
+            url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}subject=${filter.subject}`;
+        } 
+        if (filter?.classroom) {
+
+            url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}classroom=${filter.classroom}`;
+        }
+        if (filter?.arm) {
+            url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}arm=${filter.arm}`;
+        }
+        if (filter?.session) {
+            url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}session=${filter.session}`;
+        }
+        if (filter?.term) {
+            url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}term=${filter.term}`;
+        }
+
+        return url;
+    }
+
 }

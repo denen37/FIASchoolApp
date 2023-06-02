@@ -1,10 +1,19 @@
 import { NgModule } from "@angular/core";
 import { StartPageComponent } from "./startPage.component";
 import { TeacherRouting } from "./teacher-routing.module";
+import { SharedModule } from "../shared/shared.module";
+import { BrowserModule } from "@angular/platform-browser";
+import { RouterModule } from "@angular/router";
+import { SubjectTermDropdownComponent } from "./subjectTermDropdown.component";
+import { SubjectScoreTableComponent } from "./subjectScoreTable.component";
+import { EditSubjectScoresComponent } from "./editSubjectScores.component";
+import { FormsModule } from "@angular/forms";
+import { StudentScoreTableComponent } from "./studentScoreTable.component";
 
 @NgModule({
-    declarations: [StartPageComponent],
-    imports: [],
+    declarations: [StartPageComponent, SubjectTermDropdownComponent, SubjectScoreTableComponent,
+        EditSubjectScoresComponent, StudentScoreTableComponent],
+    imports: [BrowserModule, RouterModule, SharedModule, FormsModule],
     exports: [TeacherRouting]
 })
 

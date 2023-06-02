@@ -7,6 +7,7 @@ const sessionUrl = "api/session";
 export class SessionRepository {
     private _sessions?: Session[];
     completed?: boolean;
+    error?: any;
 
 
     constructor(private http: HttpClient) {
@@ -17,7 +18,10 @@ export class SessionRepository {
         this.http.get<Session[]>(sessionUrl)
         .subscribe(
             a => this._sessions = a,
-            err => console.log(err),
+            err => {
+                this.error = err;
+                console.log(err)
+            },
             () => this.completed = true);
     }
 
