@@ -1,4 +1,4 @@
-import { BasicStudentInfo, ComputedResults, ModifiedReportCard, OverallPerformance, ReportCard, SubjectScore } from "./reportCard.model";
+import { ComputedResults, ModifiedReportCard, OverallPerformance, ReportCard, SubjectScore } from "./reportCard.model";
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
 import { ResultFilter } from "../filters/reportFilter.model";
@@ -7,14 +7,18 @@ import { StudentFilter } from "../filters/studentFilter.model";
 
 const resultUrl = 'api/subjectperformance'
 
+
 @Injectable()
 export class ReportCardRepository {
     reportCard: ModifiedReportCard;
+
     subjectScores?: SubjectScore[];
     subjectScoresLoaded?: boolean;
+
     studentScores?: SubjectScore[];
     studentScoresLoaded?: boolean;
     studentScoresLoadedError?: any
+
     reportId: number = 0
 
     constructor(private http: HttpClient ) {
@@ -133,9 +137,9 @@ export class ReportCardRepository {
         var url = originalUrl;
         var pos = originalUrl.length;
 
-        if(filter?.name)
+        if(filter?.studentId)
         {
-            url = `${url}?name=${filter.name}`;
+            url = `${url}?studentId=${filter.studentId}`;
         }
         if (filter?.subject) {
             url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}subject=${filter.subject}`;
@@ -156,5 +160,5 @@ export class ReportCardRepository {
 
         return url;
     }
-
+    
 }

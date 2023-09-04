@@ -1,6 +1,7 @@
 export class StudentFilter
 {
     name? : string;
+    studentId?: number;
     classroom? : string;
     arm?: string;
     session? : string;

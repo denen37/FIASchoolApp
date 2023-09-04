@@ -24,7 +24,8 @@ namespace ServerApp.Models.Students
         public string StateOfOrigin { get; set; }
         public string EthnicGroup { get; set; }
         public string LGA { get; set; }
-        public string Skill { get; set; }
+        public string Skill1 { get; set; }
+        public string Skill2 { get; set; }
         public DateTime AdmissionDate { get; set; }
         public bool HasGraduated { get; set; }
         public string PictureFilePath { get; set; }
@@ -41,12 +42,17 @@ namespace ServerApp.Models.Students
         public IEnumerable<OverallPerformance> OverallPerformance { get; set; }
         public IEnumerable<MoralBehaviour> MoralBehaviour { get; set; }
         public IEnumerable<PaymentRecord> PaymentRecords { get; set; }
+        public Disability Disability { get; set; }
     }
 
     public class Disability
     {
+        [Key]
         public long StudentId { get; set; }
-        public string Name { get; set; }
+        public bool IsDisabled { get; set; }
+        public string NameOfDisability { get; set; }
+        public bool IsIll { get; set; }
+        public string NameOfIllness { get; set; }
         public string Description { get; set; }
     }
 }

@@ -1,0 +1,118 @@
+<sch-header></sch-header>
+<select-nav (selectionChanged)="reload()"></select-nav>
+
+<div class="pt-3">
+    <!--Show this if loading is not ongoing-->
+<div class="text-center" *ngIf="completed === undefined && !scoreSheet">
+    <h5 class="text-muted my-2">Click the load button...</h5>
+    <!--Load button-->
+    <button class="btn btn-outline-success m-1" (click)="loadBtn()" >Load</button>
+</div>
+
+<!--show this if loading is currently ongoing-->
+<div class="text-center t-2" *ngIf="completed === false">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div>
+        <h5 class="text-muted">Please wait...</h5>
+    </div>
+</div> 
+
+<!--Score table begins-->
+<div class="text-center my-2" *ngIf="completed && scoreSheet?.length||0 > 0">
+
+    <h4>Master Score Sheet for <span class="text-primary">{{selectedClass}}</span></h4>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>S/NO</th>
+                <th>Name</th>
+                <th>Total Scores</th>
+                <th>Out of</th>
+                <th>No of Subjects</th>
+                <th>Average</th>
+                <th>Position</th>
+                <th>Grade</th>
+                <th>Remark</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of scoreSheet; let i = index">
+                <td>{{i + 1}}</td>
+                <td>{{item.fullName}}</td>
+                <td>{{item.total}}</td>
+                <td>{{item.totalObtainable}}</td>
+                <td>{{item.numOfSubjects}}</td>
+                <td>{{item.average}}</td>
+                <td>{{item.position}}<sup>{{item.position|ordinal}}</sup></td>
+                <td>{{item.grade}}</td>
+                <td>{{item.remark}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="my-2">
+        <button class="btn btn-primary me-4" [disabled]="commited || saveCompleted"
+            data-bs-toggle="modal" data-bs-target="#confirmModal">
+            Commit
+        </button>
+    
+        <button class="btn btn-danger" [disabled]="commited || saveCompleted" routerLink="../edit-scores">Modify</button>
+    </div>
+</div>
+
+<!--Show this if loading is complete and model has no data-->
+<div class="p-2 mx-auto" *ngIf="completed && scoreSheet?.length == 0">
+    <h5 class="text-muted">No Scoresheet available...</h5>
+</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="saveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="saveModalLabel">Master Scoresheet</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+            <div *ngIf="!saveCompleted && !saveError">
+              <i class="fa fa-spinner fa-pulse text-secondary" aria-hidden="true" style="font-size:100px"></i>
+              <p>Saving score sheet...</p>
+            </div>
+            <div *ngIf="saveCompleted">
+              <i class="fa fa-check-circle-o text-success" aria-hidden="true" style="font-size:100px"></i>
+                <p>Your score sheet has been saved!</p> 
+            </div>
+            <div *ngIf="saveError">
+              <i class="fa fa-times-circle-o text-danger" aria-hidden="true" style="font-size:100px"></i>
+               <p>There was a problem while saving the score sheet!</p>
+            </div>
+        <div class="modal-footer">
+          <!--<button type="button" class="btn btn-primary" data-bs-dismiss="modal" routerLink="../subject-scores">View</button>-->
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="confirmModalLabel">Master Scoresheet</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <h5>Are you sure you want to save?</h5>
+                <p>You will not be able to edit the scores once you save</p> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saveModal" (click)="save()">Continue</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

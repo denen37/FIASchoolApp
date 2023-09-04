@@ -24,7 +24,8 @@ namespace ServerApp.Controllers
             return Ok(repo.GetAcademicRecordsForClass(queryParams));
         }
 
-        [HttpGet("{create}")]
+        [Route("create")]
+        [HttpGet]
         public IActionResult CreateScoreSheet([FromQuery] QueryParams query)
         {
             return Ok(repo.CreateScoreSheet(query));

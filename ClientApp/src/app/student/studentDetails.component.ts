@@ -6,6 +6,7 @@ import { ReportCardRepository } from "../models/reportCardRepository.model";
 import { BasicStudentInfo, OverallPerformance, ReportCard } from "../models/reportCard.model";
 import {ActivatedRoute, Router } from "@angular/router";
 import { StudentParameters } from "../filters/studentParameters.model";
+import { ParentStudentJunction } from "../models/parent.model";
 
 @Component({
         selector: "student-details",
@@ -35,9 +36,46 @@ export class StudentDetailsComponent{
     {
       this.studentRepo.getStudent(this.studentId, this.params);
     }
+
+    fullname(lastName: string| undefined, middleName: string | undefined, firstName: string | undefined): string
+    {
+      var name = 'Loading...'
+      if (lastName) {
+        name = lastName;
+      }
+
+      if (middleName) {
+        name = name + " " + middleName;
+      }
+
+      if(firstName)
+      {
+        name = name + " " + firstName;
+      }
+
+      return name;
+    }
     
     get student(): Student | undefined{
         return this.studentRepo.student;
+    }
+
+    get parents() : ParentStudentJunction[]
+    {
+      return this.student?.parentStudentJunction || []
+    }
+
+    get skills(): string
+    {
+      let skills = 'none'
+      if (this.student?.skill1) {
+        skills = this.student.skill1;
+      }
+      if (this.student?.skill2) {
+        skills = skills + ', ' + this.student.skill2;
+      }
+
+      return skills;
     }
 
     get completed(): boolean | undefined{

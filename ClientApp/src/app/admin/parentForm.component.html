@@ -1,0 +1,161 @@
+<!--Parent Tab-->
+<form #pForm="ngForm" novalidate method="post" action="">
+    <div class="col-sm-10 mx-auto p-3 shadow" style="background-color: rgb(142, 222, 247)">
+            <!--Bio data-->
+            <div class="row g-3">
+                <!--Title-->
+            <div class="col-sm-2">
+                <label for="title" class="me-5 col-form-label">
+                    Title<span class="text-danger">*</span></label>
+                <input type="text" name="Title" class="form-control" id="#title" placeholder="Title"
+                [(ngModel)]="parent.Title" #title="ngModel">
+            </div>
+            <div class="col-sm">
+            <!--First Name-->
+                <label for="first-name" class="me-5 col-form-label">
+                    First Name<span class="text-danger">*</span></label>
+                <input type="text" name="First name" class="form-control" id="#first-name" placeholder="First Name"
+                [(ngModel)]="parent.firstName" #firstname="ngModel" required minlength="3" pattern="[A-Za-z-]+$">
+                <ul class="text-danger list-unstyled error-msg" *ngIf="firstname.dirty && firstname.invalid">
+                    <li *ngFor="let item of getValidationErrors(firstname)">
+                        {{item}}
+                    </li>
+                </ul>
+            </div>
+            <!--Middle Name-->
+            <div class="col-sm">
+                <label for="middle-name" class="me-5 col-form-label">Middle Name</label>
+                <input type="text" name="Middle name" class="form-control" id="#middle-name" placeholder="Middle Name"
+                [(ngModel)]="parent.middleName" #middlename="ngModel" minlength="3" pattern="[A-Za-z-]+$">
+                <ul class="text-danger list-unstyled error-msg" *ngIf="middlename.dirty && middlename.invalid">
+                    <li *ngFor="let item of getValidationErrors(middlename)">
+                        {{item}}
+                    </li>
+                </ul>
+            </div>
+            <!--Last Name-->
+            <div class="col-sm">
+                <label for="last-name" class="me-5 col-form-label">Last Name<span class="text-danger">*</span></label>
+                <input type="text" name="Last name" class="form-control" id="#last-name" placeholder="Last Name"
+                [(ngModel)]="parent.lastName" #lastname="ngModel" required minlength="3" pattern="[A-Za-z-]+$">
+                <ul class="text-danger list-unstyled error-msg" *ngIf="lastname.dirty && lastname.invalid">
+                    <li *ngFor="let item of getValidationErrors(lastname)">
+                        {{item}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--Contact details-->
+        <div class="row g-3 mt-2">
+            <div class="col-sm">
+                <!--Phone 1-->
+                    <label for="phone1" class="me-5 col-form-label">
+                        Phone 1<span class="text-danger">*</span></label>
+                    <input type="text" name="Phone 1" class="form-control" id="#phone1" placeholder="Phone 1"
+                    [(ngModel)]="parent.phone1" #phone1="ngModel" required minlength="11" maxlength="11" pattern="^[0]{1}[789]{1}[01]{1}[0-9]{0,8}$">
+                    <ul class="text-danger list-unstyled error-msg" *ngIf="phone1.dirty && phone1.invalid">
+                        <li *ngFor="let item of getValidationErrors(phone1)">
+                            {{item}}
+                        </li>
+                    </ul>
+            </div>
+            <div class="col-sm">
+                <!--Phone 2-->
+                <label for="phone2" class="me-5 col-form-label">Phone 2</label>
+                <input type="text" name="Phone 2" class="form-control" id="#phone2" placeholder="Phone 2"
+                [(ngModel)]="parent.phone2" #phone2="ngModel" minlength="11" maxlength="11" pattern="^[0]{1}[789]{1}[01]{1}[0-9]{0,8}$">
+                <ul class="text-danger list-unstyled error-msg" *ngIf="phone2.dirty && phone2.invalid">
+                    <li *ngFor="let item of getValidationErrors(phone2)">
+                        {{item}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-2">
+            <!--Email-->
+            <div class="col-sm">
+                <label for="email" class="me-5 col-form-label">
+                    Email<span class="text-danger">*</span></label>
+                <input type="text" name="Email" class="form-control" id="#email" placeholder="Email"
+                [(ngModel)]="parent.email" #email="ngModel" minlength="10" pattern="^[a-z0-9]+@(gmail|yahoo).com$">
+                <ul class="text-danger list-unstyled error-msg" *ngIf="email.dirty && email.invalid">
+                    <li *ngFor="let item of getValidationErrors(email)">
+                        {{item}}
+                    </li>
+                </ul>
+            </div>
+            <!--Occupation-->
+            <div class="col-sm">
+                <label for="occupation" class="me-5 col-form-label">
+                    Occupation<span class="text-danger">*</span></label>
+                <input type="text" name="Occupation" class="form-control" id="#occupation" placeholder="Occupation"
+                [(ngModel)]="parent.occupation" #occupation="ngModel" required minlength="3" pattern="[A-Za-z- ]+$">
+                <ul class="text-danger list-unstyled error-msg" *ngIf="occupation.dirty && occupation.invalid">
+                    <li *ngFor="let item of getValidationErrors(occupation)">
+                        {{item}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-2">
+            <!--Marital Status-->
+            <div class="col-sm">
+                <label for="marital-status" class="me-5 col-form-label">
+                    Marital Status<span class="text-danger">*</span></label>
+                <select name="Marital Status" id="#marital-status" class="form-select" 
+                (change)="parent.maritalStatus = status.value" #status required>
+                    <option [selected]="maritalStatus == item"
+                    *ngFor="let item of maritalStatusCollection">{{item}}</option>
+                </select>
+            </div>
+            <!--Relationship-->
+            <div class="col-sm">
+                <label for="relationship" class="me-5 col-form-label">
+                    Relationship<span class="text-danger">*</span></label>
+                <select name="Relationship" id="#relationship" class="form-select"
+                (change)="parentStudent.relationship = rel.value" #rel required>
+                    <option [selected]="relationship == item"
+                    *ngFor="let item of relationships">{{item}}</option>
+                </select>
+            </div>
+            <div>
+                <!--LivesTogether-->
+                <label for="LivesTogether" class="form-check-label">
+                    <input type="checkbox" name="LivesTogether" class="form-check-input ms-1" value="true" checked
+                    (change)="parentStudent.isLivingTogether = together.value == 'true'" #together
+                    [checked]="parentStudent.isLivingTogether">
+                    Lives together
+                </label>
+            </div>
+            <em class="my-2" style="font-size:0.8rem">
+                Note: the items marked with an asterisk(<span class="text-danger">*</span>) are compulsory
+            </em>
+            <div>
+                    <ng-template [ngTemplateOutlet]="nextBtn" *ngIf="studentHasParent && hasNextParent"></ng-template>
+                    <ng-template [ngTemplateOutlet]="prevBtn" *ngIf="studentHasParent && hasPrevParent"></ng-template>
+                    <ng-template [ngTemplateOutlet]="addBtn" *ngIf="canAddParent"></ng-template>
+            </div>
+        </div>   
+    </div>
+</form>
+
+<ng-template #addBtn>
+    <button class="btn btn-sm btn-info me-5" type="reset" (click)="addParent(pForm)"
+    [disabled]="pForm.invalid" [class.bg-secondary]="pForm.invalid">Add Parent
+        <span class="fa fa-arrow-up ms-1"></span> 
+    </button>
+</ng-template>
+
+<ng-template #nextBtn>
+    <button class="btn btn-sm btn-info me-5" (click)="index = index + 1">Second Parent
+        <span class="fa fa-arrow-right ms-1"></span> 
+    </button>
+</ng-template>
+
+<ng-template #prevBtn>
+    <button class="btn btn-sm btn-info me-5" (click)="index = index - 1">
+        <span class="fa fa-arrow-left mx-1"></span>First Parent
+    </button>
+</ng-template>

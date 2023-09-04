@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using ServerApp.Models.Students;
 using System.Collections.Generic;
+using ServerApp.Controllers.Filters;
 using Z.EntityFramework.Plus;
 
 namespace ServerApp.Models.Repository
@@ -54,6 +55,22 @@ namespace ServerApp.Models.Repository
             }
 
             return students;
+        }
+
+        public IEnumerable<StudentNames> GetStudentNames(QueryParams query)
+        {
+            var students = context.StudentsInClass
+                           .Where(x => x._class == query.Classroom
+                           && x.Arm == query.Arm
+                           && x.Session == query.Session
+                           && x.Term == query.Term)  
+                           .Select(x => new StudentNames
+                           {
+                            Id = x.Id,
+                            FullName = x.LastName + " " + x.MiddleName + " " + x.FirstName
+                           }).ToList();
+
+            return students;   
         }
 
 
@@ -171,7 +188,8 @@ namespace ServerApp.Models.Repository
             originalStudent.StateOfOrigin = modifiedStudent.StateOfOrigin;
             originalStudent.LGA = modifiedStudent.LGA;
             originalStudent.EthnicGroup = modifiedStudent.EthnicGroup;
-            originalStudent.Skill = modifiedStudent.Skill;
+            originalStudent.Skill1 = modifiedStudent.Skill1;
+            originalStudent.Skill2 = modifiedStudent.Skill2;
             originalStudent.AdmissionDate = modifiedStudent.AdmissionDate;
             originalStudent.AdmissionNumber = modifiedStudent.AdmissionNumber;
             originalStudent.HasGraduated = modifiedStudent.HasGraduated;

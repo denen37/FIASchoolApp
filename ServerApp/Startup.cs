@@ -52,6 +52,7 @@ namespace ServerApp
             services.AddTransient<ISimpleRepository<Rating>, Repository<Rating>>();
             services.AddTransient<AcademicReportRepository>();
             services.AddTransient<SubjectPerformanceRepository>();
+            services.AddTransient<OverallPerformanceRepository>();
             //services.AddTransient<RelatedRepository>();
 
             services.AddControllersWithViews().AddNewtonsoftJson()

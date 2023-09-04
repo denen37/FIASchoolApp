@@ -9,10 +9,12 @@ import { SubjectScoreTableComponent } from "./subjectScoreTable.component";
 import { EditSubjectScoresComponent } from "./editSubjectScores.component";
 import { FormsModule } from "@angular/forms";
 import { StudentScoreTableComponent } from "./studentScoreTable.component";
+import { StudentNamesComponent } from "./studentNames.component";
+import { MasterScoreSheetComponent } from "./masterScoreSheet.component";
 
 @NgModule({
     declarations: [StartPageComponent, SubjectTermDropdownComponent, SubjectScoreTableComponent,
-        EditSubjectScoresComponent, StudentScoreTableComponent],
+        EditSubjectScoresComponent, StudentScoreTableComponent, StudentNamesComponent, MasterScoreSheetComponent],
     imports: [BrowserModule, RouterModule, SharedModule, FormsModule],
     exports: [TeacherRouting]
 })

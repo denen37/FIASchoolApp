@@ -8,7 +8,7 @@ using System.ComponentModel;
 using ServerApp.Models.Repository;
 using ServerApp.Models.Students;
 using Microsoft.AspNetCore.Cors;
-//using ServerApp.Controllers.Filters;
+using ServerApp.Controllers.Filters;
 
 namespace ServerApp.Controllers
 {
@@ -31,7 +31,7 @@ namespace ServerApp.Controllers
             return Ok(repos.GetStudentsInClass(name, classroom, arm, session));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:long}")]
         public IActionResult GetStudent(long id, bool post = false, bool parents = false,
                                         bool overallPerformance = false, bool morals = false,
                                         bool payments = false)
@@ -42,6 +42,13 @@ namespace ServerApp.Controllers
                 return NotFound();
             }
             return Ok(student);
+        }
+
+        [Route("names")]
+        [HttpGet]
+        public IActionResult GetStudentNames([FromQuery] QueryParams query)
+        {
+            return Ok(repos.GetStudentNames(query));
         }
 
         [HttpPost]

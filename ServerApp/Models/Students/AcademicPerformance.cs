@@ -25,6 +25,7 @@ namespace ServerApp.Models.Students
     {
         [Key]
         public long AcademicReportId { get; set; }
+        public string FullName { get; set; }
         public long StudentId { get; set; }
         [Column("Class")]
         public string _class { get; set; }
@@ -39,6 +40,7 @@ namespace ServerApp.Models.Students
         public short Position { get; set; }
         public char Grade { get; set; }
         public string Remark { get; set; }
+        //public Student Student { get; set; }
     }
 
     public class ComputedResult

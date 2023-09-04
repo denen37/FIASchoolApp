@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using ServerApp.Models.Students;
 using System.Collections.Generic;
+using ServerApp.Controllers.Filters;
+using Microsoft.EntityFrameworkCore;
 
 namespace ServerApp.Models.Repository
 {
@@ -22,6 +24,29 @@ namespace ServerApp.Models.Repository
             throw new NotImplementedException();
         }
 
+        public Object GetMasterScoreSheet(QueryParams query)
+        {
+            int count = context.OverallPerformance
+                        .Where(x => x._class == query.Classroom
+                                && x.Arm == query.Arm
+                                && x.Session == query.Session
+                                && x.Term == query.Term)
+                        .Count();
+
+
+            var performances = context.OverallPerformance.FromSqlRaw
+                                ("SELECT * FROM Student.udf_GetMasterScoreSheet" +
+                                $"('{query.Classroom}', '{query.Arm}', '{query.Session}', '{query.Term}')")
+                                .Select(x => x)
+                                .ToList();
+
+            return new {
+                Commited = count > 0,
+                OverallPerformances = performances
+            };
+            
+        }
+
         public void Add (OverallPerformance newData)
         {
             throw new NotImplementedException();
@@ -37,9 +62,10 @@ namespace ServerApp.Models.Repository
             throw new NotImplementedException();
         }
 
-        public void BulkAdd(List<OverallPerformance> newData)
+        public void AddMasterScoreSheet(List<OverallPerformance> newData)
         {
-            throw new NotImplementedException();
+            context.AddRange(newData);
+            context.SaveChanges();
         }
 
         public void BulkUpdate (List<OverallPerformance> modifiedData)

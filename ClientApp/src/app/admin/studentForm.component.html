@@ -1,0 +1,266 @@
+<form #sForm="ngForm" novalidate action="" method="post">
+    
+    <div class="col-sm-10 mx-auto p-3 shadow" style="background-color: rgb(142, 222, 247)">
+        <!--First Name-->
+            <div class="row g-3">
+                <div class="col-sm">
+                    <label for="first-name" class="me-5 col-form-label">
+                        First Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="First name" id="#first-name" placeholder="First Name"
+                    [(ngModel)]="student.firstName" #firstname="ngModel" required minlength="3" pattern="[A-Za-z-]+$">
+                    <ul class="text-danger list-unstyled error-msg" *ngIf="firstname.dirty && firstname.invalid">
+                        <li *ngFor="let item of getValidationErrors(firstname)">
+                            {{item}}
+                        </li>
+                    </ul>
+                </div>
+        <!--Middle Name-->
+                <div class="col-sm">
+                    <label for="middle-name" class="me-5 col-form-label">Middle Name</label>
+                    <input type="text" name="Middle name" class="form-control" id="#middle-name" placeholder="Middle Name"
+                    [(ngModel)]="student.middleName" #middlename="ngModel" minlength="3" pattern="[A-Za-z-]+$">
+                    <ul class="text-danger list-unstyled error-msg" *ngIf="middlename.dirty && middlename.invalid">
+                        <li *ngFor="let item of getValidationErrors(middlename)">
+                            {{item}}
+                        </li>
+                    </ul>
+                </div>
+        <!--Last Name-->
+                <div class="col-sm">
+                    <label for="last-name" class="me-5 col-form-label">Last Name<span class="text-danger">*</span></label>
+                    <input type="text" name="Last name" class="form-control" id="#last-name" placeholder="Last Name"
+                    [(ngModel)]="student.lastName" #lastname="ngModel" required minlength="3" pattern="[A-Za-z-]+$">
+                    <ul class="text-danger list-unstyled error-msg" *ngIf="lastname.dirty && lastname.invalid">
+                        <li *ngFor="let item of getValidationErrors(lastname)">
+                            {{item}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        
+             <!--Sex-->
+        <div class="row g-3 mt-2">
+            <div class="col-sm">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <div class="col-form-label me-3">Gender<span class="text-danger">*</span>:</div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="sex" class="form-check-input" value="Male" id="#male"
+                            [(ngModel)]="student.sex" checked/>  
+                            <label for="male" class="form-check-label">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                                <input type="radio" name="sex" class="form-check-input" value="Female" id="#female" required
+                                [(ngModel)]="student.sex"/>
+                                <label for="female" class="form-check-label">Female</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <label for="dob" class="form-label">Date of Birth<span class="text-danger">*</span>:</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="date" name="Date of birth" class="form-control" id="#dob"
+                        [(ngModel)]="student.dateOfBirth" #dateofbirth="ngModel" required>
+                        <ul class="text-danger list-unstyled error-msg" *ngIf="dateofbirth.dirty && dateofbirth.invalid">
+                            <li *ngFor="let item of getValidationErrors(dateofbirth)">
+                                {{item}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+           
+       <!--Address-->
+       <div class="row g-3 mt-2">
+            <div>
+                <label for="address" class="me-5 col-form-label">Address <span class="text-danger">*</span></label>
+                <input type="text" name="Address" class="form-control mb-2" id="#address" placeholder="Address"
+                [(ngModel)]="student.address" #address="ngModel" required minlength="3" pattern="^[A-Za-z0-9]+[-,;'.& ]*[A-Za-z0-9-,.& ]*$">
+                <ul class="text-danger list-unstyled error-msg" *ngIf="address.dirty && address.invalid">
+                    <li *ngFor="let item of getValidationErrors(address)">
+                        {{item}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+       
+        <!--Origin-->
+        <!--Nationality-->
+        <div class="row g-3 mt-2">
+            <div class="col-sm">
+                <label for="nationality" class="col-form-label">Country<span class="text-danger">*</span>
+                </label>
+                <select id="#countries" name="nations" class="form-select" #nation (change)="country = nation.value">
+                    <!--<option selected></option>-->
+                    <option *ngFor="let item of countries" [selected]="country == item">
+                    {{item}}</option>
+                </select>
+
+                <!--<input type="text" name="Country" class="form-control" id="nationality" placeholder="Country"
+                [(ngModel)]="student.nationality" #nation="ngModel" required minlength="3" pattern="\D"
+                list="countries">
+                <datalist name="countries" id="countries">
+                    <option *ngFor="let item of countries">{{item}}<option>
+                </datalist>-->
+                
+                <!--<ul class="text-danger list-unstyled error-msg" *ngIf="nation.dirty && nation.invalid">
+                    <li *ngFor="let item of getValidationErrors(nation)">
+                        {{item}}
+                    </li>
+                </ul>-->
+            </div>
+        <!--State-->
+                <div class="col-sm">
+                    <label for="state" class="col-form-label">State<span class="text-danger">*</span>
+                    </label>
+                    <select id="#states" name="states" class="form-select" #city (change)="state = city.value">
+                        <option *ngFor="let item of states" [selected]="state == item">{{item}}</option>
+                    </select>
+                    <!--<input type="text" name="State" class="form-control" id="#state" placeholder="State"
+                    [(ngModel)]="student.stateOfOrigin" #state="ngModel" required minlength="3" pattern="\D"
+                    list="states">
+
+                    <datalist name="states" id="states">
+                        <option  [value]="item.state" *ngFor="let item of states">{{item.state}}</option>
+                    </datalist>-->
+                    
+                    <!--<ul class="text-danger list-unstyled error-msg" *ngIf="state.dirty && state.invalid">
+                        <li *ngFor="let item of getValidationErrors(state)">
+                            {{item}}
+                        </li>
+                    </ul>-->
+                </div>
+        <!--LGA-->
+                <div class="col-sm">
+                    <label for="lga" class="col-form-label">LGA<span class="text-danger">*</span></label>
+                    <!--<input type="text" name="LGA" class="form-control" id="#lga" placeholder="Local Government Area"
+                    [(ngModel)]="student.lga" #lga="ngModel" required minlength="3" pattern="^[A-Za-z-,.& ]+$">
+                    <ul class="text-danger list-unstyled error-msg" *ngIf="lga.dirty && lga.invalid">
+                        <li *ngFor="let item of getValidationErrors(lga)">
+                            {{item}}
+                        </li>
+                    </ul>-->
+                    <select name="LGAs" id="#lgas" class="form-select" #localga (change)="lga = localga.value">
+                        <option *ngFor="let item of lgas" [selected]="lga == item">{{item}}</option>
+                    </select>
+            </div>
+        </div>
+    
+        <!--Identity-->
+        <div class="row g-3 mt-2">
+        <!--Religion-->
+            <div class="col-sm">
+                <label for="religion" class="col-form-label">Religion<span class="text-danger">*</span></label>
+                <input type="text" name="Religion" class="form-control" id="#religion" placeholder="Religion"
+                [(ngModel)]="student.religion" #religion="ngModel" required minlength="3" pattern="^[A-Za-z-,.& ]+$">
+                <ul class="text-danger list-unstyled error-msg" *ngIf="religion.dirty && religion.invalid">
+                    <li *ngFor="let item of getValidationErrors(religion)">
+                        {{item}}
+                    </li>
+                </ul>
+            </div>
+        <!--Ethnic group-->
+                <div class="col-sm">
+                    <label for="ethnicity" class="col-form-label">Ethnic Group<span class="text-danger">*</span></label>
+                    <input type="text" name="Ethinic Group" class="form-control" id="#ethnicity" placeholder="Ethnic Group"
+                    [(ngModel)]="student.ethnicGroup" #ethnic="ngModel" required minlength="3" pattern="^[A-Za-z-,.& ]+$">
+                    <ul class="text-danger list-unstyled error-msg" *ngIf="ethnic.dirty && ethnic.invalid">
+                        <li *ngFor="let item of getValidationErrors(ethnic)">
+                            {{item}}
+                        </li>
+                    </ul>
+                </div>
+        </div>
+    
+        <div class="row g-3 mt-2">
+            <!--Skill 1-->
+                <div class="col-sm">
+                    <label for="skill1" class="col-form-label">Skill 1</label>
+                    <input type="text" name="Skill 1" class="form-control" id="#skill1" placeholder="Skill 1"
+                    [(ngModel)]="student.skill1" #skill1="ngModel" minlength="3" pattern="^[A-Za-z-,.& ]+$">
+                    <ul class="text-danger list-unstyled error-msg" *ngIf="skill1.dirty && skill1.invalid">
+                        <li *ngFor="let item of getValidationErrors(skill1)">
+                            {{item}}
+                        </li>
+                    </ul>
+                </div>
+            <!--Skill 2-->
+                <div class="col-sm">
+                    <label for="skill2" class="col-form-label">Skill 2</label>
+                    <input type="text" name="Skill 2" class="form-control" id="#skill2" placeholder="Skill 2"
+                    [(ngModel)]="student.skill2" #skill2="ngModel" minlength="3" pattern="^[A-Za-z-,.& ]+$">
+                    <ul class="text-danger list-unstyled error-msg" *ngIf="skill2.dirty && skill2.invalid">
+                        <li *ngFor="let item of getValidationErrors(skill2)">
+                            {{item}}
+                        </li>
+                    </ul>
+                </div>
+        </div>
+    
+        <div class="row g-3 mt-2">
+            <!--Disabled-->
+            <div class="col g-2 row">
+                <div class="col-auto">
+                    <input type="checkbox" name="IsDisabled" id="#disabled" class="form-check-input" value="true"
+                    [(ngModel)]="disability.isDisabled">
+                </div>
+                <div class="col-auto">
+                    <label for="disabled" class="form-check-label ms-1">Disabled</label>
+                </div>
+                <div>
+                    <input type="text" name="Disability" id="#disability" class="form-control" placeholder="Name of Disablity"
+                    [(ngModel)]="disability.nameOfDisability" #disabled="ngModel" minlength="3" pattern="^[A-Za-z- ]+$"
+                    [disabled]="!disability.isDisabled">
+                    <ul class="text-danger list-unstyled error-msg" *ngIf="disabled.dirty && disabled.invalid">
+                        <li *ngFor="let item of getValidationErrors(disabled)">
+                            {{item}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--Medically Challenged-->
+            <div class="col g-2 row">
+                <div class="col-auto">
+                    <input type="checkbox" id="#sick" name="IsIll" class="form-check-input" value="true"
+                    [(ngModel)]="disability.isIll">
+                </div>
+                <div class="col-auto">
+                    <label for="sick" class="form-check-label ms-1">Medically Challenged</label>
+                </div>
+                <div>
+                    <input type="text" name="Illness" id="#illness" class="form-control" placeholder="Name of Illness"
+                    [(ngModel)]="disability.nameOfIllness" #illness="ngModel" minlength="3" pattern="^[A-Za-z- ]+$"
+                    [disabled]="!disability.isIll">
+                    <ul class="text-danger list-unstyled error-msg" *ngIf="illness.dirty && illness.invalid">
+                        <li *ngFor="let item of getValidationErrors(illness)">
+                            {{item}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--Description-->
+            <div class="row mt-1">
+                <!--<label for="desc" class="col-form-label">Brief description</label>-->
+               <textarea class="form-control ms-2" name="Description" id="#desc" cols="20" rows="5"
+               placeholder="Give a brief description if yes" #desc="ngModel"
+               [(ngModel)]="disability.description" minlength="10" pattern="^[A-Za-z-,.& ]+$"
+               [disabled]="!disability.isDisabled && !disability.isIll">
+            </textarea> 
+            <ul class="text-danger list-unstyled error-msg" *ngIf="desc.dirty && desc.invalid">
+                <li *ngFor="let item of getValidationErrors(desc)">
+                    {{item}}
+                </li>
+            </ul>
+            </div>
+        </div>
+        <em class="my-2" style="font-size:0.8rem">Note: the items marked with an asterisk(<span class="text-danger">*</span>) are compulsory</em>
+    </div>
+</form>

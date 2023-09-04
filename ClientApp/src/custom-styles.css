@@ -62,3 +62,11 @@ body, html {
 input.ng-dirty.ng-invalid {
    border: 2px solid #ff0000 !important
   }
+
+  .nav-link.active{
+    background-color: rgb(142, 222, 247) !important
+  }
+
+  .error-msg{
+    font-size: 0.7rem
+  }

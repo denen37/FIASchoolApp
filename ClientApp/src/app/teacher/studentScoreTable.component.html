@@ -6,73 +6,89 @@
     <select-subject (selectionChanged)="reload()"></select-subject>-->
 
 
-    <!--Score Table begins here-->
-    <div class="text-center px-5 py-4" *ngIf="completed && studentScores?.length||0 > 0">
-        <table class="table table-bordered table-sm table-striped my-2" >
-        <thead>
-            <tr>
-                <th>S/N</th>
-                <th>SUBJECT</th>
-                <th>1<sup>st</sup> CA</th>
-                <th>2<sup>nd</sup> CA</th>
-                <th>3<sup>rd</sup> CA</th>
-                <th>EXAMS</th>
-                <th>TOTAL</th>
-                <th>AVG</th>
-                <th>H.S</th>
-                <th>L.S</th>
-                <th>GRADE</th>
-                <th>POS</th>
-                <th>REMARK</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of studentScores; let i = index">
-                <td>{{i + 1}}</td>
-                <td [routerLink]="['../../students/details', item.studentId]">{{item.subject}}</td>
-                <td>{{item.test1}}</td>
-                <td>{{item.test2}}</td>
-                <td>{{item.test3}}</td>
-                <td>{{item.exam}}</td>
-                <td>{{item.total}}</td>
-                <td>{{item.classAverage}}</td>
-                <td>{{item.highestScore}}</td>
-                <td>{{item.lowestScore}}</td>
-                <td>{{item.position}}<sup>{{item.position | ordinal}}</sup></td>
-                <td>{{item.grade}}</td>
-                <td>{{item.remark}}</td>
-                <td><button class="btn btn-sm btn-light text-danger">Edit</button></td>
-            </tr>
-        </tbody>
-    </table>
+    <div *ngIf="completed === undefined && !studentScores; else display">
+        <student-names (clickHandler)="loadBtn()"></student-names>
     </div>
 
-    <!--Show this if loading is complete and model has no data-->
-    <div class="p-2 mx-auto" *ngIf="completed && studentScores?.length == 0">
-        <h5 class="text-muted">No Scores available for student...</h5>
-    </div>
+    <ng-template #display>
+        <div class="container">
+            <div class="row">
+                <div class="col-8">
+                    <!--Score Table begins here-->
+                <div class="text-center px-2 py-4" *ngIf="completed && studentScores?.length||0 > 0">
+                    <h5 class="text-primary">Scores for {{selectedStudent}}</h5>
+                    <table class="table table-bordered table-sm table-striped my-2" >
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>SUBJECT</th>
+                            <th>1<sup>st</sup> CA</th>
+                            <th>2<sup>nd</sup> CA</th>
+                            <th>3<sup>rd</sup> CA</th>
+                            <th>EXAMS</th>
+                            <th>TOTAL</th>
+                            <th>AVG</th>
+                            <th>H.S</th>
+                            <th>L.S</th>
+                            <th>GRADE</th>
+                            <th>POS</th>
+                            <th>REMARK</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of studentScores; let i = index">
+                            <td>{{i + 1}}</td>
+                            <td [routerLink]="['../../students/details', item.studentId]">{{item.subject}}</td>
+                            <td>{{item.test1}}</td>
+                            <td>{{item.test2}}</td>
+                            <td>{{item.test3}}</td>
+                            <td>{{item.exam}}</td>
+                            <td>{{item.total}}</td>
+                            <td>{{item.classAverage}}</td>
+                            <td>{{item.highestScore}}</td>
+                            <td>{{item.lowestScore}}</td>
+                            <td>{{item.position}}<sup>{{item.position | ordinal}}</sup></td>
+                            <td>{{item.grade}}</td>
+                            <td>{{item.remark}}</td>
+                            <td><button class="btn btn-sm btn-light text-danger">Edit</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            
+                <!--Show this if loading is complete and model has no data-->
+                <div class="p-2 mx-auto" *ngIf="completed && studentScores?.length == 0">
+                    <h4 class="text-muted">No Scores available for student...</h4>
+                </div>
+            
+                <!--show this if loading is currently ongoing-->
+                    <div class="text-center t-2" *ngIf="completed === false && !loadError">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <div>
+                            <h5 class="text-muted">Please wait...</h5>
+                        </div>
+                    </div>  
 
-    <!--show this if loading is currently ongoing-->
-        <div class="text-center t-2" *ngIf="completed === false && !loadError">
-            <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
+                    <!--Show this if there is an error-->
+                    <div *ngIf="loadError" class="pt-4 text-danger my-auto">
+                        <span class="fa fa-exclamation-circle" style="font-size: 100px"></span>
+                        <p class="text-muted">There was a problem while executing the request.</p>
+                    </div>
+                </div>
+            
+                <div class="col-4">
+                    <div class="py-4 px-2">
+                        <div class="d-flex justify-content-between text-primary">
+                            <h6>{{selectedClassArm}}</h6> 
+                            <h6>{{selectedSessionTerm}}</h6>   
+                        </div>
+                        <student-names (clickHandler)="loadBtn()"></student-names>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h5 class="text-muted">Please wait...</h5>
-            </div>
-        </div>  
-
-    <!--Show this if loading is not ongoing-->
-        <div class="text-center" *ngIf="completed === undefined && !studentScores">
-            <h5 class="text-muted my-2">Click the load button...</h5>
-            <!--Load button-->
-            <button class="btn btn-outline-success m-1" (click)="loadBtn()" >Load</button>
-        </div>
-
-    <!--Show this if there is an error-->
-    <div *ngIf="loadError" class="pt-4 text-danger my-auto">
-        <span class="fa fa-exclamation-circle" style="font-size: 100px"></span>
-        <p class="text-muted">There was a problem while executing the request.</p>
     </div>
+    </ng-template>
 

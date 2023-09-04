@@ -8,12 +8,14 @@ import { ParentRepository } from "./parentRepository.model";
 import { ReportCardRepository } from "./reportCardRepository.model";
 import { AcademicRecordRepository } from "./academicRecordRepository.model";
 import { SubjectRepository } from "./subjectRepository.model";
+import { OverallPerformanceRepository } from "./overallPerformanceRepository.model";
 
 
 @NgModule({
     imports:[HttpClientModule],
     providers : [StudentRepository, ClassRepository, ArmRepository, SessionRepository,
-    ParentRepository, ReportCardRepository, AcademicRecordRepository, SubjectRepository]
+    ParentRepository, ReportCardRepository, AcademicRecordRepository, SubjectRepository,
+    OverallPerformanceRepository]
 })
 
 export class ModelModule {

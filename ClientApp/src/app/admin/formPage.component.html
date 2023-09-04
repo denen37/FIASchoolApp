@@ -1,0 +1,54 @@
+<div class="shadow col-md-10 my-2 mx-auto">
+    <sch-header></sch-header>
+
+
+        <!--Tab Navigation-->
+    <ul class="nav nav-tabs nav-justified rounded-2 col-sm-10 mt-2 mx-auto" id="myTabs">
+        <li role="presentation" class="nav-item"><button [class.active]="viewMode == 'student'" class="nav-link" data-bs-toggle="tab" (click)="viewMode ='student'">Student</button></li>
+        <li role="presentation" class="nav-item"><button [class.active]="viewMode == 'parent'" class="nav-link" data-bs-toggle="tab" (click)="viewMode ='parent'">Parent</button></li>
+    </ul>
+    <!--Tab Content-->
+    <div class="tab-content">
+
+        <!--Show Errors if any-->
+        <div class="alert alert-danger alert-dismissible col-sm-10 mx-auto" role="alert" 
+        *ngIf="(sFormErrors.length > 0 || pFormErrors.length > 0) && showAlert"
+        style="font-size: 0.8rem; margin-bottom: 1px;">
+            <button type="button" class="btn-close" aria-label="Close"
+            (click)="resetSubmitBtn()"></button>
+            <div class="row">
+                <div class="col-sm">
+                    <ul>
+                        <li *ngFor="let item of sFormErrors">{{item}}</li>
+                    </ul>
+                </div>
+                <div class="col-sm">
+                    <ul>
+                        <li *ngFor="let item of pFormErrors">{{item}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--Student tab-->
+        <div class="tab-pane fade" id="student" [ngClass]="{'active show': viewMode=='student'}">
+            <student-form [student]="student" [formSubmitted]="submitForm" (studentFormErrors)="getStudentFormErrors($event)"></student-form>
+        </div>
+
+        <!--Parent Tab-->
+        <div class="tab-pane fade" id="parent" [ngClass]="{'active show': viewMode=='parent'}">
+            <parent-form [parentsOfStudent]="parentsOfStudent"  [formSubmitted]="submitForm" (parentFormErrors)="getParentFormErrors($event)"></parent-form>
+        </div>
+        <div class="col-md-10 mx-auto d-flex justify-content-between">
+            <button class="btn btn-primary ms-5" (click)="viewMode ='parent'" *ngIf="viewMode == 'student'">
+                Next<span class="fa fa-arrow-right ms-1"></span>
+            </button>
+            <button class="btn btn-danger ms-5" (click)="viewMode ='student'" *ngIf="viewMode == 'parent'">
+                <span class="fa fa-arrow-left me-1"></span>Previous
+            </button>
+            <button class="btn btn-success me-5" type="submit" (click)="submit()">
+                Submit
+            </button>
+        </div>
+    </div>
+</div>

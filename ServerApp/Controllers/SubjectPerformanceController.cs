@@ -28,7 +28,8 @@ public class SubjectPerformanceController: Controller
         return Ok(repo.GetReportCard(id, queryParams));
     }
 
-    [HttpGet("{subject-score:regex(subject-score)}")]
+    [Route("subject-score")]
+    [HttpGet]
     public IActionResult GetSubjectScoresForStudent([FromQuery] QueryParams query)
     {
         return Ok(repo.GetSubjectScoresForStudent(query));

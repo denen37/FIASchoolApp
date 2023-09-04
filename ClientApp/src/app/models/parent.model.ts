@@ -1,28 +1,28 @@
 export class Parent
 {
     constructor(
-        public Id: number,
-        public Title: string,
-        public firstName: string,
-        public middleName: string,
-        public lastName: string,
-        public address: string,
-        public phone1: string,
-        public phone2: string,
-        public email: string,
-        public occupation: string,
-        public maritalStatus: string
+        public Id: number | undefined = undefined,
+        public Title: string | undefined = undefined,
+        public firstName: string | undefined = undefined,
+        public middleName: string | undefined = undefined,
+        public lastName: string | undefined = undefined,
+        public address: string | undefined = undefined,
+        public phone1: string | undefined = undefined,
+        public phone2: string | undefined = undefined,
+        public email: string | undefined = undefined,
+        public occupation: string | undefined = undefined,
+        public maritalStatus: string | undefined = undefined
     ){}
 }
 
 export class ParentStudentJunction
 {
     constructor(
-        public Id: number,
-        public studentId: number,
-        public parentId: number,
-        public parent: Parent,
-        public relationship: string,
-        public isLivingTogether: boolean
+        public Id: number | undefined = undefined,
+        public studentId: number | undefined = undefined,
+        public parentId: number | undefined = undefined,
+        public parent: Parent | undefined = undefined,
+        public relationship: string | undefined = undefined,
+        public isLivingTogether: boolean = false
     ){}
 }

@@ -1,0 +1,46 @@
+<!--Loading is complete and model has data-->
+<div *ngIf="completed && studentNames?.length||0 > 0">
+    <table class="table table-borderless table-responsive">
+        <thead>
+            <th>S/NO</th>
+            <th>Name</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of studentNames; let i = index">
+                
+                    <td [class.text-danger]="isSelected(item.id)">{{i + 1}}</td>
+                    <td><a class="page-link" (click)="emitClick(item)" [class.text-danger]="isSelected(item.id)">
+                      {{item.fullName}}  </a>
+                    </td>
+            </tr>          
+        </tbody>
+    </table>
+</div>
+
+ <!--Show this if loading is complete and model has no data-->
+ <div class="p-2 mx-auto" *ngIf="completed && studentNames?.length == 0">
+    <h5 class="text-muted">No students available...</h5>
+</div>
+
+<!--show this if loading is currently ongoing-->
+<div class="text-center t-2" *ngIf="completed === false && !loadError">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div>
+        <h5 class="text-muted">Loading...</h5>
+    </div>
+</div> 
+
+<!--Show this if loading is not ongoing-->
+<div class="text-center" *ngIf="completed === undefined && !studentNames">
+    <h5 class="text-muted my-2">Make selections and click the load button</h5>
+    <!--Load button-->
+    <button class="btn btn-outline-success m-1" (click)="loadStudents()" >Load</button>
+</div>
+
+<!--Show this if there is an error-->
+<div *ngIf="loadError" class="pt-4 text-danger my-auto">
+    <span class="fa fa-exclamation-circle" style="font-size: 60px"></span>
+    <p class="text-muted">There was a problem loading students.</p>
+</div>

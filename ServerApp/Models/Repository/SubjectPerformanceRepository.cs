@@ -128,8 +128,8 @@ namespace ServerApp.Models.Repository
         {
              var subjectScores = context.SubjectScores
                                 .FromSqlRaw("SELECT * FROM Student.udf_GetStudentScores" +
-                                $"('{query.Classroom}', '{query.Arm}', '{query.Session}'," +
-                                $" '{query.Term}', '{query.Name}')");
+                                $"({query.StudentId},'{query.Classroom}', '{query.Arm}', '{query.Session}'," +
+                                $" '{query.Term}')");
             if (query.Subject != null)
             {
                 subjectScores = subjectScores.Where(x => x.Subject == query.Subject);
@@ -137,6 +137,7 @@ namespace ServerApp.Models.Repository
 
             return subjectScores.ToList();
         }
+
 
         public void Add (SubjectPerformance newData)
         {

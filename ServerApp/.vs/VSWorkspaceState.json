@@ -3,7 +3,8 @@
     "",
     "\\Controllers",
     "\\Models",
-    "\\Models\\Repository"
+    "\\Models\\Repository",
+    "\\Models\\Students"
   ],
   "SelectedNode": "\\Models\\Repository\\SubjectPerformanceRepository.cs",
   "PreviewInSolutionExplorer": false

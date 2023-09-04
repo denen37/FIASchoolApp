@@ -8,10 +8,12 @@ import { ScriptService } from './services/script.service';
 import { StudentModule } from './student/student.module';
 import { FilterModule } from './filters/filters.module';
 import { TeacherModule } from './teacher/teacher.module';
+import { AdminModule } from './admin/admin.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, ModelModule, HomeModule, StudentModule, FilterModule, TeacherModule],
+  imports: [BrowserModule, AppRoutingModule, ModelModule, HomeModule, 
+            StudentModule, FilterModule, TeacherModule, AdminModule],
   providers: [ScriptService],
   bootstrap: [AppComponent]
 })

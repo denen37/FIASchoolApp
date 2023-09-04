@@ -5,7 +5,7 @@
             src="assets\image\user1.png" alt="student">
         </div>
         <div class="my-auto mx-3">
-            <h2>{{student ? student.lastName + " " + student.middleName + " " + student.firstName : "Loading..."}}</h2>
+            <h2>{{fullname(student?.lastName, student?.middleName, student?.firstName)}}</h2>
             <p><b>Admin No: </b>
                 {{student?.admissionNumber ? student?.admissionNumber : "Loading..."}}
             </p>
@@ -73,8 +73,8 @@
                             <td>{{student?.ethnicGroup}}</td>
                         </tr>
                         <tr>
-                            <th>Skill: </th>
-                            <td>{{student?.skill}}</td>
+                            <th>Skills: </th>
+                            <td>{{skills}}, </td>
                         </tr>
                         <tr>
                             <th>Admission Date:</th>
@@ -98,31 +98,31 @@
                          <tbody>
                              <tr>
                                  <th><span class="fa fa-user"></span> Full Name: </th>
-                                 <td>{{item.parent.firstName +" "+ item.parent.middleName +" "+ item.parent.lastName}}</td>
+                                 <td>{{fullname(item.parent?.lastName, item.parent?.middleName, item.parent?.firstName)}}</td>
                              </tr>
                              <tr>
                                  <th><span class="fa fa-briefcase"></span> Occupation: </th>
-                                 <td>{{item.parent.occupation}}</td>
+                                 <td>{{item.parent?.occupation}}</td>
                              </tr>
                              <tr>
                                  <th><span class="fa fa-home"></span> Address: </th>
-                                 <td>{{item.parent.address}}</td>
+                                 <td>{{item.parent?.address}}</td>
                              </tr>
                              <tr>
                                  <th><span class="fa fa-phone"></span> Phone 1: </th>
-                                 <td>{{item.parent.phone1}}</td>
+                                 <td>{{item.parent?.phone1}}</td>
                              </tr>
                              <tr>
                                  <th><span class="fa fa-phone"></span> Phone 2: </th>
-                                 <td>{{item.parent.phone2}}</td>
+                                 <td>{{item.parent?.phone2}}</td>
                              </tr>
                              <tr>
                                  <th><span class="fa fa-envelope-o"></span> Email: </th>
-                                 <td>{{item.parent.email}}</td>
+                                 <td>{{item.parent?.email}}</td>
                              </tr>
                              <tr>
                                  <th><span class="fa fa-heart"></span> Marital status:</th>
-                                 <td>{{item.parent.maritalStatus}}</td>
+                                 <td>{{item.parent?.maritalStatus}}</td>
                              </tr>
                              <tr>
                                  <th><span class="fa fa-heart-o"></span> Relationship: </th>

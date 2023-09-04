@@ -18,5 +18,12 @@ namespace ServerApp.Models.Students
         public string _class { get; set; }
         public string Arm { get; set; }
         public string Session { get; set; }
+        public string Term { get; set; }
+    }
+
+    public class StudentNames
+    {
+        public long Id { get; set; }
+        public string FullName { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
 import { StudentFilter } from '../filters/studentFilter.model';
-import { StudentsInClass } from './studentInClass.model';
+import { StudentNames, StudentsInClass } from './studentInClass.model';
 import { Student } from './student.model';
 import { StudentParameters } from '../filters/studentParameters.model';
 import { StudentRecordService } from '../services/student.service';
@@ -13,6 +13,13 @@ export class StudentRepository
     students?: StudentsInClass[];
     completedAll?: boolean;
     completedOne?: boolean;
+    //For Student Names Component
+    studentNames?: StudentNames[];
+    completedNames?: boolean;
+    loadStudentNamesError?: boolean;
+    //For addStudents method
+    completedAdd?: boolean;
+    addStudentError?: boolean;
     //This two members are for the UI
     paymentHasRowspan: boolean[] = [];
     academicsHasRowspan: boolean[] = [];
@@ -25,24 +32,10 @@ export class StudentRepository
     }
 
     getStudents(filters: StudentFilter){
-        var url = studentUrl;
-        var pos = studentUrl.length;
         this.completedAll = false;
         
-        if(filters?.name)
-        {
-            url = `${url}?name=${filters.name}`;
-        }
-        if (filters?.classroom) {
+        var url = this.modifyUrl(studentUrl, filters);
 
-            url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}classroom=${filters.classroom}`;
-        }
-        if (filters?.arm) {
-            url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}arm=${filters.arm}`;
-        }
-        if (filters?.session) {
-            url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}session=${filters.session}`;
-        }
         this.http.get<StudentsInClass[]>(url)
         .subscribe(s => this.students = s,
                     err => console.log(err),
@@ -90,5 +83,56 @@ export class StudentRepository
                                 this.academicsHasRowspan = this.studentService.getResultRowspanArray(this.student.overallPerformance);
                             };
             });
+    }
+
+    getStudentNames(filter: StudentFilter)
+    {
+        this.completedNames = false;
+        var url = this.modifyUrl(`${studentUrl}/names`, filter);
+
+        this.http.get<StudentNames[]>(url)
+        .subscribe(s => this.studentNames = s,
+                    err => {console.log(err);
+                            this.loadStudentNamesError = true;},
+                    () => this.completedNames = true);
+    }
+
+    addStudent()
+    {
+        this.completedAdd = false;
+        
+        this.http.post<Student>(studentUrl, this.student)
+        .subscribe(
+            std => console.log(std),
+            err => {console.log(err);
+                    this.addStudentError = true},
+            () => this.completedAdd = true
+        )
+    }
+
+    modifyUrl(originalUrl: string, filters: StudentFilter): string
+    {
+        var url = originalUrl;
+        var pos = originalUrl.length;
+
+        if(filters?.name)
+        {
+            url = `${url}?name=${filters.name}`;
+        }
+        if (filters?.classroom) {
+
+            url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}classroom=${filters.classroom}`;
+        }
+        if (filters?.arm) {
+            url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}arm=${filters.arm}`;
+        }
+        if (filters?.session) {
+            url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}session=${filters.session}`;
+        }
+        if (filters?.term) {
+            url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}term=${filters.term}`;
+        }
+
+        return url;
     }
 }

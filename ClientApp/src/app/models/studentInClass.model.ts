@@ -11,3 +11,12 @@ export class StudentsInClass {
         public arm: string,
         public session: string) {}
 }
+
+export class StudentNames{
+    constructor(
+    public id: number,
+    public fullName: string
+    ){}
+    
+}
+    

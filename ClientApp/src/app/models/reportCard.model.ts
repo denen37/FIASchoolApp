@@ -1,6 +1,6 @@
 import { Student } from "./student.model";
 import { SessionTermJunction } from "./sessionTerm.model";
-import { Subject } from "./classSubject.model";
+//import { Subject } from "./classSubject.model";
 import { ClassArmJunction } from "./studentClassArm.model";
 import { StudentSkillJunction } from "./skill.model";
 
@@ -74,6 +74,7 @@ export class SubjectScore{
 }
 export class OverallPerformance {
     constructor(
+        public fullName: string,
         public academicReportId: number,
         public studentId: number,
         public _class: string,
