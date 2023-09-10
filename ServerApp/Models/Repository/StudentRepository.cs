@@ -162,7 +162,8 @@ namespace ServerApp.Models.Repository
 
         public void Update(Student modifiedStudent)
         {
-            DetectChangedProperty(modifiedStudent);
+            //DetectChangedProperty(modifiedStudent);
+            context.Update(modifiedStudent);
 
             context.SaveChanges();
         }

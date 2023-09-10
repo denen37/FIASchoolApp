@@ -100,13 +100,18 @@ export class StudentRepository
     addStudent()
     {
         this.completedAdd = false;
+        this.addStudentError = false;
         
         this.http.post<Student>(studentUrl, this.student)
         .subscribe(
             std => console.log(std),
             err => {console.log(err);
+                    //console.log(`completedAdd returns: ${this.completedAdd}`);
                     this.addStudentError = true},
-            () => this.completedAdd = true
+            () => {
+                this.completedAdd = true;
+                //console.log(`completedAdd returns: ${this.completedAdd}`);
+            }
         )
     }
 

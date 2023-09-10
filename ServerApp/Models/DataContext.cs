@@ -42,6 +42,9 @@ namespace ServerApp.Models
 
             //modelBuilder.Entity<AcademicRecord>().HasNoKey();
 
+            modelBuilder.Entity<Student>().Property(e => e.AdmissionNumber)
+            .ValueGeneratedOnAdd();
+
             base.OnModelCreating(modelBuilder);
         }
     }

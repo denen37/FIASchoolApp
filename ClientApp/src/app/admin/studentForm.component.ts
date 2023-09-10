@@ -22,6 +22,9 @@ export class StudentFormComponent {
     @Input()
     formSubmitted?: boolean
 
+    @Input()
+    saveCompleted?: boolean
+
     @Output()
     studentFormErrors = new EventEmitter<string[]>();
 
@@ -41,8 +44,12 @@ export class StudentFormComponent {
             setTimeout(() => {
                 this.studentFormErrors.emit(errors);
             });
-            
        } 
+
+       if(this.saveCompleted)
+       {
+            this.sForm?.reset();
+       }
     }
 
     get disability(): Disability

@@ -28,6 +28,8 @@ export class ParentFormComponent {
     parentsOfStudent: ParentStudentJunction[]
     @Input()
     formSubmitted?: boolean
+    @Input()
+    saveCompleted?: boolean
     @Output()
     parentFormErrors = new EventEmitter<string[]>();
     @ViewChild(NgForm)
@@ -43,7 +45,11 @@ export class ParentFormComponent {
                 this.parentFormErrors.emit(errors);
             });
        } 
-       //console.log(`formSubmitted: ${this.formSubmitted}`);
+       
+       if(this.saveCompleted)
+       {
+        this.pForm?.reset();
+       }
     }
     //Gets the Parent-Student connection based on index
     //if it is not available create a new connection
@@ -112,7 +118,7 @@ export class ParentFormComponent {
 
     set maritalStatus(v: string)
     {
-        this.parent.maritalStatus = v;
+        this.parent.maritalStatus = v; 
     }
 
     get relationship()

@@ -1,7 +1,6 @@
-<div class="shadow col-md-10 my-2 mx-auto">
+<div [ngClass]="{'modal-backdrop fade show': openModal}" [ngStyle]="openModal? {overflow: 'hidden'}: null">
+    <div class="shadow col-md-10 my-2 mx-auto">
     <sch-header></sch-header>
-
-
         <!--Tab Navigation-->
     <ul class="nav nav-tabs nav-justified rounded-2 col-sm-10 mt-2 mx-auto" id="myTabs">
         <li role="presentation" class="nav-item"><button [class.active]="viewMode == 'student'" class="nav-link" data-bs-toggle="tab" (click)="viewMode ='student'">Student</button></li>
@@ -32,12 +31,14 @@
 
         <!--Student tab-->
         <div class="tab-pane fade" id="student" [ngClass]="{'active show': viewMode=='student'}">
-            <student-form [student]="student" [formSubmitted]="submitForm" (studentFormErrors)="getStudentFormErrors($event)"></student-form>
+            <student-form [student]="student" [formSubmitted]="submitForm" [saveCompleted]="saveCompleted"
+            (studentFormErrors)="getStudentFormErrors($event)"></student-form>
         </div>
 
         <!--Parent Tab-->
         <div class="tab-pane fade" id="parent" [ngClass]="{'active show': viewMode=='parent'}">
-            <parent-form [parentsOfStudent]="parentsOfStudent"  [formSubmitted]="submitForm" (parentFormErrors)="getParentFormErrors($event)"></parent-form>
+            <parent-form [parentsOfStudent]="parentsOfStudent"  [formSubmitted]="submitForm" [saveCompleted]="saveCompleted"
+            (parentFormErrors)="getParentFormErrors($event)"></parent-form>
         </div>
         <div class="col-md-10 mx-auto d-flex justify-content-between">
             <button class="btn btn-primary ms-5" (click)="viewMode ='parent'" *ngIf="viewMode == 'student'">
@@ -52,3 +53,34 @@
         </div>
     </div>
 </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="saveStudentModal" #saveModal tabindex="-1" aria-labelledby="saveStudentModalLabel" aria-hidden="true"
+    [class.show]="openModal" [ngStyle]="openModal? {'display': 'block', 'opacity': 1}: null">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="saveStudentModalLabel">Student Information</h1>
+          <button type="button" class="btn-close" (click)="openModal = false" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+            <div *ngIf="!saveCompleted && !saveError">
+              <i class="fa fa-spinner fa-pulse text-secondary" aria-hidden="true" style="font-size:100px"></i>
+              <p>Saving...</p>
+            </div>
+            <div *ngIf="saveCompleted">
+              <i class="fa fa-check-circle-o text-success" aria-hidden="true" style="font-size:100px"></i>
+                <p>Saved!</p> 
+            </div>
+            <div *ngIf="saveError">
+              <i class="fa fa-times-circle-o text-danger" aria-hidden="true" style="font-size:100px"></i>
+               <p>There was a problem while saving your information</p>
+            </div>
+        <div class="modal-footer">
+          <!--<button type="button" class="btn btn-primary" data-bs-dismiss="modal" routerLink="../subject-scores" (click)="viewScores()">View</button>-->
+          <button type="button" class="btn btn-danger" (click)="openModal = false">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
