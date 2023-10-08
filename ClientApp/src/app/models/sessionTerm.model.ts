@@ -3,7 +3,8 @@ export class Session {
         public Id: number,
         public name: string,
         public startMonth: Date,
-        public endMonth: Date
+        public endMonth: Date,
+        public sessionTerms: SessionTermJunction[]
     ) {}
 }
 

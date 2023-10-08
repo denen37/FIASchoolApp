@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
 import { Class } from './studentClassArm.model';
+import { retry } from 'rxjs';
 
 const classUrl = "api/class";
 
@@ -14,15 +15,20 @@ export class ClassRepository {
         
     }
 
-    loadClasses() {
-        this.http.get<Class[]>(classUrl)
+    loadClasses(loadArms: boolean) {
+        this.http.get<Class[]>(`${classUrl}?related=${loadArms}`)
+        .pipe(
+            retry(3) // retry two times 
+        )
         .subscribe(
-            c => this._classes = c,
-            err => {
-                this.error = err;
-                console.log(err)
+        {
+            next: c => this._classes = c,
+            error: err => {
+                    this.error = err;
+                    console.log(err)
             },
-            () => this.completed = true);
+            complete: () => {this.completed = true}
+        })
     }
 
     get classes() {

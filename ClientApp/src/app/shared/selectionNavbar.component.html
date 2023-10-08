@@ -29,8 +29,7 @@
         <li class="nav-item nav-pills ">
           <div class="btn-group mx-1 my-1" data-bs-toggle="tooltip" 
             data-bs-placement="top" data-bs-animation="true" title="Class">
-            <button type="button" class="btn" [ngClass]="btnClass(classError)" [disabled]="!classError"
-                    (click)="getClasses()">
+            <button type="button" class="btn" [ngClass]="btnClass(classError)" disabled>
               <div *ngIf="completedClass && !classError">
                 {{selectedClass || "All"}}
               </div>
@@ -56,8 +55,7 @@
         <!--Arm dropdown-->
         <li class="nav-item nav-pills">
           <div class="btn-group mx-1 my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Arm">
-            <button type="button" class="btn" [ngClass]="btnClass(armError)" [disabled]="!armError"
-                    (click)="getArms()">
+            <button type="button" class="btn" [ngClass]="btnClass(armError)" disabled>
               <div *ngIf="completedArm && !armError">
                 {{selectedArm || "All"}}
               </div>
@@ -74,7 +72,7 @@
           <ul class="dropdown-menu">
               <li class="dropdown-item" (click)="selectedArm = ''">All</li>
               <li><hr class="dropdown-divider"></li>
-              <li class="dropdown-item" *ngFor="let item of arms" (click)="selectedArm = item.name">{{item.name}}</li>
+              <li class="dropdown-item" *ngFor="let item of arms" (click)="selectedArm = item">{{item}}</li>
           </ul>
           </div>
         </li>
@@ -82,8 +80,7 @@
         <!--Session dropdown-->
         <li class="nav-item nav-pills">
           <div class="btn-group mx-1 my-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Session">
-            <button type="button" class="btn" [ngClass]="btnClass(sessionError)" [disabled]="!sessionError"
-                    (click)="getSessions()">
+            <button type="button" class="btn" [ngClass]="btnClass(sessionError)" disabled>
               <div *ngIf="completedSession && !sessionError">
                 {{selectedSession || "All"}}
               </div>
@@ -106,7 +103,7 @@
         </li>
 
         <!--Term dropdown-->
-        <div>
+        <div *ngIf="includeTerm">
           <b class="my-auto">Term: </b>
             <div class="btn-group mx-2">
             <button class="btn btn-light disabled">

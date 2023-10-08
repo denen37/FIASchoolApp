@@ -1,0 +1,22 @@
+<!-- State Modal -->
+<div class="modal-header">
+    <h1 class="modal-title fs-5" id="saveStudentModalLabel">Student Information</h1>
+    <button type="button" class="btn-close" (click)="hideSubmittingModal()" aria-label="Close"></button>
+  </div>
+  <div class="modal-body text-center">
+      <div *ngIf="!saveCompleted && !saveError">
+        <i class="fa fa-spinner fa-pulse text-secondary" aria-hidden="true" style="font-size:100px"></i>
+        <p>Saving...</p>
+      </div>
+      <div *ngIf="saveCompleted">
+        <i class="fa fa-check-circle-o text-success" aria-hidden="true" style="font-size:100px"></i>
+          <p>Saved!</p> 
+      </div>
+      <div *ngIf="saveError">
+        <i class="fa fa-times-circle-o text-danger" aria-hidden="true" style="font-size:100px"></i>
+         <p>There was a problem while saving your information</p>
+      </div>
+  <div class="modal-footer">
+    <!--<button type="button" class="btn btn-primary" data-bs-dismiss="modal" routerLink="../subject-scores" (click)="viewScores()">View</button>-->
+    <button type="button" class="btn btn-danger" (click)="hideSubmittingModal()">Close</button>
+  </div>

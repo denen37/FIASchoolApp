@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ClassRepository } from '../models/classRepository.model';
 import { ArmRepository } from '../models/armRepository.model';
 import { SessionRepository } from '../models/sessionRepository.model';
@@ -34,6 +34,8 @@ export class SelectionNavbarComponent {
 
     @Output()
     selectionChanged = new EventEmitter();
+    @Input()
+    includeTerm: boolean = true;
 
     load()
     {
@@ -97,27 +99,8 @@ export class SelectionNavbarComponent {
     }
 
     loadStudentParameters() {
-        this.classRepo.loadClasses();
-        this.armRepo.loadArms();
-        this.sessionRepo.loadSessions();
-    }
-
-    getClasses(){
-        this.classRepo.error = undefined;
-        this.classRepo.completed = undefined;
-        this.classRepo.loadClasses();
-    }
-
-    getArms(){
-        this.armRepo.error = undefined;
-        this.armRepo.completed = undefined;
-        this.armRepo.loadArms();
-    }
-
-    getSessions(){
-        this.sessionRepo.error = undefined
-        this.sessionRepo.completed = undefined;
-        this.sessionRepo.loadSessions();
+        this.classRepo.loadClasses(true);
+        this.sessionRepo.loadSessions(false);
     }
 
     public get completedClass(): boolean | undefined{
@@ -125,7 +108,7 @@ export class SelectionNavbarComponent {
     }
 
     public get completedArm(): boolean | undefined{
-        return this.armRepo.completed;
+        return this.classRepo.completed;
     }
 
     public get completedSession(): boolean | undefined{
@@ -136,17 +119,18 @@ export class SelectionNavbarComponent {
         return this.classRepo.classes || [];
     }
 
-    public get arms(): Arm[]{
-        return this.armRepo.arms || [];
+    public get arms(): string[]{
+        return this.classes?.find(c => c.name == this.selectedClass)?.classArm
+        .map(x => x.arm.name).sort() || [];
     }
 
     public get sessions(): Session[]{
-        return this.sessionRepo.sessions || [];
+        return this.sessionRepo.sessions?.sort() || [];
     }
 
     public get armError(): boolean
     {
-        return this.armRepo.error;
+        return this.classRepo.error;
     }
     public get classError(): boolean
     {

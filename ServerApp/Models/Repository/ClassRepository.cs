@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using ServerApp.Models.Students;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ServerApp.Models.Repository
 {
@@ -18,13 +19,13 @@ namespace ServerApp.Models.Repository
         {
             if (related)
             {
-                var classes = context.Class.Include(s => s.ClassArm);
+                var classes = context.Class.Include(s => s.ClassArm).ThenInclude(a => a.Arm);
                 foreach (var _class in classes)
                 {
                     foreach (var classArm in _class.ClassArm)
                     {
                         classArm.Class = null;
-                        //classArm.Arm.ClassArm = null;
+                        classArm.Arm.ClassArm = null;
                     }
                 }
 
@@ -40,11 +41,12 @@ namespace ServerApp.Models.Repository
            {
                 if (related)
                 {
-                    var _class = context.Class.Include(s => s.ClassArm).First(s => s.Id == (int)id);
+                    var _class = context.Class.Include(s => s.ClassArm).ThenInclude(a => a.Arm)
+                    .First(s => s.Id == (int)id);
                     foreach (var classArm in _class.ClassArm)
                     {
                         classArm.Class = null;
-                        //classArm.Arm.ClassArm = null;
+                        classArm.Arm.ClassArm = null;
                     }
                 }
                 return context.Class.Find(id);

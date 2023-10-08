@@ -3,6 +3,7 @@ import { Input } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Parent, ParentStudentJunction } from "../models/parent.model";
 import { FormValidator } from "./formValidator.model";
+import { ParentRepository } from "../models/parentRepository.model";
 
 const MAX_PARENTS = 2;
 
@@ -15,9 +16,11 @@ export class ParentFormComponent {
     public relationships: string[] = ["Father", "Mother", "Grandmother", "Grandfather", 
     "Uncle", "Aunty", "Cousin", "Brother", "Sister", "Others"];
 
+    public titles: string[] = ["Mr", "Mrs", "Dr", "Engr", "Chief", "Barr", "Col","Hon","Rev", "Pst","Gen"]
+
     public maritalStatusCollection: string[] = ["Married", "Single", "Divorced", "Widow", "Widower"];
-    index: number = 0
-    constructor() {
+    index: number = 0;
+    constructor(private parentRepos: ParentRepository) {
         
         this.parentsOfStudent = new Array<ParentStudentJunction>();
         //this.parentStudent = new ParentStudentJunction();
@@ -34,7 +37,13 @@ export class ParentFormComponent {
     parentFormErrors = new EventEmitter<string[]>();
     @ViewChild(NgForm)
     pForm?: NgForm
+    oldParent: boolean = true
+    selectedParent?: string;
 
+    ngOnInit()
+    {
+        this.parentRepos.loadParentNames();
+    }
 
     ngOnChanges()
     {
@@ -51,6 +60,7 @@ export class ParentFormComponent {
         this.pForm?.reset();
        }
     }
+
     //Gets the Parent-Student connection based on index
     //if it is not available create a new connection
     get parentStudent():ParentStudentJunction
@@ -73,6 +83,11 @@ export class ParentFormComponent {
         }
 
         return this.parentStudent.parent;
+    }
+
+    get parents()
+    {
+        return this.parentRepos.parentNames;
     }
 
     //Set the parent to particular parent-student connection
@@ -149,5 +164,10 @@ export class ParentFormComponent {
     getValidationErrors(state: any, thingName?: string)
     {
         return FormValidator.getValidationErrors(state, thingName);
+    }
+
+    getOldParentId(value: string)
+    {
+        this.parentStudent.parentId = parseInt(value);
     }
 }

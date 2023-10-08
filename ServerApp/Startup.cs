@@ -36,7 +36,7 @@ namespace ServerApp
                     options.UseSqlServer(connectionString));
 
             services.AddTransient<StudentRepository>();
-            services.AddTransient<IComplexRepository<Parent>, ParentRepository>();
+            services.AddTransient<ParentRepository>();
             services.AddTransient<ISimpleRepository<LeadershipPosition>, Repository<LeadershipPosition>>();
             services.AddTransient<ISimpleRepository<Arm>, Repository<Arm>>();
             services.AddTransient<ISimpleRepository<Class>, ClassRepository>();

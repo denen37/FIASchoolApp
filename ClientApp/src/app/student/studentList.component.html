@@ -1,62 +1,126 @@
 <style>
-  table>tbody>tr:hover {background-color: rgb(0, 204, 255); color: white;}
-  table>tbody>tr:active {font-size: 0.9rem; background-color:  rgba(9, 121, 150, 0.897);}
+  table>tbody td.highlight:hover {background-color: rgb(0, 204, 255); color: white;}
+  table>tbody td.highlight:active {font-size: 0.9rem; background-color:  rgba(9, 121, 150, 0.897);}
 </style>
 
 <sch-header></sch-header>
-<select-nav (selectionChanged)="reload()"></select-nav>
-
-<!--Show this table if loading is complete and model has data-->
-<div class="container-fluid pt-2" *ngIf="completed; else loading">
-  <table class="table table-md table-bordered table-striped text-dark">
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Name</th>
-        <th>Sex</th>
-        <th>Class</th>
-        <th>Session</th>
-    </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of students; let i = index" 
-      [routerLink]="['details', item.id]" data-bs-toggle="tooltip" data-bs-placement="top" 
-      title="Click to view details">
-        <td>{{ i + 1 }}</td>
-        <td>{{item.lastName + " " + item.middleName +" " + item.firstName}}</td>
-        <td>{{item.sex}}</td>
-        <td>{{item._class + item.arm}}</td>
-        <td>{{item.session}}</td>
-      </tr>
-    </tbody>
-  </table>
-<!--Show this if loading is complete and model has data-->
-<div *ngIf="completed && students.length > 0; else nodata"></div>
+<div class="py-1">
+  <button class="btn btn-light" type="button" (click)="openSideBar = !openSideBar">
+    <span style="font-size: 20px;">
+      <span class="fa fa-angle-double-right" *ngIf="!openSideBar"></span>
+      <span class="fa fa-angle-double-left" *ngIf="openSideBar"></span>
+    </span>
+  </button>
 </div>
+<select-nav (selectionChanged)="reload()" [includeTerm]="false"></select-nav>
+<div class="container-fluid pt-2">
+  <div class="row pt-2">
+    <!--  Sidebar Starts-->
+    <div class="border border-1 rounded-1 col-3 py-2" *ngIf="openSideBar">
+      <div class="d-flex justify-content-between">
+        <div class="mx-auto h5" id="offcanvasExampleLabel">Class Overview</div>
+        <button type="button" class="btn-close d-inline pull-right" (click)="openSideBar = false"></button>
+      </div>
+      <div class="">
+        <!--Session Dropdown-->
+        <div class="shadow py-2">
+          <span class="mx-5 my-2 d-flex align-items-stretch border border-2 border-primary" style="width:fit-content; border-radius: 6px;">
+            <span  class="bg-light" style="border-radius: 6px 0 0 6px; padding: 6px 12px">{{latestSession}}</span>
+            <a class="btn btn-light dropdown-toggle" style="border-radius: 0 6px 6px 0; padding: 6px;" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="visually-hidden">Toggle Dropdown</span>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="dropdown-item" (click)="latestSession = item.name" *ngFor="let item of sessions">{{item.name}}</li>
+            </ul>
+            </span>
+        </div>
+          <!--Session dropdown ends-->
+        <div class="overflow-auto" style="height: 300px;">
+          <div class="accordion">
+          <div class="accordion-item" *ngFor="let class of classes">
+            <h5 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+getAccordionName(class.name)" aria-expanded="true" aria-controls="collapseOne">
+                {{class.name}}
+              </button>
+            </h5>
+            <div [id]="getAccordionName(class.name)" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="list-group">
+                  <button [name]="getAccordionItemName(class.name, arm)" class="list-group-item list-group-item-action" 
+                  [class.active]="accItemName == btn.name" *ngFor="let arm of arms(class.name)"
+                    (click)="accItemName = accordionClickAction(class.name, arm)" #btn>
+                    <div>{{arm}}
+                    <span class="badge bg-primary">{{studentCount(class.name, arm)}}</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
 
-<!--Show if loading is ongoing-->
-<ng-template #loading>
-  <div class="d-flex justify-content-center align-items-center pt-2" *ngIf="completed === false; else load">
+        
+      </div>
+    </div>
+    <!--Sidebar ends-->
+    <div class="col">
+      <!--Show this table if loading is complete and model has data-->
+      <table class="table table-md table-bordered table-striped text-dark" *ngIf="completed && students.length > 0">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Sex</th>
+            <th>Present Class</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of students; let i = index" data-bs-toggle="tooltip" data-bs-placement="top" 
+          title="Click to view details">
+            <td>{{ i + 1 }}</td>
+            <td class="highlight" [routerLink]="['details', item.id]">{{item.lastName + " " + item.middleName +" " + item.firstName}}</td>
+            <td>{{item.sex}}</td>
+            <td class="highlight">{{item.currentClass||'Not found'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    
+      <!--Pagination-->
+      <nav aria-label="..." *ngIf="pages.length > 1">
+        <ul class="pagination pagination-lg justify-content-center">
+          <li class="page-item" [class.active]="item" *ngFor="let item of pages; let i = index">
+            <span *ngIf="item" class="page-link">{{i+1}}</span>
+            <a class="page-link" *ngIf="!item" (click)="loadPage(i + 1)">{{i + 1}}</a>
+          </li>
+        </ul>
+      </nav>
+    
+    <!--Show this if loading is complete and model has data
+    <div *ngIf="completed && students.length > 0; else nodata"></div>
+    </div>-->
+
+    <!--Show if loading is ongoing-->
+  <div class="d-flex justify-content-center align-items-center pt-2" *ngIf="completed === false">
     <div class="spinner-border" role="status">
       <span class="sr-only">Loading...</span>
     </div>
   </div>  
-</ng-template>
 
-<!--Show this if loading is complete and model has no data-->
-<ng-template #nodata>
-<div p-1>
-  <h5>No students available...</h5>
-</div>
-</ng-template>
+  <!--Show this if loading is complete and model has no data-->
+  <div class="text-center" *ngIf="completed && students.length <= 0">
+    <h5>No students available...</h5>
+  </div>
 
-<!--Show this if loading is not ongoing-->
-<ng-template #load>
-  <div class="text-center">
+  <!--Show this if loading is not ongoing-->
+  <div class="text-center" *ngIf="completed === undefined">
       <h5 class="text-muted my-2">Click the load button...</h5>
       <!--Load button-->
       <button class="btn btn-outline-success m-1" (click)="loadBtn()" >Load</button>
   </div>
-</ng-template>
+
+  </div>
+</div>
+
 
   

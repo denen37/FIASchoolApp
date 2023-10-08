@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
 import { Arm } from './studentClassArm.model';
+import { retry } from 'rxjs';
 
 const armUrl = "api/arm";
 
@@ -16,13 +17,19 @@ export class ArmRepository {
 
     loadArms() {
         this.http.get<Arm[]>(armUrl)
+        .pipe(
+            retry(2) // retry two times 
+        )
         .subscribe(
-            a => this._arms = a,
-            err => {
-                this.error = err;
-                console.log(err)
-            },
-            () => this.completed = true);
+            {
+                next: a => this._arms = a,
+                error: err => {
+                    this.error = err;
+                    console.log(err)
+                },
+                complete: () => this.completed = true
+            }
+           );
     }
 
     get arms() {

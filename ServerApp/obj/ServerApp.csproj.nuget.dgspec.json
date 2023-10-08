@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\AWAR ABRAHAM\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj": {}
+    "c:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\AWAR ABRAHAM\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj": {
+    "c:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\AWAR ABRAHAM\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj",
+        "projectUniqueName": "c:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj",
         "projectName": "ServerApp",
-        "projectPath": "C:\\Users\\AWAR ABRAHAM\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj",
-        "packagesPath": "C:\\Users\\AWAR ABRAHAM\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\AWAR ABRAHAM\\source\\repos\\FIASchoolApp\\ServerApp\\obj\\",
+        "projectPath": "c:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj",
+        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
+        "outputPath": "c:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\AWAR ABRAHAM\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

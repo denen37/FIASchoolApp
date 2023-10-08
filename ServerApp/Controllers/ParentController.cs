@@ -14,8 +14,8 @@ namespace ServerApp.Controllers
     [ApiController]
     public class ParentController: Controller
     {
-        private IComplexRepository<Parent> repos;
-        public ParentController(IComplexRepository<Parent> _repos)
+        private ParentRepository repos;
+        public ParentController(ParentRepository _repos)
         {
             repos = _repos;
         }
@@ -24,6 +24,13 @@ namespace ServerApp.Controllers
         public IEnumerable<Parent> GetAllParent()
         {
             return repos.GetAll();
+        }
+
+        [HttpGet]
+        [Route("names")]
+        public IActionResult GetParentNames()
+        {
+            return Ok(repos.GetAllNames());
         }
 
         [HttpGet("{id}")]

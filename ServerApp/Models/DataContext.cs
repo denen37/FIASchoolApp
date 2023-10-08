@@ -23,7 +23,7 @@ namespace ServerApp.Models
         public DbSet<Subject> Subject { get; set; }
         public DbSet<AcademicReport> AcademicReport { get; set; }
         public DbSet<SubjectPerformance> SubjectPerformance { get; set; }
-        public DbSet<StudentClassArmJunction> StudentClassArm { get; set; }
+        public DbSet<StudentClassArmJunction> StudentClassArmJunction { get; set; }
         public DbSet<StudentsInClass> StudentsInClass { get; set; }
         public DbSet<ParentStudentJunction> ParentStudentJunction { get; set; }
         public DbSet<OverallPerformance> OverallPerformance { get; set; }

@@ -9,6 +9,7 @@ using ServerApp.Models.Repository;
 using ServerApp.Models.Students;
 using Microsoft.AspNetCore.Cors;
 using ServerApp.Controllers.Filters;
+using ServerApp.Models.Pages;
 
 namespace ServerApp.Controllers
 {
@@ -22,13 +23,21 @@ namespace ServerApp.Controllers
         {
             repos = _repos;
         }
+
+        [Route("count")]
+        [HttpGet]
+        public IActionResult GetCount(string session)
+        {
+            return Ok(repos.CountNumberInClass(session));
+        }
+
        
        // [EnableCors("AllowAngularOrigins")]
         [HttpGet]
-        public IActionResult GetAllStudents(string name, string classroom, string arm, string session)
+        public IActionResult GetAllStudents([FromQuery] QueryParams query, [FromQuery]QueryOptions options)
         {
             //return repos.GetAll(related);
-            return Ok(repos.GetStudentsInClass(name, classroom, arm, session));
+            return Ok(repos.GetStudentsInClass(query, options));
         }
 
         [HttpGet("{id:long}")]

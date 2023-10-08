@@ -44,7 +44,7 @@ namespace ServerApp.Models.Students
         public int ClassArmId { get; set; }
         public ClassArmJunction ClassArm { get; set; }
 
-        public int SessionId { get; set; }
-        public Session Session { get; set; }
+        public int SessionTermId { get; set; }
+        public SessionTermJunction SessionTerm { get; set; }
     }
 }

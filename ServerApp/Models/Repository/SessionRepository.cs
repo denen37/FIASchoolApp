@@ -18,13 +18,12 @@ namespace ServerApp.Models.Repository
         {
             if (related)
             {
-                var sessions = context.Session.Include(s => s.SessionTerms);
+                var sessions = context.Session.Include(s => s.SessionTerms).ThenInclude(t => t.Term);
                 foreach (var session in sessions)
                 {
                     foreach (var sessionTerm in session.SessionTerms)
                     {
                         sessionTerm.Session = null;
-                        sessionTerm.Term = null;
                     }
                 }
 
@@ -40,11 +39,12 @@ namespace ServerApp.Models.Repository
            {
                 if (related)
                 {
-                    var session = context.Session.Include(s => s.SessionTerms).First(s => s.Id == (int)id);
+                    var session = context.Session
+                                    .Include(s => s.SessionTerms).ThenInclude(t => t.Term)
+                                    .First(s => s.Id == (int)id);
                     foreach (var sessionTerm in session.SessionTerms)
                     {
                         sessionTerm.Session = null;
-                        sessionTerm.Term = null;
                     }
                 }
                 return context.Session.Find(id);

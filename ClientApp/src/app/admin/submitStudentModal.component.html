@@ -1,0 +1,72 @@
+<!--Assign Class Modal-->
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Student Admission</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <p>You are about to admit <span class="h5">{{fullName}}</span>.<br>
+      Assign him to a class</p>
+      <!--class dropdown starts-->
+      <div>
+        <span class="mx-5 mt-2 d-flex align-items-stretch border border-2 border-primary" style="width:fit-content; border-radius: 6px;">
+              <span  class="bg-light" style="border-radius: 6px 0 0 6px; padding: 6px 12px">{{selectedClass}}</span>
+              <a class="btn btn-light dropdown-toggle" style="border-radius: 0; padding: 6px;" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+              </a>
+              <ul class="dropdown-menu">
+                  <li class="dropdown-item" (click)="selectedClass = item.name" *ngFor="let item of classes">{{item.name}}</li>
+              </ul>
+      
+            <span  class="bg-light" style="padding: 6px 12px">{{selectedArm}}</span>
+              <a class="btn btn-light dropdown-toggle" style="border-radius: 0 6px 6px 0; padding: 6px;" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+              </a>
+              <ul class="dropdown-menu">
+                  <li class="dropdown-item" (click)="selectedArm = item" *ngFor="let item of arms">{{item}}</li>
+              </ul>
+          </span>
+      </div>
+      <!--class dropdown ends-->
+
+      <!--Session dropdown starts-->
+      <!--<div>
+        
+        <span class="mx-5 mt-2 d-flex align-items-stretch border border-2 border-primary" style="width:fit-content; border-radius: 6px;">
+          <span  class="bg-light" style="border-radius: 6px 0 0 6px; padding: 6px 12px">{{selectedSession}}</span>
+          <a class="btn btn-light dropdown-toggle" style="border-radius: 0 6px 6px 0; padding: 6px;" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="visually-hidden">Toggle Dropdown</span>
+          </a>
+          <ul class="dropdown-menu">
+              <li class="dropdown-item" (click)="selectedSession = item.name" *ngFor="let item of sessions">{{item.name}}</li>
+          </ul>
+          </span>
+      </div>-->
+      <p>Session</p>
+      <div>
+        <span class="mx-5 mt-2 d-flex align-items-stretch border border-2 border-primary" style="width:fit-content; border-radius: 6px;">
+              <span  class="bg-light" style="border-radius: 6px 0 0 6px; padding: 6px 12px">{{selectedSession}}</span>
+              <a class="btn btn-light dropdown-toggle" style="border-radius: 0; padding: 6px;" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+              </a>
+              <ul class="dropdown-menu">
+                  <li class="dropdown-item" (click)="setSelectedSession(item.name)" *ngFor="let item of sessions">{{item.name}}</li>
+              </ul>
+      
+            <span  class="bg-light" style="padding: 6px 12px">{{selectedTerm}}</span>
+              <a class="btn btn-light dropdown-toggle" style="border-radius: 0 6px 6px 0; padding: 6px;" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+              </a>
+              <ul class="dropdown-menu">
+                  <li class="dropdown-item" (click)="selectedTerm = item" 
+                  *ngFor="let item of terms">{{item}}</li>
+              </ul>
+          </span>
+
+          <!--State of request-->
+      </div>
+
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" (click)="submitStudentForm()" [disabled]="!isClassSelected">Admit</button>
+      <button class="btn btn-danger" (click)="hideAdmitModal()">Close</button>
+    </div>

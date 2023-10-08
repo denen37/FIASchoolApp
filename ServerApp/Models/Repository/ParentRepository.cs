@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace ServerApp.Models.Repository
 {
-    public class ParentRepository: IComplexRepository<Parent>
+    public class ParentRepository
     {
         private DataContext context;
         public ParentRepository(DataContext ctx)
@@ -14,10 +14,19 @@ namespace ServerApp.Models.Repository
             context = ctx;
         }
 
-        public IQueryable<Parent> GetAll(bool related)
+        public IQueryable<Parent> GetAll(/*bool related*/)
         {
             var parents = context.Parent;
             return parents;
+        }
+
+        public Object GetAllNames()
+        {
+            return context.Parent.Select(x => new
+            {
+                Id = x.Id, 
+                Name = x.LastName + " " + ( x.MiddleName == null?"":(x.MiddleName + " ")) + x.FirstName
+            }).ToList();
         }
 
         public void Add(Parent newParent)

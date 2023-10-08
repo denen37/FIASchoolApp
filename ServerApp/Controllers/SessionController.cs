@@ -18,13 +18,13 @@ namespace ServerApp.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Session> GetAllSessions(bool related = false)
+        public IEnumerable<Session> GetAllSessions(bool related = false, bool metadata = false)
         {
             return repos.GetAll(related);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetSession(int id, bool related)
+        public IActionResult GetSession(int id, bool related, bool metadata = false)
         {
             Session session = repos.Get(id, related);
             if (session == null)

@@ -1,22 +1,27 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
 import { StudentFilter } from '../filters/studentFilter.model';
-import { StudentNames, StudentsInClass } from './studentInClass.model';
+import { StudentNames, StudentsInClass, StudentsInPage } from './studentInClass.model';
 import { Student } from './student.model';
 import { StudentParameters } from '../filters/studentParameters.model';
 import { StudentRecordService } from '../services/student.service';
+import { retry } from 'rxjs';
+import { Pagination } from './pagination.model';
 
 const studentUrl = "api/student";
+type StudentCount = {_class: string, arm: string, count: number}
 @Injectable()
 export class StudentRepository
 {
-    students?: StudentsInClass[];
+    students?: StudentsInPage;
     completedAll?: boolean;
     completedOne?: boolean;
     //For Student Names Component
     studentNames?: StudentNames[];
     completedNames?: boolean;
     loadStudentNamesError?: boolean;
+    //Student count
+    studentCount?: StudentCount[]
     //For addStudents method
     completedAdd?: boolean;
     addStudentError?: boolean;
@@ -31,12 +36,12 @@ export class StudentRepository
         this.studentService = new StudentRecordService();
     }
 
-    getStudents(filters: StudentFilter){
+    getStudents(filters: StudentFilter, pageOption?: Pagination){
         this.completedAll = false;
         
-        var url = this.modifyUrl(studentUrl, filters);
+        var url = this.modifyUrl(studentUrl, filters, pageOption);
 
-        this.http.get<StudentsInClass[]>(url)
+        this.http.get<StudentsInPage>(url)
         .subscribe(s => this.students = s,
                     err => console.log(err),
                     () => this.completedAll = true);
@@ -97,6 +102,19 @@ export class StudentRepository
                     () => this.completedNames = true);
     }
 
+    getStudentCount(session: string)
+    {
+        this.http.get<StudentCount[]>(`${studentUrl}/count?session=${session}`)
+        .pipe(
+          retry(3)
+        )
+        .subscribe({
+            next: x => this.studentCount = x,
+            error: err => console.log(err),
+            complete: () => {}
+        })
+    }
+
     addStudent()
     {
         this.completedAdd = false;
@@ -106,16 +124,15 @@ export class StudentRepository
         .subscribe(
             std => console.log(std),
             err => {console.log(err);
-                    //console.log(`completedAdd returns: ${this.completedAdd}`);
                     this.addStudentError = true},
             () => {
                 this.completedAdd = true;
-                //console.log(`completedAdd returns: ${this.completedAdd}`);
+                this.student = new Student();
             }
         )
     }
 
-    modifyUrl(originalUrl: string, filters: StudentFilter): string
+    modifyUrl(originalUrl: string, filters: StudentFilter, pageOption?: Pagination): string
     {
         var url = originalUrl;
         var pos = originalUrl.length;
@@ -136,6 +153,14 @@ export class StudentRepository
         }
         if (filters?.term) {
             url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}term=${filters.term}`;
+        }
+
+        if (pageOption?.currentPage) {
+            url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}currentPage=${pageOption.currentPage}`;
+        }
+
+        if (pageOption?.pageSize) {
+            url = `${url}${url.includes("?", pos) && url.length > pos + 1 ?"&":"?"}pageSize=${pageOption.pageSize}`;
         }
 
         return url;

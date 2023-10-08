@@ -5,6 +5,7 @@ using ServerApp.Models.Students;
 using System.Collections.Generic;
 using ServerApp.Controllers.Filters;
 using Z.EntityFramework.Plus;
+using ServerApp.Models.Pages;
 
 namespace ServerApp.Models.Repository
 {
@@ -16,45 +17,54 @@ namespace ServerApp.Models.Repository
         {
             context = ctx;
         }
-        /*public IQueryable<Student> GetAll (bool related = false)
+        
+        public Object CountNumberInClass(string session)
         {
-            //Include leadership position;
-            if (related)
-            {
-                var students = context.Student.Include(s => s.Post);
-                foreach (var student in students)
-                {
-                    student.Post.Students = null;
-                }
-                return students;
-            }
-            return context.Student;
-        }*/
-
-        public IEnumerable<StudentsInClass> GetStudentsInClass(string name, string classroom, string arm, string session)
+            return context.StudentsInClass.Where(x => x.Session == session)
+                    .Select(x => new {
+                        _class = x._class,
+                        Arm = x.Arm,
+                        Count = x.Number
+                    }).Distinct();
+        }
+        public Object GetStudentsInClass(QueryParams query, QueryOptions options)
         {
             IQueryable<StudentsInClass> students = context.StudentsInClass;
 
-            if (name != null)
+            if (query.Name != null)
             {
-                name = "%" + name +  "%";
-                students = students.Where(s => EF.Functions.Like(s.FirstName + s.MiddleName + s.LastName, name));
+                query.Name = "%" + query.Name +  "%";
+                students = students.Where(s => EF.Functions.Like(s.FirstName + s.MiddleName + s.LastName, query.Name));
             }
 
-            if (classroom != null)
+            if (query.Classroom != null)
             {
-                students = students.Where(s => s._class == classroom);
+                students = students.Where(s => s._class == query.Classroom);
             }
-            if (arm != null)
+            if (query.Arm != null)
             {
-                students = students.Where(s => s.Arm == arm);
+                students = students.Where(s => s.Arm == query.Arm);
             }
-            if (session != null)
+            if (query.Session != null)
             {
-                students = students.Where(s => s.Session == session);
+                students = students.Where(s => s.Session == query.Session);
             }
 
-            return students;
+                var list = students.Select(x => new MinifiedStudentInClass {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                MiddleName = x.MiddleName,
+                LastName = x.LastName,
+                DateOfBirth = x.DateOfBirth,
+                AdmissionNumber = x.AdmissionNumber,
+                Sex = x.Sex,
+                CurrentClass = x.CurrentClass
+            }).Distinct().OrderBy(x => x.LastName);
+            var pageList = new PageList<MinifiedStudentInClass> (list, options);
+            return new PageResult<MinifiedStudentInClass>{
+                PageList = pageList,
+                TotalPages = pageList.TotalPages,
+            };
         }
 
         public IEnumerable<StudentNames> GetStudentNames(QueryParams query)

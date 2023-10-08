@@ -1,8 +1,12 @@
-import { Component, ElementRef, Renderer2, ViewChild } from "@angular/core";
+import { Component, TemplateRef, ViewChild} from "@angular/core";
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { StudentRepository } from "../models/studentRepository.model";
 import { Student } from "../models/student.model";
 import { ParentStudentJunction } from "../models/parent.model";
-//import { NgForm } from "@angular/forms";
+import { SubmitModalComponent } from "./submitStudentModal.component";
+import { ClassRepository } from "../models/classRepository.model";
+//import { ArmRepository } from "../models/armRepository.model";
+import { SessionRepository } from "../models/sessionRepository.model";
 
 @Component({
     templateUrl: 'formPage.component.html'
@@ -10,19 +14,32 @@ import { ParentStudentJunction } from "../models/parent.model";
 
 export class FormPageComponent {
     constructor(private studentRepo: StudentRepository,
-        private renderer: Renderer2) {
+                private classRepo: ClassRepository,
+               // private armRepo: ArmRepository,
+                private sessionRepo: SessionRepository,
+                private modalService: BsModalService) 
+    {
     }
 
-    @ViewChild('saveModal')
-    saveModal?: ElementRef
+    modalRef?: BsModalRef;
     submitForm: boolean = false;
     showAlert: boolean = false;
     openModal: boolean = false;
+    @ViewChild('admitModal')
+    admitModal?: TemplateRef<any>
 
     sFormErrors: string[] = [];
     pFormErrors: string[] = [];
     viewMode: string  = 'student';
     order: number = 0;
+
+
+    ngOnInit()
+    {
+        this.classRepo.loadClasses(true);
+
+        this.sessionRepo.loadSessions(true);
+    }
     
     get student() : Student
     {
@@ -55,30 +72,13 @@ export class FormPageComponent {
         this.showAlert = true;
     }
 
-    postData()
-    {
-        //if (this.sFormErrors.length == 0 && this.pFormErrors.length == 0) {
-            this.studentRepo.addStudent();
-        //}
-    }
-
     resetSubmitBtn()
     {
         this.showAlert = false;
         this.submitForm = false;
     }
 
-
-    resetParentForm()
-    {
-        
-    }
-
-    resetStudentForm()
-    {
-
-    }
-
+    //Get the list of errors on the student form returned as an event
     getStudentFormErrors(errors: string[] | undefined)
     {
         if(errors)
@@ -95,6 +95,7 @@ export class FormPageComponent {
         this.submitForm = false;
     }
 
+    //Get the list of errors on the parent form returned as an event
     getParentFormErrors(errors: string[] | undefined)
     {
         if(errors)
@@ -105,10 +106,11 @@ export class FormPageComponent {
         else
         {
             this.pFormErrors = [];
+            //if no form errors exist send data to the database
+            //display a modal
             if(this.sFormErrors.length == 0)
             {
-                this.postData();
-                this.openModal = true;
+                this.showAdmitModal()
             }
         } 
 
@@ -120,8 +122,7 @@ export class FormPageComponent {
         return this.studentRepo.completedAdd;
     }
 
-    get saveError()
-    {
-        return this.studentRepo.addStudentError;
-    }
+    showAdmitModal() {
+        this.modalRef = this.modalService.show(SubmitModalComponent);
+     }
 }

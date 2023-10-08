@@ -32,9 +32,9 @@ export class ClassArmJunction
 export class StudentClassArmJunction
 {
     constructor(
-        public id: number,
-        public studentId: number,
-        public classArmId: number,
-        public sessionId: number
+        public id?: number,
+        public studentId?: number,
+        public classArmId?: number,
+        public sessionTermId?: number
     ){}
 }

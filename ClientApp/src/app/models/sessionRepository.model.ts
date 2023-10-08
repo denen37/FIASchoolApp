@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Session } from './sessionTerm.model';
+import { retry } from 'rxjs';
 const sessionUrl = "api/session";
 
 @Injectable()
@@ -14,15 +15,20 @@ export class SessionRepository {
         
     }
 
-    loadSessions() {
-        this.http.get<Session[]>(sessionUrl)
+    loadSessions(loadTerms: boolean/*, metadata: boolean = false*/) {
+        this.http.get<Session[]>(`${sessionUrl}?related=${loadTerms}`)
+        .pipe(
+            retry(3) // retry two times 
+        )
         .subscribe(
-            a => this._sessions = a,
-            err => {
+        {
+            next: a => this._sessions = a,
+            error: err => {
                 this.error = err;
                 console.log(err)
             },
-            () => this.completed = true);
+            complete: () => this.completed = true
+        })
     }
 
     get sessions() {
