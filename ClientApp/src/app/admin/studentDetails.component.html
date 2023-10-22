@@ -31,10 +31,10 @@
         <!--Tabs-->
         <ul class="nav nav-pills nav-justified mx-3 my-2 bg-light rounded-2" id="myTabs">
             <li role="presentation" class="nav-item"><button data-bs-target="#biodata-tab" class="nav-link active" data-bs-toggle="pill">Bio Data</button></li>
-            <li role="presentation" class="nav-item"><button data-bs-target="#parent-tab" class="nav-link" data-bs-toggle="pill">Parents</button></li>
-            <li role="presentation" class="nav-item"><button data-bs-target="#academic-tab" class="nav-link" data-bs-toggle="pill">Academics</button></li>
-            <li role="presentation" class="nav-item"><button data-bs-target="#moral-tab" class="nav-link" data-bs-toggle="pill">Morals</button></li>
-            <li role="presentation" class="nav-item"><button data-bs-target="#payment-tab" class="nav-link" data-bs-toggle="pill">Payments</button></li>
+            <li role="presentation" *ngIf="params.parents" class="nav-item"><button data-bs-target="#parent-tab" class="nav-link" data-bs-toggle="pill">Parents</button></li>
+            <li role="presentation" *ngIf="params.overallPerformance" class="nav-item"><button data-bs-target="#academic-tab" class="nav-link" data-bs-toggle="pill">Academics</button></li>
+            <li role="presentation" *ngIf="params.morals" class="nav-item"><button data-bs-target="#moral-tab" class="nav-link" data-bs-toggle="pill">Morals</button></li>
+            <li role="presentation" *ngIf="params.payments" class="nav-item"><button data-bs-target="#payment-tab" class="nav-link" data-bs-toggle="pill">Payments</button></li>
         </ul>
 
         <!--All Tabs Content-->

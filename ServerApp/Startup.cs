@@ -44,7 +44,7 @@ namespace ServerApp
             services.AddTransient<ISimpleRepository<Subject>, Repository<Subject>>();
             services.AddTransient<ISimpleRepository<Club>, Repository<Club>>();
             services.AddTransient<ISimpleRepository<CourseCategory>, Repository<CourseCategory>>();
-            services.AddTransient<ISimpleRepository<Session>, SessionRepository>();
+            services.AddTransient<SessionRepository>();
             services.AddTransient<ISimpleRepository<Term>, Repository<Term>>();
             services.AddTransient<ISimpleRepository<Sport>, Repository<Sport>>();
             services.AddTransient<ISimpleRepository<Disability>, Repository<Disability>>();

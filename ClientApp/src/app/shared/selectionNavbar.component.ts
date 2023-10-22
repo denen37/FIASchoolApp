@@ -1,11 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { ClassRepository } from '../models/classRepository.model';
-import { ArmRepository } from '../models/armRepository.model';
 import { SessionRepository } from '../models/sessionRepository.model';
 import { Session } from '../models/sessionTerm.model';
-import { Class, Arm } from '../models/studentClassArm.model';
+import { Class } from '../models/studentClassArm.model';
 import { StudentFilter } from '../filters/studentFilter.model';
-import { StudentParameters } from '../filters/studentParameters.model';
 import { Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -16,16 +14,9 @@ import { Output, EventEmitter } from '@angular/core';
 export class SelectionNavbarComponent {
     termList = ["First", "Second", "Third"];
     constructor(private classRepo: ClassRepository,
-                private armRepo: ArmRepository,
                 private sessionRepo: SessionRepository,
-                private params: StudentParameters,
                 private filter: StudentFilter) 
     {
-        this.params.post = true;
-        this.params.morals = true;
-        this.params.overallPerformance = true;
-        this.params.parents = true;
-        this.params.payments = true;
     }
 
     ngOnInit() {

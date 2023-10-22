@@ -1,15 +1,19 @@
-<style>
-  table>tbody td.highlight:hover {background-color: rgb(0, 204, 255); color: white;}
-  table>tbody td.highlight:active {font-size: 0.9rem; background-color:  rgba(9, 121, 150, 0.897);}
-</style>
+<!--<style>
+  table>tbody > tr :hover {background-color: rgb(0, 204, 255); color: white;}
+  table>tbody > tr :active {font-size: 0.9rem; background-color:  rgba(9, 121, 150, 0.897);}
+</style>-->
 
 <sch-header></sch-header>
-<div class="py-1">
+<div class="d-flex justify-content-between py-1">
   <button class="btn btn-light" type="button" (click)="openSideBar = !openSideBar">
     <span style="font-size: 20px;">
       <span class="fa fa-angle-double-right" *ngIf="!openSideBar"></span>
       <span class="fa fa-angle-double-left" *ngIf="openSideBar"></span>
     </span>
+  </button>
+
+  <button class="btn btn-light" type="button" (click)="openSettingsBar = !openSettingsBar">
+    <span style="font-size: 20px;" class="fa fa-gear"></span>
   </button>
 </div>
 <select-nav (selectionChanged)="reload()" [includeTerm]="false"></select-nav>
@@ -64,6 +68,8 @@
       </div>
     </div>
     <!--Sidebar ends-->
+
+    <!--Table begins-->
     <div class="col">
       <!--Show this table if loading is complete and model has data-->
       <table class="table table-md table-bordered table-striped text-dark" *ngIf="completed && students.length > 0">
@@ -77,21 +83,24 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of students; let i = index" data-bs-toggle="tooltip" data-bs-placement="top" 
-          title="Click to view details">
+          title="Right click for more options" 
+          (contextmenu)="displayContextMenu($event, item);false">
             <td>{{ i + 1 }}</td>
-            <td class="highlight" [routerLink]="['details', item.id]">{{item.lastName + " " + item.middleName +" " + item.firstName}}</td>
+            <td>{{getFullName(item)}}</td>
             <td>{{item.sex}}</td>
-            <td class="highlight">{{item.currentClass||'Not found'}}</td>
+            <td>{{item.currentClass||'Not found'}}</td>
           </tr>
         </tbody>
       </table>
+
+      <context-menu [contextMenuStudent]="student" *ngIf="isDisplayContextMenu" [ngStyle]="getRightClickMenuStyle()"></context-menu>
     
       <!--Pagination-->
       <nav aria-label="..." *ngIf="pages.length > 1">
         <ul class="pagination pagination-lg justify-content-center">
-          <li class="page-item" [class.active]="item" *ngFor="let item of pages; let i = index">
-            <span *ngIf="item" class="page-link">{{i+1}}</span>
-            <a class="page-link" *ngIf="!item" (click)="loadPage(i + 1)">{{i + 1}}</a>
+          <li class="page-item" [class.active]="pageOption.currentPage == item" *ngFor="let item of pageNumber; let i = index">
+            <span *ngIf="pageOption.currentPage == item" class="page-link">{{i+1}}</span>
+            <a class="page-link" *ngIf="!(pageOption.currentPage == item)" (click)="loadPage(i + 1)">{{i + 1}}</a>
           </li>
         </ul>
       </nav>
@@ -119,7 +128,44 @@
       <button class="btn btn-outline-success m-1" (click)="loadBtn()" >Load</button>
   </div>
 
-  </div>
+    </div>
+    <!--Table ends-->
+
+    <!--Settings bar begins-->
+    <div class="border border-1 rounded-1 col-3 py-2" *ngIf="openSettingsBar">
+      <div class="d-flex justify-content-between">
+        <button type="button" class="btn-close d-inline" (click)="openSettingsBar = false"></button>
+        <div class="mx-auto h5" id="settingsHeader">Settings</div>
+      </div>
+
+      <ul class="list-group">
+        <li class="list-group-item">
+          <label class="form-check-label" for="inputCheckParents">
+            <input type="checkbox" [(ngModel)]="param.parents" class="form-check-input" id="inputCheckParents">
+            Parents
+          </label>
+        </li>
+        <li class="list-group-item">
+          <label class="form-check-label" for="inputCheckOverallPerformance">
+            <input type="checkbox" [(ngModel)]="param.overallPerformance" class="form-check-input" id="inputCheckOverallPerformance">
+            Academic records
+          </label>
+        </li>
+        <li class="list-group-item">
+          <label class="form-check-label" for="inputCheckMorals">
+            <input type="checkbox" [(ngModel)]="param.morals" class="form-check-input" id="inputCheckMorals">
+            Morals
+          </label>
+        </li>
+        <li class="list-group-item">
+          <label class="form-check-label" for="inputCheckPayments">
+            <input type="checkbox" [(ngModel)]="param.payments" class="form-check-input" id="inputCheckPayments">
+            Payment records
+          </label>
+        </li>
+      </ul>
+    </div>
+    <!--Settings bar ends-->
 </div>
 
 

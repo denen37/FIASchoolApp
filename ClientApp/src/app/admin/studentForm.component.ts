@@ -62,6 +62,25 @@ export class StudentFormComponent {
         this.student.disability = value;
     }
 
+    get dateOfBirth()
+    {
+         //return new Date(this.formatDate(this.student.dateOfBirth));
+         return this.formatDate(this.student.dateOfBirth);
+    }
+
+    formatDate(date: Date = new Date())
+    {
+        let shortDate = date.toLocaleString('default', {year: 'numeric'});
+        let pos = shortDate.indexOf('T');
+
+        return shortDate = shortDate.substring(pos, 0);
+    }
+
+    set dateOfBirth(v: string)
+    {
+        this.student.dateOfBirth = new Date(v);
+    }
+
     get countries()
     {
         let countryList = Object.values(country_and_states.country)
@@ -112,6 +131,8 @@ export class StudentFormComponent {
 
     get country()
     {
+        //console.log(`country: ${this.student.nationality}`);
+        
         if(!this.student.nationality)
         {
             this.student.nationality = 'Nigeria'

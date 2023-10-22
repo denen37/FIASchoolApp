@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild} from "@angular/core";
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { StudentRepository } from "../models/studentRepository.model";
 import { Student } from "../models/student.model";
 import { ParentStudentJunction } from "../models/parent.model";
@@ -7,6 +7,8 @@ import { SubmitModalComponent } from "./submitStudentModal.component";
 import { ClassRepository } from "../models/classRepository.model";
 //import { ArmRepository } from "../models/armRepository.model";
 import { SessionRepository } from "../models/sessionRepository.model";
+import { ActivatedRoute } from "@angular/router";
+import { StudentParameters } from "../filters/studentParameters.model";
 
 @Component({
     templateUrl: 'formPage.component.html'
@@ -15,12 +17,25 @@ import { SessionRepository } from "../models/sessionRepository.model";
 export class FormPageComponent {
     constructor(private studentRepo: StudentRepository,
                 private classRepo: ClassRepository,
-               // private armRepo: ArmRepository,
                 private sessionRepo: SessionRepository,
-                private modalService: BsModalService) 
+                private modalService: BsModalService,
+                private activeRoute: ActivatedRoute) 
     {
-    }
+        this.studentId = activeRoute.snapshot.params["id"]
+        this.state = activeRoute.snapshot.url[2].toString();
 
+        if (this.state == 'edit' && this.studentId) {
+            let params = new StudentParameters();
+            params.parents = true;
+            params.post = false;
+            studentRepo.getStudent(this.studentId, params)
+        } 
+    
+        //console.log(`state: ${this.state}; id: ${this.studentId}`)
+    }
+    state: string
+    private _student?: Student
+    studentId?: number
     modalRef?: BsModalRef;
     submitForm: boolean = false;
     showAlert: boolean = false;
@@ -43,10 +58,12 @@ export class FormPageComponent {
     
     get student() : Student
     {
-        if (!this.studentRepo.student) {
-            this.studentRepo.student = new Student();
+        if (this.state == 'edit') {
+            return this._student ??= this.studentRepo.student;
         }
-        return this.studentRepo.student
+        else{
+            return this._student ??= new Student();
+        }
     }
 
     set student(value: Student)
@@ -123,6 +140,13 @@ export class FormPageComponent {
     }
 
     showAdmitModal() {
-        this.modalRef = this.modalService.show(SubmitModalComponent);
+        const initialState: ModalOptions = {
+            initialState: {
+              state: this.state,
+              title: `${this.state} student`,
+              student: this.student
+            }
+          };
+        this.modalRef = this.modalService.show(SubmitModalComponent, initialState);
      }
 }

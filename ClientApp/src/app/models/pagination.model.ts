@@ -1,6 +1,4 @@
 export class Pagination {
-    constructor(
-        public currentPage: number,
-        public pageSize: number
-    ) {}
+    public currentPage: number = 1
+    public pageSize: number = 3
 }

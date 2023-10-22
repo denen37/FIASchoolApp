@@ -19,7 +19,7 @@ export class StudentDetailsComponent{
   private studentId: number;
 
     constructor(private studentRepo: StudentRepository,
-                private params: StudentParameters,
+                public params: StudentParameters,
                 private reportRepo: ReportCardRepository,
                 private router: Router,
                 private activeRoute: ActivatedRoute)

@@ -5,6 +5,7 @@ import { SessionRepository } from '../models/sessionRepository.model';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { StudentClassArmJunction } from '../models/studentClassArm.model';
 import { SubmittingModalComponent } from './submittingModal.component';
+import { Student } from '../models/student.model';
 
 @Component({
     selector: 'submit-modal',
@@ -12,7 +13,11 @@ import { SubmittingModalComponent } from './submittingModal.component';
 })
 export class SubmitModalComponent implements OnInit
 {
-    modalRef?: BsModalRef;
+    state?: string
+    create!: boolean
+    title?: string
+    student!: Student
+    modalRef2?: BsModalRef;
     selectedClass: string = ''
     selectedArm: string = ''
     selectedClassArmId:number = 0;
@@ -20,20 +25,16 @@ export class SubmitModalComponent implements OnInit
     selectedTerm: string = ''
 
     constructor(
+                public modalRef: BsModalRef,
                 private modalService: BsModalService,
                 private studentRepo: StudentRepository,
                 private classRepo: ClassRepository,
                 private sessionRepo: SessionRepository)
                 {
-                    
                 }
 
     ngOnInit(): void {
-    }
-
-    get student()
-    {
-       return this.studentRepo.student;
+        this.create = this.state == 'create';
     }
 
     get classes()
@@ -85,11 +86,6 @@ export class SubmitModalComponent implements OnInit
         return this.sessions?.find(s => s.name == this.selectedSession)?.sessionTerms?.map(x => x.term.name);
     }
 
-    hideAdmitModal()
-    {
-    this.modalRef?.hide();
-    }
-
     get fullName(){
         let name = "";
         if (this.student?.lastName) {
@@ -132,12 +128,18 @@ export class SubmitModalComponent implements OnInit
     submitStudentForm()
     {
         this.assignStudent();
+        this.studentRepo.student = this.student;
         this.studentRepo.addStudent();
         this.hideAdmitModal();
         this.showSubmittingModal();
     } 
 
     showSubmittingModal() {
-        this.modalRef = this.modalService.show(SubmittingModalComponent);
+        this.modalRef2 = this.modalService.show(SubmittingModalComponent);
      }
+
+     hideAdmitModal()
+    {
+        this.modalRef?.hide();
+    }
 }

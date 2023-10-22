@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Relv7Y13XMKs7sudYzfIth1iDRBjmaZqW5OklTpVRGxhvEyOmNaGv46N3tGkw23O5pPz6Ybq6tA7jZ8rAHOukg==",
+  "dgSpecHash": "/pjf7gpf3CBUPVLoVxFoUZu8Hl3EOYYks9dbWlPxVlvwqwqx/AQa2hr4WaJtW/Domr3dh5W6N3Pe3RG75b66Og==",
   "success": true,
-  "projectFilePath": "c:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj",
+  "projectFilePath": "C:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.2.0\\microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",

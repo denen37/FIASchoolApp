@@ -1,18 +1,15 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { StudentRouting } from "./student-routing.module";
-import { StudentListComponent } from "./studentList.component";
-import { StudentDetailsComponent } from "./studentDetails.component"; 
-import { StudentDossierComponent } from "./studentDossier.component";
-import { StudentDetailsDirective } from "./studentDetails.directive";
 import { RouterModule } from "@angular/router";
 import { HomeModule } from "../home/home.module";
 import { SharedModule } from "../shared/shared.module";
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { FormsModule } from "@angular/forms";
+import { StudentDossierComponent } from "./studentDossier.component";
 @NgModule({
-    declarations: [StudentListComponent, StudentDetailsComponent, StudentDossierComponent,
-         StudentDetailsDirective],
-    imports: [BrowserModule, RouterModule, HomeModule, SharedModule],
+    declarations: [StudentDossierComponent],
+    imports: [BrowserModule, FormsModule, RouterModule, HomeModule,SharedModule, BrowserAnimationsModule],
     exports: [StudentRouting]
 })
 

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace ServerApp.Models.Repository
 {
-    public class SessionRepository : ISimpleRepository<Session> 
+    public class SessionRepository
     {
         private DataContext context;
         public SessionRepository(DataContext ctx)
@@ -14,11 +14,12 @@ namespace ServerApp.Models.Repository
             context = ctx;
         }
 
-        public virtual IQueryable<Session> GetAll(bool related)
+        public virtual IQueryable<Session> GetAll(bool related, bool metadata = false)
         {
+            IQueryable<Session> sessions = context.Session;
             if (related)
             {
-                var sessions = context.Session.Include(s => s.SessionTerms).ThenInclude(t => t.Term);
+                sessions = sessions.Include(s => s.SessionTerms).ThenInclude(t => t.Term);
                 foreach (var session in sessions)
                 {
                     foreach (var sessionTerm in session.SessionTerms)
@@ -26,17 +27,23 @@ namespace ServerApp.Models.Repository
                         sessionTerm.Session = null;
                     }
                 }
-
-                return sessions;
             }
-           return context.Session;
+
+            if (!metadata)
+            {
+                sessions = sessions.Select(x => new Session {
+                    Id = x.Id,
+                    Name = x.Name,
+                    SessionTerms = x.SessionTerms
+                });
+            }
+
+           return sessions;
         }
 
-        public virtual Session Get(object id, bool related)
+        public virtual Session Get(int id, bool related)
         {
             //permit only certain types such as int, long, and short.
-           if (id.GetType() == typeof(int))
-           {
                 if (related)
                 {
                     var session = context.Session
@@ -48,9 +55,6 @@ namespace ServerApp.Models.Repository
                     }
                 }
                 return context.Session.Find(id);
-           }
-            
-            return null;
         }
 
         public virtual void Add(Session newData)

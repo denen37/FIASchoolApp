@@ -29,8 +29,11 @@ export class StudentRepository
     paymentHasRowspan: boolean[] = [];
     academicsHasRowspan: boolean[] = [];
     private studentService: StudentRecordService 
+    //Delete variables
+    deleteError = false;
+    deleteCompleted?: boolean
     
-    student?: Student;
+    student!: Student;
     
     constructor(private http: HttpClient/*, @Inject(BACKEND_URL) private backUrl: string*/){
         this.studentService = new StudentRecordService();
@@ -78,7 +81,7 @@ export class StudentRepository
         }
 
         this.http.get<Student>(url)
-        .subscribe(s => this.student = s,
+        .subscribe(s => { this.student = s; },
                    err => console.log(err),
                    () => {this.completedOne = true;
                             if (this.student?.paymentRecords) {
@@ -113,6 +116,32 @@ export class StudentRepository
             error: err => console.log(err),
             complete: () => {}
         })
+    }
+
+    deleteStudent(id: number)
+    {
+        var pos: number
+        this.deleteCompleted = false
+        this.http.delete<StudentNames[]>(`${studentUrl}?id=${id}`)
+        .pipe(
+            retry(2)
+        )
+        .subscribe({
+            next: x =>{
+                if (this.students) {
+                    pos = this.students.pageList.findIndex((x, i) => {
+                        return x.id == id
+                    })
+                    let elements = this.students.pageList.filter(x => x.id != id)
+                    this.students = new StudentsInPage(elements, this.students.totalPages);
+
+                    }
+                },
+
+            error: err => this.deleteError = true,
+
+            complete: () => this.deleteCompleted = true
+        });
     }
 
     addStudent()

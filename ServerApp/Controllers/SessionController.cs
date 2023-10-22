@@ -10,9 +10,9 @@ namespace ServerApp.Controllers
     [ApiController]
     public class SessionController: ControllerBase
     {
-        private ISimpleRepository<Session> repos;
+        private SessionRepository repos;
 
-        public SessionController(ISimpleRepository<Session> _repos)
+        public SessionController(SessionRepository _repos)
         {
             repos = _repos;
         }

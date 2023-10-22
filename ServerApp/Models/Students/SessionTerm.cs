@@ -10,7 +10,7 @@ namespace ServerApp.Models.Students
         public DateTime StartMonth { get; set; }
         public DateTime EndMonth { get; set; }
         //Navigation Propertys
-        public IEnumerable<SessionTermJunction> SessionTerms { get; set; }
+        public ICollection<SessionTermJunction> SessionTerms { get; set; }
         
     }
 

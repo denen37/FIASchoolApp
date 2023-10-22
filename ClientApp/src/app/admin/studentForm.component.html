@@ -59,6 +59,7 @@
                     </div>
                 </div>
             </div>
+            <!--Date of Birth-->
             <div class="col-sm">
                 <div class="row align-items-center">
                     <div class="col-auto">
@@ -66,9 +67,9 @@
                     </div>
                     <div class="col-auto">
                         <input type="date" name="Date of birth" class="form-control" id="#dob"
-                        [(ngModel)]="student.dateOfBirth" #dateofbirth="ngModel" required>
-                        <ul class="text-danger list-unstyled error-msg" *ngIf="dateofbirth.dirty && dateofbirth.invalid">
-                            <li *ngFor="let item of getValidationErrors(dateofbirth)">
+                        [(ngModel)]="dateOfBirth" #dob="ngModel" required>
+                        <ul class="text-danger list-unstyled error-msg" *ngIf="dob.dirty && dob.invalid">
+                            <li *ngFor="let item of getValidationErrors(dob)">
                                 {{item}}
                             </li>
                         </ul>
@@ -103,19 +104,6 @@
                     <option *ngFor="let item of countries" [selected]="country == item">
                     {{item}}</option>
                 </select>
-
-                <!--<input type="text" name="Country" class="form-control" id="nationality" placeholder="Country"
-                [(ngModel)]="student.nationality" #nation="ngModel" required minlength="3" pattern="\D"
-                list="countries">
-                <datalist name="countries" id="countries">
-                    <option *ngFor="let item of countries">{{item}}<option>
-                </datalist>-->
-                
-                <!--<ul class="text-danger list-unstyled error-msg" *ngIf="nation.dirty && nation.invalid">
-                    <li *ngFor="let item of getValidationErrors(nation)">
-                        {{item}}
-                    </li>
-                </ul>-->
             </div>
         <!--State-->
                 <div class="col-sm">
@@ -124,30 +112,10 @@
                     <select id="#states" name="states" class="form-select" #city (change)="state = city.value">
                         <option *ngFor="let item of states" [selected]="state == item">{{item}}</option>
                     </select>
-                    <!--<input type="text" name="State" class="form-control" id="#state" placeholder="State"
-                    [(ngModel)]="student.stateOfOrigin" #state="ngModel" required minlength="3" pattern="\D"
-                    list="states">
-
-                    <datalist name="states" id="states">
-                        <option  [value]="item.state" *ngFor="let item of states">{{item.state}}</option>
-                    </datalist>-->
-                    
-                    <!--<ul class="text-danger list-unstyled error-msg" *ngIf="state.dirty && state.invalid">
-                        <li *ngFor="let item of getValidationErrors(state)">
-                            {{item}}
-                        </li>
-                    </ul>-->
                 </div>
         <!--LGA-->
                 <div class="col-sm">
                     <label for="lga" class="col-form-label">LGA<span class="text-danger">*</span></label>
-                    <!--<input type="text" name="LGA" class="form-control" id="#lga" placeholder="Local Government Area"
-                    [(ngModel)]="student.lga" #lga="ngModel" required minlength="3" pattern="^[A-Za-z-,.& ]+$">
-                    <ul class="text-danger list-unstyled error-msg" *ngIf="lga.dirty && lga.invalid">
-                        <li *ngFor="let item of getValidationErrors(lga)">
-                            {{item}}
-                        </li>
-                    </ul>-->
                     <select name="LGAs" id="#lgas" class="form-select" #localga (change)="lga = localga.value">
                         <option *ngFor="let item of lgas" [selected]="lga == item">{{item}}</option>
                     </select>

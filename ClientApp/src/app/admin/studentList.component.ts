@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, EventEmitter, HostListener } from "@angular/core";
 import { StudentRepository } from "../models/studentRepository.model";
 import { StudentsInClass } from "../models/studentInClass.model";
 import { StudentFilter } from "../filters/studentFilter.model";
@@ -6,6 +6,8 @@ import { ClassRepository } from "../models/classRepository.model";
 import { Class } from "../models/studentClassArm.model";
 import { SessionRepository } from "../models/sessionRepository.model";
 import { Pagination } from "../models/pagination.model";
+import { ContextMenuModel } from "../models/contextMenu.model";
+import { StudentParameters } from "../filters/studentParameters.model";
 
 
 @Component({
@@ -14,14 +16,16 @@ import { Pagination } from "../models/pagination.model";
 })
 
 export class StudentListComponent {
-    tempClass: string = ''
-    _latestSession?: string 
-    openSideBar = false
-    accItemName: string = ''
-    pageOption: Pagination = new Pagination(1, 3);
+    tempClass: string = '';
+    _latestSession?: string ;
+    openSideBar = false;
+    openSettingsBar = false;
+    accItemName: string = '';
 
     constructor(private studentRepo: StudentRepository,
                 private filter: StudentFilter,
+                public param: StudentParameters,
+                public pageOption: Pagination,
                 private classRepo: ClassRepository,
                 private sessionRepo: SessionRepository) 
     { 
@@ -99,6 +103,7 @@ export class StudentListComponent {
         return this.pageOption.currentPage > 1;
     }
 
+    //Deprecated
     public get pages(): boolean[]
     {
         if (this.studentRepo.students?.totalPages) {
@@ -107,6 +112,17 @@ export class StudentListComponent {
         }
 
         return this._pages;
+    }
+
+    public get pageNumber(): number[]
+    {
+        let pageNumbers: number[] = []
+        if (this.studentRepo.students?.totalPages) {
+             pageNumbers = new Array<number>(this.totalPages).fill(0).map(
+                (v, i) => {return i + 1}
+             )
+        }
+        return pageNumbers;
     }
 
     public setPage(page: number)
@@ -145,4 +161,41 @@ export class StudentListComponent {
     {
         return className.replace(/\s+/g, '') + arm;
     }
+
+    getFullName(value: StudentsInClass)
+    {
+        return value.lastName + ' '
+        + (value.middleName?value.middleName + ' ':'')
+        + value.firstName;
+    }
+
+    //Context menu
+    isDisplayContextMenu: boolean = false;
+    student!: StudentsInClass;
+    rightClickMenuItems: Array<ContextMenuModel> = [];
+    rightClickMenuPositionX: number = 0;
+    rightClickMenuPositionY: number = 0;
+    displayContextMenu(event: any, student: StudentsInClass)
+    {
+        this.isDisplayContextMenu = true;
+        this.student = student;
+
+        this.rightClickMenuPositionX = event.clientX;
+        this.rightClickMenuPositionY = event.clientY;
+    }
+
+    getRightClickMenuStyle() {
+        return {
+          position: 'fixed',
+          left: `${this.rightClickMenuPositionX}px`,
+          top: `${this.rightClickMenuPositionY}px`,
+          zIndex: '100'
+        }
+      }
+
+    @HostListener('document:click')
+    documentClick(): void {
+    this.isDisplayContextMenu = false;
+  }
+
 }

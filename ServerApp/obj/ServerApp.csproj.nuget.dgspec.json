@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj": {}
+    "C:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj": {}
   },
   "projects": {
-    "c:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj": {
+    "C:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj",
         "projectName": "ServerApp",
-        "projectPath": "c:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj",
+        "projectPath": "C:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\ServerApp.csproj",
         "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\obj\\",
+        "outputPath": "C:\\Users\\USER\\source\\repos\\FIASchoolApp\\ServerApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config"

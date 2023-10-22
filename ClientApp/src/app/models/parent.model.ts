@@ -1,8 +1,8 @@
 export class Parent
 {
     constructor(
-        public Id: number | undefined = undefined,
-        public Title: string | undefined = undefined,
+        public id: number | undefined = undefined,
+        public title: string | undefined = undefined,
         public firstName: string | undefined = undefined,
         public middleName: string | undefined = undefined,
         public lastName: string | undefined = undefined,
@@ -18,7 +18,7 @@ export class Parent
 export class ParentStudentJunction
 {
     constructor(
-        public Id: number | undefined = undefined,
+        public id: number | undefined = undefined,
         public studentId: number | undefined = undefined,
         public parentId: number | undefined = undefined,
         public parent: Parent | undefined = undefined,
