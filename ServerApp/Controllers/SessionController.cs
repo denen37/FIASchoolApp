@@ -3,6 +3,7 @@ using ServerApp.Models.Repository;
 using ServerApp.Models.Students;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace ServerApp.Controllers
 {
@@ -18,9 +19,16 @@ namespace ServerApp.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Session> GetAllSessions(bool related = false, bool metadata = false)
+        public IActionResult GetAllSessions(bool related = false, bool metadata = false)
         {
-            return repos.GetAll(related);
+            return Ok(repos.GetAll(related, metadata));
+        }
+
+        [Route("session-term")]
+        [HttpGet]
+        public IActionResult GetSessionTerm(bool metadata = false)
+        {
+            return Ok(repos.GetSessionTerms(metadata));
         }
 
         [HttpGet("{id}")]
@@ -35,7 +43,7 @@ namespace ServerApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddSession([FromBody] Session newSession)
+        public IActionResult AddSession([FromBody] SessionTermJunction newSession)
         {
              if (ModelState.IsValid)
             {

@@ -18,8 +18,6 @@ namespace ServerApp.Models.Students
     {
         public short Id { get; set; }
         public string Name { get; set; }
-
-        //public IEnumerable<SessionTermJunction> SessionTerms { get; set; }
     }
 
     public class SessionTermJunction

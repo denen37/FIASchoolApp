@@ -1,0 +1,49 @@
+
+<div class="container shadow col-md-8 mx-auto p-3 rounded-3 px-2">
+    <sch-header></sch-header>
+    <h3>Sessions and Terms</h3>
+    <a class="text-primary page-link mb-2" routerLink="../session/create">Create a new session or term?</a>
+    <table class="table table-bordered text-dark">
+        <thead>
+            <tr>
+                <th>Session</th>
+                <th>Term</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of sessionTerms">
+                <td class="align-middle" [rowSpan]="getRowSpan(item.session??'', item.term??'')" 
+                    *ngIf="hasRowSpan(item.session??'', item.term??'')">
+                    <span>{{item.session}}</span>
+                        <div class="text-end">
+                        <button class="btn bg-light mb-2 me-5 text-primary" 
+                            style="font-size: 16px" id="btn-more"
+                            type="button" data-bs-toggle="collapse" [attr.data-bs-target]="getSessionTarget(item.session||'')" 
+                            aria-expanded="false" aria-controls="collapseDetails">
+                                <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Click to show more">...</span>
+                        </button>
+                        </div>
+                        <div class="collapse" [id]="getSessionId(item.session||'')">
+                            <p><b>Start date:</b> {{getDates(item.session||'').start | date}}</p>
+                            <p><b>End date:</b>  {{getDates(item.session||'').end | date}}</p>
+                        </div>
+                </td>
+                <td>
+                    <div><i>{{item.term}}</i></div>
+                    <div class="text-end">
+                        <button class="btn bg-light mb-2 me-5 text-primary" 
+                            style="font-size: 16px" id="btn-more"
+                            type="button" data-bs-toggle="collapse" [attr.data-bs-target]="getSessionTermTarget(item.session, item.term)" 
+                            aria-expanded="false" aria-controls="collapseDetails">
+                                <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Click to show more">...</span>
+                        </button>
+                        </div>
+                        <div class="collapse" [id]="getSessionTermId(item.session, item.term)">
+                            <p><b>Start date:</b> {{getDates(item.session||'', item.term).start | date}}</p>
+                            <p><b>End date:</b>  {{getDates(item.session||'', item.term).end | date}}</p>
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

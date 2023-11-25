@@ -23,7 +23,7 @@
                     <span class="visually-hidden">Toggle Dropdown</span>
                   </a>
                   <ul class="dropdown-menu">
-                      <li class="dropdown-item" (click)="selectedArm = item" *ngFor="let item of arms">{{item}}</li>
+                      <li class="dropdown-item" (click)="selectedArm = item||''" *ngFor="let item of arms">{{item}}</li>
                   </ul>
               </span>
           </div>
@@ -45,7 +45,7 @@
                     <span class="visually-hidden">Toggle Dropdown</span>
                   </a>
                   <ul class="dropdown-menu">
-                      <li class="dropdown-item" (click)="selectedTerm = item" 
+                      <li class="dropdown-item" (click)="selectedTerm = item || ''" 
                       *ngFor="let item of terms">{{item}}</li>
                   </ul>
               </span>

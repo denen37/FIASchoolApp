@@ -4,7 +4,7 @@ export class Class {
     constructor(
         public id: number,
         public name: string,
-        public classArm: ClassArmJunction[]
+        public classArms: ClassArmJunction[]
     ) {}
 }
 
@@ -12,20 +12,20 @@ export class Arm {
     constructor(
         public id: number,
         public name: string,
-        public classArm: ClassArmJunction[]
+        public classArms?: ClassArmJunction[]
     ) { }
 }
 
 export class ClassArmJunction
 {
     constructor(
-        public id: number,
-        public classId: number,
-        public _class: Class,
-        public armId: number,
-        public arm: Arm,
-        public courseCategoryId: number,
-        public courseCategory: CourseCategory
+        public id: number = 0,
+        public classId: number = 0,
+        public _class?: Class,
+        public armId: number = 0,
+        public arm?: Arm,
+        public courseCategoryId: number = 0,
+        public courseCategory?: CourseCategory
     ){}
 }
 

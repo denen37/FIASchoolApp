@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace ServerApp.Models.Students
 {
@@ -7,7 +10,7 @@ namespace ServerApp.Models.Students
         public short Id { get; set; }
         public string Name { get; set; }
 
-        public IEnumerable<ClassArmJunction> ClassArm { get; set; }
+        public IEnumerable<ClassArmJunction> ClassArms { get; set; }
     }
 
     public class Arm
@@ -15,10 +18,10 @@ namespace ServerApp.Models.Students
         public short Id { get; set; }
         public string Name { get; set; }
 
-        public IEnumerable<ClassArmJunction> ClassArm { get; set; }
+        public IEnumerable<ClassArmJunction> ClassArms { get; set; }
     }
 
-    public class ClassArmJunction
+    public class ClassArmJunction: IComparable<ClassArmJunction>
     {
         public int Id { get; set; }
 
@@ -31,7 +34,22 @@ namespace ServerApp.Models.Students
         public short CourseCategoryId { get; set; }
         public CourseCategory CourseCategory { get; set; }
 
-        public IEnumerable<StudentClassArmJunction> StudentClassArm { get; set; }
+        public IEnumerable<StudentClassArmJunction> StudentClassArms { get; set; }
+
+        public int CompareTo([AllowNull] ClassArmJunction other)
+        {
+            if(other == null) return 1;
+            else
+            {
+                if (this.Class.Id == other.Class.Id)
+                {
+                    var rank = (this.Arm.Id <  other.Arm.Id) ? 1 : ((this.Arm.Id == other.Arm.Id) ? 0 : -1);
+                    return rank;
+                }
+                else if(this.Class.Id > other.Class.Id) return 1;
+                else return -1;
+            }
+        }
     }
 
     public class StudentClassArmJunction

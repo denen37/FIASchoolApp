@@ -84,9 +84,9 @@ export class StudentListComponent {
         return this.classRepo.classes || [];
     }
 
-    public arms(_class: string): string[]{
-        return this.classes?.find(c => c.name == _class)?.classArm
-        .map(x => x.arm.name).sort() || [];
+    public arms(_class: string){
+        return this.classes?.find(c => c.name == _class)?.classArms
+        .map(x => x.arm?.name).sort() || [];
     }
     
     private _pages: boolean[] = [];

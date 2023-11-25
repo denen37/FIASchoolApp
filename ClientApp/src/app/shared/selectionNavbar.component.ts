@@ -110,9 +110,9 @@ export class SelectionNavbarComponent {
         return this.classRepo.classes || [];
     }
 
-    public get arms(): string[]{
-        return this.classes?.find(c => c.name == this.selectedClass)?.classArm
-        .map(x => x.arm.name).sort() || [];
+    public get arms(){
+        return this.classes?.find(c => c.name == this.selectedClass)?.classArms
+        .map(x => x.arm?.name).sort() || [];
     }
 
     public get sessions(): Session[]{

@@ -4,10 +4,11 @@ using System.Linq;
 using ServerApp.Models.Students;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace ServerApp.Models.Repository
 {
-    public class ClassRepository : ISimpleRepository<Class> 
+    public class ClassRepository
     {
         private DataContext context;
         public ClassRepository(DataContext ctx)
@@ -15,23 +16,37 @@ namespace ServerApp.Models.Repository
             context = ctx;
         }
 
-        public virtual IQueryable<Class> GetAll(bool related)
+        public virtual Object GetAll(bool related, bool courseCategory = false)
         {
+            var classes = context.Class.AsQueryable();
             if (related)
             {
-                var classes = context.Class.Include(s => s.ClassArm).ThenInclude(a => a.Arm);
+                classes = classes.Include(s => s.ClassArms).ThenInclude(a => a.Arm)
+                .AsQueryable();
+                
+                if (courseCategory)
+                {
+                    classes = classes
+                    .Include(a => a.ClassArms)
+                    .ThenInclude(a => a.CourseCategory);
+                }
+                
+                classes = classes.Select(x => new Class{
+                        Id = x.Id,
+                        Name = x.Name,
+                        ClassArms = x.ClassArms.OrderBy(x => x.Arm.Id)
+                    });
+                    
                 foreach (var _class in classes)
                 {
-                    foreach (var classArm in _class.ClassArm)
+                    foreach (var classArm in _class.ClassArms)
                     {
                         classArm.Class = null;
-                        classArm.Arm.ClassArm = null;
+                        classArm.Arm.ClassArms = null;
                     }
                 }
-
-                return classes;
             }
-           return context.Class;
+            return classes;
         }
 
         public virtual Class Get(object id, bool related)
@@ -41,12 +56,12 @@ namespace ServerApp.Models.Repository
            {
                 if (related)
                 {
-                    var _class = context.Class.Include(s => s.ClassArm).ThenInclude(a => a.Arm)
+                    var _class = context.Class.Include(s => s.ClassArms).ThenInclude(a => a.Arm)
                     .First(s => s.Id == (int)id);
-                    foreach (var classArm in _class.ClassArm)
+                    foreach (var classArm in _class.ClassArms)
                     {
                         classArm.Class = null;
-                        classArm.Arm.ClassArm = null;
+                        classArm.Arm.ClassArms = null;
                     }
                 }
                 return context.Class.Find(id);

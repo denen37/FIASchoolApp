@@ -1,0 +1,29 @@
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create new <b>arm</b> on <b>{{className}}</b></h4>
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #form="ngForm">
+        <div class="mb-3">
+            <label for="armName" class="form-label">Name</label>
+            <input type="text" name="armName" class="form-control" [(ngModel)]="name" id="armNameId" placeholder="Name of the arm eg A, B, ... ">
+          </div>
+          <div class="mb-3">
+            <label for="armCategory" class="form-label">Category</label>
+            <input type="text" name="armCategory" [(ngModel)]="category" class="form-control" id="armCategoryId" placeholder="eg science, arts, commercial ..."
+            list="categories">
+          </div>
+
+          <datalist id="categories">
+            <option *ngFor="let item of courseCategories">{{item.category}}</option>
+          </datalist>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <div class="pull-right">
+        <button class="btn btn-danger mx-2"  (click)="modalRef.hide()">Cancel</button>
+        <button class="btn btn-success mx-2" (click)="createArm()">Create</button>
+      </div>
+  </div>

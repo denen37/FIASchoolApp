@@ -10,17 +10,17 @@ namespace ServerApp.Controllers
     [ApiController]
     public class ClassController: ControllerBase
     {
-        private ISimpleRepository<Class> repos;
+        private ClassRepository repos;
 
-        public ClassController(ISimpleRepository<Class> _repos)
+        public ClassController(ClassRepository _repos)
         {
             repos = _repos;
         }
 
         [HttpGet]
-        public IEnumerable<Class> GetAllClasses(bool related = false)
+        public IActionResult GetAllClasses(bool related = false, bool courseCategory = false)
         {
-            return repos.GetAll(related);
+            return Ok(repos.GetAll(related, courseCategory));
         }
 
         [HttpGet("{id}")]

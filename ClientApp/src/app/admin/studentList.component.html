@@ -50,11 +50,11 @@
             <div [id]="getAccordionName(class.name)" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
               <div class="accordion-body">
                 <div class="list-group">
-                  <button [name]="getAccordionItemName(class.name, arm)" class="list-group-item list-group-item-action" 
+                  <button [name]="getAccordionItemName(class.name, arm||'')" class="list-group-item list-group-item-action" 
                   [class.active]="accItemName == btn.name" *ngFor="let arm of arms(class.name)"
-                    (click)="accItemName = accordionClickAction(class.name, arm)" #btn>
+                    (click)="accItemName = accordionClickAction(class.name, arm||'')" #btn>
                     <div>{{arm}}
-                    <span class="badge bg-primary">{{studentCount(class.name, arm)}}</span>
+                    <span class="badge bg-primary">{{studentCount(class.name, arm||'')}}</span>
                     </div>
                   </button>
                 </div>

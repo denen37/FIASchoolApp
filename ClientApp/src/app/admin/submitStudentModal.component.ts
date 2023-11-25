@@ -44,34 +44,33 @@ export class SubmitModalComponent implements OnInit
 
     get arms()
     {
-        return this.classes?.find(c => c.name == this.selectedClass)?.classArm
-        .map(x => x.arm.name).sort();
+        return this.classes?.find(c => c.name == this.selectedClass)?.classArms
+        .map(x => x.arm?.name).sort();
     }
 
 
     getSelectedClassArm()
     {
-        let classArmId = this.classes?.find(c => c.name == this.selectedClass)?.classArm
+        let classArmId = this.classes?.find(c => c.name == this.selectedClass)?.classArms
         .map(x => (
             {
                 'classArmId': x.id,
-                'arm': x.arm.name
+                'arm': x.arm?.name
             }
         )).find(x => x.arm == this.selectedArm)?.classArmId;
         return classArmId
     }
 
-    setSelectedSession(value: string)
+    setSelectedSession(value: string | undefined)
     {
-        this.selectedSession = value;
+        this.selectedSession = value || '';
     }
 
     getSelectedSessionTerm()
     {
-        return this.sessions?.find(s => s.name == this.selectedSession)?.sessionTerms
-        .map(x => ({
+        return this.sessions?.find(s => s.name == this.selectedSession)?.sessionTerms?.map(x => ({
             'sessionTermId': x.id,
-            'term': x.term.name
+            'term': x.term?.name
         })).find(t => t.term == this.selectedTerm)
         ?.sessionTermId;
     }
@@ -83,7 +82,7 @@ export class SubmitModalComponent implements OnInit
 
     get terms()
     {
-        return this.sessions?.find(s => s.name == this.selectedSession)?.sessionTerms?.map(x => x.term.name);
+        return this.sessions?.find(s => s.name == this.selectedSession)?.sessionTerms?.map(x => x.term?.name);
     }
 
     get fullName(){

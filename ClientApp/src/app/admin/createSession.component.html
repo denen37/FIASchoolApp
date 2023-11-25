@@ -1,3 +1,90 @@
-<div class="shadow col-md-8 mx-auto">
-    <h1>Create A Session</h1>
+
+<div class="shadow col-md-6 mx-auto p-3 rounded">
+    <form #sessionForm="ngForm">
+        <div *ngIf="newSession">
+            <div class="alert alert-danger alert-dismissible" role="alert" 
+                *ngIf="sessionForm.submitted && sessionForm.invalid && showAlert && newSession"
+                style="font-size: 0.8rem;">
+                <button type="button" class="btn-close" aria-label="Close"
+                    (click)="showAlert = false"></button>
+                <ul>
+                    <li *ngFor="let item of formErrors.reverse()">{{item}}</li>
+                </ul>
+            </div>
+            <h3>Create a New Session</h3>
+            <a class="text-primary page-link mb-2" routerLink="..." (click)="newSession = false; showAlert = false">Choose an already existing session?</a>
+            <div class="row mb-3">
+                <label for="sessionName" class="col-sm-2 col-form-label">Session</label>
+                <div class="col-sm-10">
+                    <input type="text" name="Session name" class="form-control" id="sessionName" [(ngModel)]="session.name"
+                    required minlength="9" pattern="^[123]{1}[0-9]{0,3}[//]{1}[123]{1}[0-9]{0,3}$">
+                </div>
+                </div>
+                <div class="row mb-3">
+                <label for="startDate" class="col-sm-2 col-form-label">Start On</label>
+                <div class="col-sm-10">
+                    <input type="date" name="Session begining date" class="form-control" id="startDate" [(ngModel)]="session.startMonth"
+                    required>
+                </div>
+                </div>
+    
+                <div class="row mb-3">
+                    <label for="endDate" class="col-sm-2 col-form-label">End On</label>
+                    <div class="col-sm-10">
+                    <input type="date" name="Session ending date" class="form-control" id="endDate" [(ngModel)]="session.endMonth"
+                    required>
+                    </div>
+                </div>
+        </div>
+        <div *ngIf="!newSession">
+            <div class="alert alert-danger alert-dismissible" role="alert" 
+                *ngIf="sessionForm.submitted && showAlert && !newSession"
+                style="font-size: 0.8rem;">
+                <button type="button" class="btn-close" aria-label="Close"
+                    (click)="showAlert = false"></button>
+                <ul>
+                    <li *ngFor="let item of formErrors">{{item}}</li>
+                </ul>
+            </div>
+            <h3>Choose an Existing Session</h3>
+            <a class="text-primary page-link mb-2" routerLink="..." (click)="newSession = true; showAlert = false">Create a new sesssion?</a>
+            <select class="form-select" name="sessionDropdown" #session aria-label="Default select example" (change)="setSessionId(session.value)">
+                <option value="">--Choose a session--</option>
+                <option [value]="item.id" *ngFor="let item of sessions; trackBy: trackById">{{item.name}}</option>
+            </select>
+        </div>  
+
+        <div class="mt-3">
+            <h3>New Term</h3>
+            <div class="row mb-3">
+                <label for="termName" class="col-sm-2 col-form-label">Term</label>
+                <div class="col-sm-10">
+                    <select class="form-select" aria-label="Default select example" #term (change)="setTermId(term.value)">
+                        <option value="">--Choose a term--</option>
+                        <option value="1">First term</option>
+                        <option value="2">Second term</option>
+                        <option value="3">Third term</option>
+                    </select>
+                </div>
+                </div>
+                <div class="row mb-3">
+                <label for="startTermDate" class="col-sm-2 col-form-label">Starts on</label>
+                <div class="col-sm-10">
+                    <input type="date" name="Term begining date"  class="form-control" id="startTermDate"
+                        [(ngModel)]="sessionTerm.startDate" required>
+                </div>
+                </div>
+    
+                <div class="row mb-3">
+                    <label for="endTermDate" class="col-sm-2 col-form-label">End on</label>
+                    <div class="col-sm-10">
+                    <input type="date" name="Term ending date" class="form-control" id="endTermDate" 
+                        [(ngModel)]="sessionTerm.endDate" required>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary me-3" (click)="createSessionTerm(sessionForm)">Create</button>
+                </div>
+        </div>
+    </form>
 </div>

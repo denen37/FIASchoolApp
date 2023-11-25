@@ -2,7 +2,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using ServerApp.Models.Students;
-using System.Collections.Generic;
 
 namespace ServerApp.Models.Repository
 {
@@ -14,33 +13,86 @@ namespace ServerApp.Models.Repository
             context = ctx;
         }
 
-        public virtual IQueryable<Session> GetAll(bool related, bool metadata = false)
+        public virtual Object GetAll(bool related, bool metadata = false)
         {
-            IQueryable<Session> sessions = context.Session;
-            if (related)
+            Object sessions = context.Session;
+            if (metadata & !related)
             {
-                sessions = sessions.Include(s => s.SessionTerms).ThenInclude(t => t.Term);
-                foreach (var session in sessions)
-                {
-                    foreach (var sessionTerm in session.SessionTerms)
-                    {
-                        sessionTerm.Session = null;
-                    }
-                }
+                sessions = (sessions as IQueryable<Session>).OrderBy(x => x.Name);
             }
-
-            if (!metadata)
+            if (related && metadata)
             {
-                sessions = sessions.Select(x => new Session {
+                sessions = (sessions as IQueryable<Session>).Include(x => x.SessionTerms).ThenInclude(x => x.Term)
+                .Select(x => new Session{
                     Id = x.Id,
                     Name = x.Name,
+                    StartMonth = x.StartMonth,
+                    EndMonth = x.EndMonth,
                     SessionTerms = x.SessionTerms
-                });
+                }).OrderBy(x => x.Name);
             }
 
-           return sessions;
+            if (!metadata && related)
+                {
+                    sessions = (sessions as IQueryable<Session>).Select(x => new {
+                        Id = x.Id,
+                        Name = x.Name,
+                        SessionTerms = x.SessionTerms.
+                        Select(x => new {Id = x.Id, Term = x.Term})
+                    }).OrderBy(x => x.Name);
+                }
+            
+            if (!metadata && !related)
+            {
+                sessions = (sessions as IQueryable<Session>).Select(x => new {
+                        Id = x.Id,
+                        Name = x.Name,
+                    }).OrderBy(x => x.Name);
+            }
+            return sessions;
+
         }
 
+        public Object GetSessionTerms(bool metadata = false)
+        {
+            Object sessionTerms = context.SessionTermJunction;
+            if (metadata)
+            {
+                sessionTerms = (sessionTerms as IQueryable<SessionTermJunction>)
+                .Include(x => x.Session).Include(x => x.Term)
+                .Select(x => new SessionTermJunction
+                {
+                    Id = x.Id,
+                    SessionId = x.SessionId,
+                    Session = new Session{
+                                            Id = x.Session.Id,
+                                            Name = x.Session.Name,
+                                            StartMonth = x.Session.StartMonth,
+                                            EndMonth = x.Session.EndMonth},
+                    TermId = x.TermId,
+                    Term = x.Term,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate
+                }
+                ).OrderByDescending(x => x.Session.Name).ThenBy(x => x.Term.Name);
+            }
+            else
+            {
+                sessionTerms = (sessionTerms as IQueryable<SessionTermJunction>)
+                .Include(x => x.Session).Include(x => x.Term)
+                .Select(x => new {
+                    Session = new {
+                        Id = x.SessionId,
+                        Name = x.Session.Name
+                    },
+                    Term = new {
+                        Id = x.TermId,
+                        Name = x.Term.Name
+                    }
+                }).OrderByDescending(x => x.Session.Name).ThenBy(x => x.Term.Name);
+            }
+            return sessionTerms;
+         }
         public virtual Session Get(int id, bool related)
         {
             //permit only certain types such as int, long, and short.
@@ -57,13 +109,13 @@ namespace ServerApp.Models.Repository
                 return context.Session.Find(id);
         }
 
-        public virtual void Add(Session newData)
+        public virtual void Add(SessionTermJunction newData)
         {
             context.Add(newData);
             context.SaveChanges();
         }
         
-        public virtual void Update(Session modifiedData)
+        public virtual void Update(SessionTermJunction modifiedData)
         {
             context.Update(modifiedData);
             context.SaveChanges();

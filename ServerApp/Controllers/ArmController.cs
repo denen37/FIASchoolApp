@@ -10,23 +10,26 @@ namespace ServerApp.Controllers
     [ApiController]
     public class ArmController: ControllerBase
     {
-        private ISimpleRepository<Arm> repos;
+        private ISimpleRepository<Arm> armRepos;
+        private ISimpleRepository<ClassArmJunction> classArmRepos;
 
-        public ArmController(ISimpleRepository<Arm> _repos)
+        public ArmController(ISimpleRepository<Arm> _armRepos,
+                            ISimpleRepository<ClassArmJunction> _classArmRepos)
         {
-            repos = _repos;
+            armRepos = _armRepos;
+            classArmRepos = _classArmRepos;
         }
 
         [HttpGet]
         public IEnumerable<Arm> GetAllArms()
         {
-            return repos.GetAll();
+            return armRepos.GetAll();
         }
 
         [HttpGet("{id}")]
         public IActionResult GetArm(int id)
         {
-            Arm arm = repos.Get(id);
+            Arm arm = armRepos.Get(id);
             if (arm == null)
             {
                 return NotFound();
@@ -39,8 +42,22 @@ namespace ServerApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                repos.Add(newArm);
+                armRepos.Add(newArm);
                 return Ok(newArm.Id);
+            }
+
+            return BadRequest();
+        }
+
+        [Route("class-arm")]
+        [HttpPost]
+        public IActionResult AddClassArm([FromBody] ClassArmJunction classArm)
+        {
+            if (ModelState.IsValid)
+            {
+                classArmRepos.Add(classArm);
+                classArm.Arm.ClassArms = null;
+                return Ok(classArm);
             }
 
             return BadRequest();
@@ -51,7 +68,7 @@ namespace ServerApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                repos.Update(modifiedArm);
+                armRepos.Update(modifiedArm);
                 return Ok(modifiedArm.Id);
             }
 
@@ -61,8 +78,7 @@ namespace ServerApp.Controllers
         [HttpDelete]
         public void DeleteArm(short id)
         {
-            repos.Delete(new Arm {Id = id});
+            armRepos.Delete(new Arm {Id = id});
         }
-
     }
 }

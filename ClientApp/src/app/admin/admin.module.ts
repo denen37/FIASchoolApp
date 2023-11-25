@@ -16,15 +16,24 @@ import { StudentDetailsComponent } from "./studentDetails.component";
 import { StudentDetailsDirective } from "./studentDetails.directive";
 import { ContextMenuComponent } from "./contextMenu.component";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { TooltipModule } from "ngx-bootstrap/tooltip";
+import { PopoverModule } from "ngx-bootstrap/popover"
 import { Pagination } from "../models/pagination.model";
 import { CreateSessionComponent } from "./createSession.component";
+import { SessionListComponent } from "./sessionList.component";
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ClassListComponent } from "./classList.component";
+import { CreateArmModalComponent } from './createArm.component';
 
 @NgModule({
     declarations: [FormPageComponent, StudentFormComponent, ParentFormComponent, AdminBoardComponent,
                     SubmitModalComponent, SubmittingModalComponent, StudentListComponent, StudentDetailsComponent, 
-                    StudentDetailsDirective, ContextMenuComponent, CreateSessionComponent],
+                    StudentDetailsDirective, ContextMenuComponent, CreateSessionComponent, SessionListComponent,
+                    ClassListComponent, CreateArmModalComponent],
     providers: [BsModalService, Pagination],
-    imports: [BrowserModule, RouterModule, FormsModule, SharedModule, ModalModule, BsDropdownModule.forRoot(),],
+    imports: [BrowserModule, RouterModule, FormsModule, SharedModule, ModalModule.forRoot(), BsDropdownModule.forRoot(), 
+             CollapseModule.forRoot(), BrowserAnimationsModule],
     exports: [AdminRouting]
 })
 

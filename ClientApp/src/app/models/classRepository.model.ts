@@ -10,13 +10,30 @@ export class ClassRepository {
     private _classes?: Class[];
     completed?: boolean;
     error?: any;
+    classesArray(numOfColumns: number): Class[][] {
+        let _classes = new Array<Class[]>();
+        let tempClasses = new Array<Class>();
+        let index = -1
+        this.classes?.forEach((e, i) => {
+            if(i + 1 == this.classes?.length) tempClasses.push(e);
+            if ((i % numOfColumns == 0 && i > 0) || i + 1 == this.classes?.length)
+            {
+                _classes.push(tempClasses);
+                tempClasses = [];
+            }
+            
+            tempClasses.push(e);
+        });
+        
+        return _classes;
+    }
 
     constructor(private http: HttpClient) {
         
     }
 
-    loadClasses(loadArms: boolean) {
-        this.http.get<Class[]>(`${classUrl}?related=${loadArms}`)
+    loadClasses(loadArms: boolean, courseCategory = false) {
+        this.http.get<Class[]>(`${classUrl}?related=${loadArms}&courseCategory=${courseCategory}`)
         .pipe(
             retry(3) // retry two times 
         )

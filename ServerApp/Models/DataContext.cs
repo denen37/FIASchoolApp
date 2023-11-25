@@ -13,6 +13,7 @@ namespace ServerApp.Models
         public DbSet<Parent> Parent { get; set; }
         public DbSet<LeadershipPosition> LeadershipPosition { get; set; }
         public DbSet<Session> Session { get; set; }
+        public DbSet<SessionTermJunction> SessionTermJunction { get; set; }
         public DbSet<Term> Term { get; set; }
         public DbSet<Class> Class { get; set; }
         public DbSet<Arm> Arm { get; set; }
@@ -32,6 +33,7 @@ namespace ServerApp.Models
         public DbSet<ComputedResult> ComputedResults { get; set; }
         public DbSet<StudentSkillJunction> StudentSkillJunction { get; set; }
         public DbSet<SubjectScore> SubjectScores { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
             modelBuilder.HasDefaultSchema("Student");

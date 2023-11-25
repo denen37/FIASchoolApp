@@ -39,7 +39,7 @@ namespace ServerApp
             services.AddTransient<ParentRepository>();
             services.AddTransient<ISimpleRepository<LeadershipPosition>, Repository<LeadershipPosition>>();
             services.AddTransient<ISimpleRepository<Arm>, Repository<Arm>>();
-            services.AddTransient<ISimpleRepository<Class>, ClassRepository>();
+            services.AddTransient<ClassRepository>();
             services.AddTransient<ISimpleRepository<Arm>, Repository<Arm>>();
             services.AddTransient<ISimpleRepository<Subject>, Repository<Subject>>();
             services.AddTransient<ISimpleRepository<Club>, Repository<Club>>();
@@ -50,6 +50,8 @@ namespace ServerApp
             services.AddTransient<ISimpleRepository<Disability>, Repository<Disability>>();
             services.AddTransient<ISimpleRepository<Skill>, Repository<Skill>>();
             services.AddTransient<ISimpleRepository<Rating>, Repository<Rating>>();
+            services.AddTransient<ISimpleRepository<CourseCategory>, Repository<CourseCategory>>();
+            services.AddTransient<ISimpleRepository<ClassArmJunction>, Repository<ClassArmJunction>>();
             services.AddTransient<AcademicReportRepository>();
             services.AddTransient<SubjectPerformanceRepository>();
             services.AddTransient<OverallPerformanceRepository>();

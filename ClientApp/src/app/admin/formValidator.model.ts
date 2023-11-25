@@ -15,6 +15,7 @@ export class FormValidator {
         return undefined;
     }
 
+    //Validates the entire form
     static getFormValidationMessages(form: NgForm): string[] {
         let messages: string[] = [];
         let elements = Object.keys(form.controls).forEach(k => {
@@ -24,7 +25,7 @@ export class FormValidator {
         return messages;
     }
 
-
+    //Validates only one form control
     static getValidationErrors(state: any, thingName?: string) {
         let thing: string = state.path || thingName;
         let messages: string[] = [];

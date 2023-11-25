@@ -143,7 +143,7 @@ export class StudentRepository
             complete: () => this.deleteCompleted = true
         });
     }
-
+    
     addStudent()
     {
         this.completedAdd = false;
