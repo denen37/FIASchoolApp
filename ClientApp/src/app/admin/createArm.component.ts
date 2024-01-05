@@ -14,12 +14,18 @@ export class CreateArmModalComponent
     className!: string;
     classId!: number;
     classArm = new ClassArmJunction()
-    name = ''
+    armName = ''
     category: string = '' 
 
     constructor(public armRepo: ArmRepository,
-                public modalRef: BsModalRef)
+                public armModalRef: BsModalRef)
     {
+    }
+
+    ngOnInit()
+    {
+        this.armRepo.getCourseCategories();
+        this.armRepo.loadArms();
     }
 
     createArm()
@@ -28,34 +34,40 @@ export class CreateArmModalComponent
         this.classArm.classId = this.classId
         this.classArm._class = undefined;
 
-        //create a new arm with the specified name
-        this.classArm.arm = new Arm(0, this.name, undefined)
-
         //search for the category id 
         let categoryId = this.courseCategories?.find( x => {
-            return x.category.toLowerCase == this.category.toLowerCase
+            return x.category.toLowerCase() == this.category.toLowerCase()
         })?.id || 0
 
-        //if not found, create a new category
-        if (categoryId == 0) {
-            this.classArm.courseCategoryId = categoryId;
-            this.classArm.courseCategory = new CourseCategory(categoryId, this.category, '')
-        }
-        //if found attach to pre-existing category
-        else
-        {
-            this.classArm.courseCategoryId = categoryId;
-            this.classArm.courseCategory = undefined;
-        }
+        let armId = this.arms?.find( x => {
+            return x.name.toLowerCase() == this.armName.toLowerCase()
+        })?.id || 0
 
-        console.log(this.classArm);
-        
+        //if not found, create a new arm
+        //if found attach to pre-existing arm
+        this.classArm.armId = armId
+        this.classArm.arm = new Arm(armId, this.armName, undefined)
+
+        //if not found, create a new category
+        //if found attach to pre-existing category
+        this.classArm.courseCategoryId = categoryId;
+        this.classArm.courseCategory = new CourseCategory(categoryId, this.category, '');
+
         //commit the classArm obj to the API
         this.armRepo.addArm(this.classArm)
+
+        //hide the modal window
+        this.armModalRef.hide();
     }
 
     get courseCategories()
     {
         return this.armRepo.courseCategories
     }
+
+    get arms()
+    {
+        return this.armRepo.arms;
+    }
+
 }

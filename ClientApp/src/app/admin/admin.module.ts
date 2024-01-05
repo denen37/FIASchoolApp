@@ -25,12 +25,14 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ClassListComponent } from "./classList.component";
 import { CreateArmModalComponent } from './createArm.component';
+import { EditClassArmModalComponent } from "./editClassArm.component";
+import { StudentManagementComponent } from "./studentManagement.component";
 
 @NgModule({
     declarations: [FormPageComponent, StudentFormComponent, ParentFormComponent, AdminBoardComponent,
                     SubmitModalComponent, SubmittingModalComponent, StudentListComponent, StudentDetailsComponent, 
                     StudentDetailsDirective, ContextMenuComponent, CreateSessionComponent, SessionListComponent,
-                    ClassListComponent, CreateArmModalComponent],
+                    ClassListComponent, CreateArmModalComponent, EditClassArmModalComponent, StudentManagementComponent],
     providers: [BsModalService, Pagination],
     imports: [BrowserModule, RouterModule, FormsModule, SharedModule, ModalModule.forRoot(), BsDropdownModule.forRoot(), 
              CollapseModule.forRoot(), BrowserAnimationsModule],

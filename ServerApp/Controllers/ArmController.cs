@@ -55,9 +55,18 @@ namespace ServerApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (classArm.CourseCategory.Id > 0)
+                {
+                    classArm.CourseCategory = null;
+                }
+                if (classArm.Arm.Id > 0)
+                {
+                    classArm.Arm = null;
+                }
+                
                 classArmRepos.Add(classArm);
-                classArm.Arm.ClassArms = null;
-                return Ok(classArm);
+                //classArm.Arm.ClassArms = null;
+                return Ok();
             }
 
             return BadRequest();

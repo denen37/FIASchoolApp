@@ -45,7 +45,7 @@ export class ArmRepository {
         this.http.post<ClassArmJunction>(`${armUrl}/class-arm`, classArm)
         .subscribe(
             {
-                next: a => {this.newArmEvent.emit(a)},
+                next: a => {this.newArmEvent.emit(classArm)},
                 error: err => {
                     console.log(err);
                 },

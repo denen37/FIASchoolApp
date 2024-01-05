@@ -3,6 +3,7 @@ using ServerApp.Models.Repository;
 using ServerApp.Models.Students;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace ServerApp.Controllers
 {
@@ -26,7 +27,7 @@ namespace ServerApp.Controllers
         [HttpGet("{id}")]
         public IActionResult GetClass(short id, bool related = false)
         {
-            Class _class = repos.Get(id, false);
+            Class _class = repos.Get(id, related);
             if (_class == null)
             {
                 return NotFound();
@@ -40,7 +41,7 @@ namespace ServerApp.Controllers
             if (ModelState.IsValid)
             {
                 repos.Add(newClass);
-                return Ok(newClass.Id);
+                return Ok(newClass);
             }
 
             return BadRequest();
@@ -51,8 +52,13 @@ namespace ServerApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                foreach (var classArm in modifiedClass.ClassArms)
+                {
+                    classArm.CourseCategory = null;
+                    //classArm.Class = null;
+                }
                 repos.Update(modifiedClass);
-                return Ok(modifiedClass.Id);
+                return Ok(modifiedClass);
             }
 
             return BadRequest();
@@ -63,6 +69,5 @@ namespace ServerApp.Controllers
         {
             repos.Delete(new Class {Id = id});
         }
-
     }
 }

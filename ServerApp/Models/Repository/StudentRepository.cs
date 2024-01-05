@@ -18,7 +18,7 @@ namespace ServerApp.Models.Repository
             context = ctx;
         }
         
-        public Object CountNumberInClass(string session)
+        public Object CountNumberInClass(string session, string _class = null)
         {
             return context.StudentsInClass.Where(x => x.Session == session)
                     .Select(x => new {

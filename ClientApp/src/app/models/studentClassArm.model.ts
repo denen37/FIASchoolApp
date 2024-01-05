@@ -1,5 +1,13 @@
 import { CourseCategory } from "./classSubject.model";
 
+export enum ClientEntityState
+{
+    Unchanged,
+    Modified,
+    Deleted,
+    Added
+}
+
 export class Class {
     constructor(
         public id: number,
@@ -25,7 +33,8 @@ export class ClassArmJunction
         public armId: number = 0,
         public arm?: Arm,
         public courseCategoryId: number = 0,
-        public courseCategory?: CourseCategory
+        public courseCategory?: CourseCategory,
+        public entityState: ClientEntityState = ClientEntityState.Unchanged
     ){}
 }
 

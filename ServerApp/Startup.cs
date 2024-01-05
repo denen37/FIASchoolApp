@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using ServerApp.Models;
 using ServerApp.Models.Repository;
 using ServerApp.Models.Students;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using System.Buffers;
 
 namespace ServerApp
 {
@@ -32,8 +34,19 @@ namespace ServerApp
         {
             string connectionString = 
                     Configuration["ConnectionStrings:SchoolDBConnection"];
-            services.AddDbContext<DataContext> (options =>
-                    options.UseSqlServer(connectionString));
+            services.AddDbContext<DataContext> (options => {
+                options.UseSqlServer(connectionString);
+                options.EnableSensitiveDataLogging();
+            });
+
+            /*services.AddMvc(options => 
+            {
+                options.OutputFormatters.Clear();
+                options.OutputFormatters.Add(new NewtonsoftJsonOutputFormatter(new Newtonsoft.Json.JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                }, ArrayPool<char>.Shared, new Microsoft.AspNetCore.Mvc.MvcOptions()));
+            });*/ 
 
             services.AddTransient<StudentRepository>();
             services.AddTransient<ParentRepository>();
@@ -57,9 +70,13 @@ namespace ServerApp
             services.AddTransient<OverallPerformanceRepository>();
             //services.AddTransient<RelatedRepository>();
 
-            services.AddControllersWithViews().AddNewtonsoftJson()
-                    .AddJsonOptions(opts => {
-                                    opts.JsonSerializerOptions.IgnoreNullValues = true;});
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            })
+            .AddJsonOptions(opts => {
+                            opts.JsonSerializerOptions.IgnoreNullValues = true;
+                            });
 
            /* services.AddCors(options => 
             {

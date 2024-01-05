@@ -5,6 +5,8 @@ using ServerApp.Models.Students;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Query;
+using static System.Console;
+using System.Security.Authentication;
 
 namespace ServerApp.Models.Repository
 {
@@ -49,25 +51,22 @@ namespace ServerApp.Models.Repository
             return classes;
         }
 
-        public virtual Class Get(object id, bool related)
+        public virtual Class Get(short id, bool related)
         {
-            //permit only certain types such as int, long, and short.
-           if (id.GetType() == typeof(int))
-           {
-                if (related)
+            if (related)
+            {
+                var _class = context.Class.Include(s => s.ClassArms).ThenInclude(a => a.Arm)
+                                            .Include(s => s.ClassArms).ThenInclude(c => c.CourseCategory)//.AsNoTracking()
+                                            .First(s => s.Id == id);
+                foreach (var classArm in _class.ClassArms)
                 {
-                    var _class = context.Class.Include(s => s.ClassArms).ThenInclude(a => a.Arm)
-                    .First(s => s.Id == (int)id);
-                    foreach (var classArm in _class.ClassArms)
-                    {
-                        classArm.Class = null;
-                        classArm.Arm.ClassArms = null;
-                    }
+                    classArm.Class = null;
+                    classArm.Arm.ClassArms = null;
                 }
-                return context.Class.Find(id);
-           }
-            
-            return null;
+
+                return _class;
+            }
+            return context.Class.Find(id);
         }
 
         public virtual void Add(Class newData)
@@ -78,7 +77,35 @@ namespace ServerApp.Models.Repository
         
         public virtual void Update(Class modifiedData)
         {
-            context.Update(modifiedData);
+            var originalClass = Get(modifiedData.Id, false);
+            originalClass.Name = modifiedData.Name;
+            
+            originalClass.ClassArms = modifiedData.ClassArms;
+            //context.Attach(modifiedClassArm);
+
+            foreach (var classArm in originalClass.ClassArms)
+            {
+                switch (classArm.EntityState)
+                {
+                    case ClientEntityState.Modified:
+                    context.Entry(classArm).State = EntityState.Modified;
+                    break;
+
+                    case ClientEntityState.Added:
+                    context.Entry(classArm).State = EntityState.Added;
+                    break;
+
+                    case ClientEntityState.Deleted:
+                    context.Entry(classArm).State = EntityState.Deleted;
+                    break;
+
+                    case ClientEntityState.Unchanged:
+                    default:
+                    context.Entry(classArm).State = EntityState.Unchanged;
+                    break;
+                }
+            }
+
             context.SaveChanges();
         }
 

@@ -1,8 +1,8 @@
 <sch-header></sch-header>
 <div class="container-fluid">
-    <div class="row" *ngFor="let klasses of classes">
-        <div class="col-sm-4" *ngFor="let klass of klasses">
-          <div class="card text-center my-2">
+    <div class="row">
+        <div class="col-sm-4 my-3"  *ngFor="let klass of classes; let index = index">
+          <div class="card text-center my-2 h-100">
             <div class="card-header bg-primary">
               <div class="row">
                 <div class="col"><h1 class="card-title">{{klass.name}}</h1></div>
@@ -10,25 +10,86 @@
                   <button class="btn rounded-circle text-white" data-bs-toggle="dropdown"><span class="fa fa-ellipsis-v"></span></button>
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item" (click)="openCreateArmModal(klass.name, klass.id)">Create Arm</a></li>
-                    <li><a href="" class="dropdown-item">Edit</a></li>
-                    <li><a href="" class="dropdown-item">Delete</a></li>
+                    <li><a class="dropdown-item" (click)="openEditClassModal(index, template)">Edit</a></li>
+                    <li><a class="dropdown-item" (click)="openDeleteClassModal(klass, template)">Delete</a></li>
                   </ul>
                 </div>
               </div>
             </div>
             <div class="card-body" style="background-color: rgb(142, 222, 247)">
               <div class="row">
-                <div class="col" *ngFor="let classArm of klass.classArms">
-                    <div class="card text-center shadow">
+                <ng-container *ngIf="klass.classArms.length > 0; else nodata">
+                  <div class="col" *ngFor="let classArm of klass.classArms">
+                    <div class="card text-center shadow mb-1 ">
+                      <div class="card-header">
+                        <div class="d-flex">
+                          <div class="flex-grow-1"><h4>{{classArm.arm?.name}}</h4></div>
+                          <div>
+                            <button class="btn pull-right rounded-circle text-dark" data-bs-toggle="dropdown"><span class="fa fa-ellipsis-v"></span></button>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" [routerLink]="[klass.name, classArm.arm?.name, 'students']">Manage Students</a></li>
+                              <li><a class="dropdown-item" (click)="true">Manage Subjects</a></li>
+                              <li><a class="dropdown-item" (click)="true">Edit</a></li>
+                              <li><a class="dropdown-item" (click)="true">Delete</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
                       <div class="card-body">
-                        <h4>{{classArm.arm?.name}}</h4>
                         <p>{{classArm.courseCategory?.category}}</p>
                       </div>
                     </div>
                 </div>
+                </ng-container>
+                <ng-template #nodata>
+                  <div>
+                    <h4 class="text-muted text-center">Create at least one arm</h4>
+                  </div>
+                </ng-template>
               </div>
             </div>
           </div>
         </div>
     </div>
+
+    <div class="add-btn" (click)="openCreateClassModal(template)">
+      <span class="fa fa-plus"></span>
+    </div>
+    <!--Class Modal-->
+    <ng-template #template>
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">{{classModalHeaderText}}</h1>
+        <button type="button" class="btn-close" (click)="hideClassModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form novalidate #form = "ngForm" method="post">
+          <ng-container *ngIf="action != 2; else deleteTemplate">
+            <label class="form-label" for="className">Name</label>
+            <input class="form-control" type="text" id="className" name="className"
+            [(ngModel)]="className" #name="ngModel" required minlength="3" pattern="^[A-Za-z 0-9-]+$">
+
+            <!--Angular Validation-->
+            <ul class="text-danger list-unstyled" *ngIf="name.dirty && name.invalid" style="font-size: 0.8rem">
+              <li *ngIf="name.errors?.['required']">
+                You must enter a student name
+              </li>
+              <li *ngIf="name.errors?.['pattern']">
+                Student names can only contain letters and spaces
+              </li>
+              <li *ngIf="name.errors?.['minlength']">
+                Student names must be at least
+              {{name.errors?.['minlength'].requiredLength}} characters
+              </li>
+            </ul>
+          </ng-container>
+        </form>
+        <ng-template #deleteTemplate>
+          <p>Are you sure you want to delete this class and all its arms? <br>You wont be able to undo this action</p>
+        </ng-template>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger me-3" (click)="hideClassModal()">Cancel</button>
+        <button class="btn btn-primary" [disabled]="form.invalid" (click)="createOrEditClass()">{{classModalBtnText}}</button>
+      </div>
+    </ng-template>
 </div>

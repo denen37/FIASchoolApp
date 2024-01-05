@@ -13,6 +13,6 @@ export class CourseCategory
     constructor(
         public id: number,
         public category: string,
-        public description: string
+        public description: string | undefined
     ) { }
 }

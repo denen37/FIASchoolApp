@@ -1,10 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace ServerApp.Models.Students
 {
+    public enum ClientEntityState
+    {
+        Unchanged,
+        Modified,
+        Deleted,
+        Added
+    }
+
     public class Class
     {
         public short Id { get; set; }
@@ -33,6 +42,9 @@ namespace ServerApp.Models.Students
 
         public short CourseCategoryId { get; set; }
         public CourseCategory CourseCategory { get; set; }
+
+        [NotMapped]
+        public ClientEntityState EntityState { get; set; }
 
         public IEnumerable<StudentClassArmJunction> StudentClassArms { get; set; }
 

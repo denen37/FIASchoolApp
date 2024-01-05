@@ -7,6 +7,7 @@ import { StudentDetailsComponent } from "./studentDetails.component";
 import { CreateSessionComponent } from "./createSession.component";
 import { SessionListComponent } from "./sessionList.component";
 import { ClassListComponent } from "./classList.component";
+import { StudentManagementComponent } from "./studentManagement.component";
 
 const routes: Routes = [
     {path: "admin", component: AdminBoardComponent},
@@ -16,7 +17,8 @@ const routes: Routes = [
     { path: "admin/students/create", component: FormPageComponent },
     {path: "admin/sessions", component: SessionListComponent},
     {path: "admin/session/create", component: CreateSessionComponent},
-    {path: "admin/classes", component: ClassListComponent}
+    {path: "admin/classes", component: ClassListComponent},
+    {path: "admin/classes/:class/:arm/students", component: StudentManagementComponent}
 ] 
 
 @NgModule({

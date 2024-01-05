@@ -47,6 +47,8 @@ namespace ServerApp.Models
             modelBuilder.Entity<Student>().Property(e => e.AdmissionNumber)
             .ValueGeneratedOnAdd();
 
+            modelBuilder.Entity<Class>().HasMany<ClassArmJunction>(c => c.ClassArms)
+            .WithOne(x => x.Class).OnDelete(DeleteBehavior.Cascade);
             base.OnModelCreating(modelBuilder);
         }
     }
